@@ -1,6 +1,6 @@
 - [1. Introduction](#1-introduction)
 - [2. Conda, Miniconda, Anaconda](#2-conda-miniconda-anaconda)
-- [3. Installation](#3-installation)
+- [3. Installation & Configuration](#3-installation--configuration)
 - [4. Basic Command](#4-basic-command)
   - [4.1. Managing conda](#41-managing-conda)
   - [4.2. Managing environments](#42-managing-environments)
@@ -26,13 +26,13 @@ Anaconda contains many things that are not commonly used. It is too large. For s
 
 PS: When you choose use conda, the conda itself contains a python interpreter. So you can uninstall the original python (the packages between the orginal python and conda's python are not interconnected, the original python is s useless).
 
-# 3. Installation
+# 3. Installation & Configuration
 
 Resoures:
 
 - [miniconda download](https://docs.conda.io/en/latest/miniconda.html)
 - [conda configuration](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)
-  the path in Win of file `.condarc` is `C:\Users\Administrator\.condarc`.
+  the path in Win of file `.condarc` is `C:\Users\Administrator\.condarc`(win) or `~/.condarc`(linux)
 
 # 4. Basic Command
 

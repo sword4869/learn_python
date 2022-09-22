@@ -102,3 +102,10 @@ $ pip freeze > requirements.txt
 # 安装文件中的包列表
 $ pip install -r requirement.txt
 ```
+```bash
+# 更新包
+pip install --upgrade MODULE
+
+# 更新pip
+pip install --upgrade pip
+```
