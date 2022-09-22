@@ -289,13 +289,19 @@ hello Namespace(integer1=1, integer2=None)
 
 ## 3.8. 长短参数
 ```python
+# 单字母
 parser.add_argument('-i', '--integer', type=int)
+
+# 遇到重复单字母时，也可以多字母
+parser.add_argument('-iF', '--inputfile', type=str)
 ```
+不要把`-iF`（短参数的多字母）和`--in`（长参数的自动匹配前缀）搞混乱了。
 ```python
 import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--integer', type=int)
+parser.add_argument('-iF', '--inputfile', type=str)
 args = parser.parse_args()
 print('hello', args)
 
