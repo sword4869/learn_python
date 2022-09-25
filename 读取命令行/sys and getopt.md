@@ -42,7 +42,7 @@ print(sys.argv)
 print(type(sys.argv))
 print(sys.argv[0])
 ```
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200515105851594.png)
+![1663935316.png](/image/1663935316.png)
 ### 1.2.2. 都是str类型
 ```python
 import sys
@@ -51,14 +51,14 @@ print(sys.argv)
 print(sys.argv[1])
 print(type(sys.argv[1]))
 ```
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200515110001300.png)
+![1663935317.png](/image/1663935317.png)
 ### 1.2.3. xxx.py及其之后的才是
 ```python
 import sys
 
 print(sys.argv)
 ```
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200515110546886.png)
+![1663935317.png](/image/1663935317.png)
 - 第一个`-u`不是，因为它是传给编译器的参数，只有xxx.py及其之后的才是
 - 第二个`-u`是，可以看到被读取到了。
 
@@ -68,7 +68,7 @@ import sys
 
 print(sys.argv)
 ```
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200515111023990.png)
+![1663935318.png](/image/1663935318.png)
 - 以空格分离
 - 可以被`''`包含着输入空格
 - 转移字符`\`传入后多带一个`\`
@@ -91,7 +91,7 @@ getopt怎么解析参数的？
 - 我们知道`-u`和`3`对应、`-p`和`4`对应，这种形式很像键值对，那么我们就可以**用一个元组将其分别存储起来**，然后**将这些元组整合在一起成为一个列表**。
 - 同时，有的命令参数**不需要对应的值**，比如常见的`-h`表示需要帮助。我们**也用元组储存，对应的值为空就行**。
 - 解析键值对的时候，是顺序解析的，碰到解析错误时后面就不解析全归入错误的第二个返回值args中了。比如要`-h -u 3 -p 4`，却输入错误的`-h 3 -u -p 4`。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200515131240486.png)
+![1663935318.png](/image/1663935318.png)
 
 ### 2.1.2. 函数
 原型：
@@ -175,4 +175,4 @@ except getopt.GetoptError:
     print('[getopt.GetoptError]')
     sys.exit()
 ```
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200515131835725.png)
+![1663935318.png](/image/1663935318.png)
