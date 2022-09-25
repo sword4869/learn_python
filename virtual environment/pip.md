@@ -15,9 +15,14 @@
 
 新版ubuntu要求使用https源，要注意。
 
+- 清华：
+  `https://pypi.tuna.tsinghua.edu.cn/simple`
+  (install.trusted-host is `https://pypi.tuna.tsinghua.edu.cn`)
 - 阿里云：`https://mirrors.aliyun.com/pypi/simple/`
-- 清华：`https://pypi.tuna.tsinghua.edu.cn/simple`
 - 中国科技大学 `https://pypi.mirrors.ustc.edu.cn/simple/`
+
+
+阿里云怎么限速了...
 
 ## 1.2. 临时换源
 

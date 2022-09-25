@@ -38,6 +38,8 @@ The `/venv` is often in project directory, every project configurates a `.venv` 
 ```bash
 $ source ENVIRONMENT/bin/activate
 ```
+
+Then, all package installed will be in directory `ENVIRONMENT`.
 ## example
 
 ```bash
