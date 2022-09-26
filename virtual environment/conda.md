@@ -28,11 +28,17 @@ PS: When you choose use conda, the conda itself contains a python interpreter. S
 
 # 3. Installation & Configuration
 
-Resoures:
+> Software Resoures:
 
 - [miniconda download](https://docs.conda.io/en/latest/miniconda.html)
-- [conda configuration](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)
-  the path in Win of file `.condarc` is `C:\Users\Administrator\.condarc`(win) or `~/.condarc`(linux)
+
+> Source
+
+[conda configuration](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)
+  
+the path in Win of file `.condarc` is 
+- `C:\Users\Administrator\.condarc`(win)
+- `~/.condarc`(linux)
 
 ```bash
 # Linux: nothing
@@ -54,6 +60,22 @@ custom_channels:
   pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
   pytorch-lts: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
   simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+```
+
+> shell
+
+
+```bash
+# linux's bash
+$ ~/anaconda/bin/conda init bash
+```
+```bash
+# using all shell
+$ ~/anaconda/bin/conda init --all
+```
+```bash
+# undo the effect
+$ conda init --reverse
 ```
 # 4. Basic Command
 
@@ -125,7 +147,7 @@ conda activate
 > remove environment
 
 ```bash
-conda remove -n ENVIROMENT --all
+conda remove --name ENVIROMENT --all
 ```
 
 ## 4.3. Managing packages
@@ -192,10 +214,10 @@ Environment 2
 conda install --file FILE
 ```
 
-or directly create a new environment
+or directly create a new environment with packages installed.
 
 ```bash
-conda create --name ENVIRONMENT --file FILE
+conda create --name ENVIRONMENT python=3.8 --file FILE
 ```
 
 ## 5.2. Need to use pip
@@ -235,10 +257,8 @@ My method:
    # close powershell and restart, you should see `(base)`
    (base) PS C:\Users\Administrator>
    ```
-   ```bash
-   # undo the effect
-   $ conda init --reverse
-   ```
+
 2. vscode python interpreter
 3. vscode setting
    `"python.terminal.activateEnvironment": true`. VSCode suggest setting it as false. But in practice, if you orginally use env1, you switch to other and run a python code, you will find that conda don't activate new vironment. That is because setting activateEnvironment as false .
+
