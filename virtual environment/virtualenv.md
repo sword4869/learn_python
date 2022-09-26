@@ -5,6 +5,7 @@
   - [example](#example)
 - [3. summary](#3-summary)
   - [3.1. other](#31-other)
+  - [pip](#pip)
 
 ---
 # 1. venv & virtualenv
@@ -62,3 +63,10 @@ virtual environments are mere shells, that contain little within themselves, and
 > question: is this like docker? System python and virtual python is a stack architecture.
 > Q1: If you download a package in your virtual environment, when you deleted it, is there still hava a package quick load in other environment using the same package. What's more, when you don't delete it and use it in other virtual environment, what happened? 
 > Q2: This broken problem, could it happen to the conda?
+
+
+
+## pip 
+`pip install --user package_name`
+
+使用`--user`仅安装在当前用户的路径下，其他用户看不见；虚拟环境中无需使用该配置，因为用户目录在该环境下不可见。
