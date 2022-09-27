@@ -115,7 +115,7 @@ $ conda init --reverse
 2. 复制`C:\Users\<username>\.bash_profile` 的内容并粘贴到打开的 `.bashrc`.
 3. 重新打开 Git 终端。
 
-PS:  UnicodeEncodeError: 'gbk' codec can't encode character.
+PS:  输入`conda activate`，却报错，UnicodeEncodeError: 'gbk' codec can't encode character.
 
 这是发生在git-bash读取环境变量时，因为你的环境变量中有个路径含有中文，删除掉它或者给它改成英文名字就好。
 # 4. Basic Command
