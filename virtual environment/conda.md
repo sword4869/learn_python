@@ -76,11 +76,11 @@ In your terminal,  you find `conda acvtivate env1` is not working because the la
 $ cd ~/anaconda/bin/
 
 # linux's bash shell
-$ conda init bash
+$ ./conda init bash
 # powershell
-$ conda init powershell
+$ ./conda init powershell
 # Win's cmd
-$ conda init cmd
+$ ./conda.exe init cmd.exe
 
 
 
