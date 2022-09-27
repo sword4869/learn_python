@@ -37,7 +37,7 @@ PS: When you choose use conda, the conda itself contains a python interpreter. S
 
 ## 3.2. Conda Source
 
-[conda configuration](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)
+[conda configuration](https://mirrors.bfsu.edu.cn/help/anaconda/)
   
 the path in Win of file `.condarc` is 
 - `C:\Users\Administrator\.condarc`(win)
@@ -46,23 +46,24 @@ the path in Win of file `.condarc` is
 ```bash
 # Linux: nothing
 # Win10: `conda config --set show_channel_urls yes` to produce this file.
+# 换了个北外的源，阿里、中科大、清华都挺满
 $ vim ~/.condarc
 
 channels:
   - defaults
 show_channel_urls: true
 default_channels:
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/r
+  - https://mirrors.bfsu.edu.cn/anaconda/pkgs/msys2
 custom_channels:
-  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  pytorch-lts: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
-  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  conda-forge: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  msys2: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  bioconda: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  menpo: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  pytorch: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  pytorch-lts: https://mirrors.bfsu.edu.cn/anaconda/cloud
+  simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud
 ```
 
 ## 3.3. in shell
