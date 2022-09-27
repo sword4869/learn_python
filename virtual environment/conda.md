@@ -1,6 +1,9 @@
 - [1. Introduction](#1-introduction)
 - [2. Conda, Miniconda, Anaconda](#2-conda-miniconda-anaconda)
 - [3. Installation & Configuration](#3-installation--configuration)
+  - [3.1. Software Resoures:](#31-software-resoures)
+  - [3.2. Conda Source](#32-conda-source)
+  - [3.3. in shell](#33-in-shell)
 - [4. Basic Command](#4-basic-command)
   - [4.1. Managing conda](#41-managing-conda)
   - [4.2. Managing environments](#42-managing-environments)
@@ -28,11 +31,11 @@ PS: When you choose use conda, the conda itself contains a python interpreter. S
 
 # 3. Installation & Configuration
 
-> Software Resoures:
+## 3.1. Software Resoures:
 
 - [miniconda download](https://docs.conda.io/en/latest/miniconda.html)
 
-> Source
+## 3.2. Conda Source
 
 [conda configuration](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)
   
@@ -62,21 +65,59 @@ custom_channels:
   simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
 ```
 
-> shell
+## 3.3. in shell
 
+no needs to set Environment Variable of conda.
+
+In your terminal,  you find `conda acvtivate env1` is not working because the lack of Environment Variable. But `conda init` provide a solution that modify the terminal startup configuration so that your terminal can directly be the conda environment after it is opened.
 
 ```bash
-# linux's bash
-$ ~/anaconda/bin/conda init bash
+# get into the conda's Scripts installation location，where contains a executable file of conda. such conda.sh, conda.exe
+$ cd ~/anaconda/bin/
+
+# linux's bash shell
+$ conda init bash
+# powershell
+$ conda init powershell
+# Win's cmd
+$ conda init cmd
+
+
+
+# close shell and restart, you should see `(base)`
+(base) $
 ```
 ```bash
-# using all shell
+# using all kinds of shell
+# - bash
+# - cmd.exe
+# - fish
+# - powershell
+# - tcsh
+# - xonsh
+# - zsh
 $ ~/anaconda/bin/conda init --all
 ```
 ```bash
-# undo the effect
+# undo the all shells' effect
 $ conda init --reverse
 ```
+
+> win10, git-bash
+
+- 为什么git-bash找不到
+  `conda init`创建一个 `.bash_profile`文件来配置shell，但 `git-bash.exe`使用 `.bashrc`配置文件。
+- conda 创建 `C:\Users\<username>\.bash_profile`和 bash 需要 `~/.bashrc` ，但是 `~/`不一定等于 `C:\Users\<username>\`。
+  
+
+我的解决方案是：
+1. 从 VS Code 中的 git-bash 终端运行 `code ~/.bashrc`，确保`.bashrc`在正确的位置创建.
+2. 复制`C:\Users\<username>\.bash_profile` 的内容并粘贴到打开的 `.bashrc`.
+3. 重新打开 Git 终端。
+
+PS:  UnicodeEncodeError: 'gbk' codec can't encode character.
+
+这是发生在git-bash读取环境变量时，因为你的环境变量中有个路径含有中文，删除掉它或者给它改成英文名字就好。
 # 4. Basic Command
 
 ## 4.1. Managing conda
@@ -240,25 +281,10 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
 
 [在 Visual Studio Code 中使用 Python 环境](https://code.visualstudio.com/docs/python/environments#_next-steps)
 
-But this article is not correct in some respect.
 
 My method:
 
-1. no needs to set Environment Variable of conda.
-   In your vscode terminal,  you find `conda acvtivate env1` is not working because the lack of Environment Variable. But `conda init` provide a solution that modify the terminal startup configuration so that your terminal can directly be the conda environment after it is opened.
-   e.g. My VSCode use powershell as intergrated terminal, so i should alter powershell startup configuration. (it support another terminal depending on your pc, like bash, cmd. If you use bash, you should replace powershell with bash in the following command.)
-
-   ```bash
-   # firtly, open any terminal(cmd.exe, powershell, bash and so on are ok), here is powershell
-   # and cd the conda's Scripts installation location(where contains a conda.exe)
-   PS C:\Users\Administrator> cd C:\Program Files\miniconda\Scripts
-   PS C:\Program Files\miniconda\Scripts> ./conda.exe init --all
-
-   # close powershell and restart, you should see `(base)`
-   (base) PS C:\Users\Administrator>
-   ```
-
-2. vscode python interpreter
-3. vscode setting
+1. choose vscode python interpreter.
+2. vscode setting
    `"python.terminal.activateEnvironment": true`. VSCode suggest setting it as false. But in practice, if you orginally use env1, you switch to other and run a python code, you will find that conda don't activate new vironment. That is because setting activateEnvironment as false .
 
