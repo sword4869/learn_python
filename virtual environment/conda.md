@@ -4,6 +4,8 @@
   - [3.1. Software Resoures:](#31-software-resoures)
   - [3.2. Conda Source](#32-conda-source)
   - [3.3. in shell](#33-in-shell)
+    - [3.3.1. conda init](#331-conda-init)
+    - [3.3.2. set environmental variable](#332-set-environmental-variable)
 - [4. Basic Command](#4-basic-command)
   - [4.1. Managing conda](#41-managing-conda)
   - [4.2. Managing environments](#42-managing-environments)
@@ -68,6 +70,8 @@ custom_channels:
 
 ## 3.3. in shell
 
+### 3.3.1. conda init
+
 no needs to set Environment Variable of conda.
 
 In your terminal,  you find `conda acvtivate env1` is not working because the lack of Environment Variable. But `conda init` provide a solution that modify the terminal startup configuration so that your terminal can directly be the conda environment after it is opened.
@@ -119,6 +123,16 @@ $ conda init --reverse
 PS:  输入`conda activate`，却报错，UnicodeEncodeError: 'gbk' codec can't encode character.
 
 这是发生在git-bash读取环境变量时，因为你的环境变量中有个路径含有中文，删除掉它或者给它改成英文名字就好。
+
+### 3.3.2. set environmental variable
+
+If conda init doesn't work, `CommandNotFoundError: No command 'conda init'.`, so we can environmental variable.
+```bash
+$ vim ~/.bashrc
+export PATH="/home/sword/anaconda3/bin:$PATH"
+
+$ source ~/.bashrc
+```
 # 4. Basic Command
 
 ## 4.1. Managing conda
