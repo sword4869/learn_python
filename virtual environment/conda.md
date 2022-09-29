@@ -289,8 +289,8 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
 - Use conda environments for isolation
   Create a conda environment to isolate any changes pip makes. Care should be taken to avoid running pip in the "base/root" environment.
 - Store conda and pip requirements in text files
-  `pip freeze > requirements.txt`, `conda list --explicit > requirements.txt`
-  `pip install -r requirement.txt `, `conda install -- file requirement.txt`.
+  `pip install -r requirement.txt `, `pip freeze > requirements.txt`, 
+  `conda list --explicit > requirements.txt`, `conda install --file requirement.txt`.
 
 # 6. VSCode and conda
 
