@@ -52,6 +52,9 @@ $ python3 -m venv hello
 
 # activate it
 $ source hello/bin/activate
+
+# please upgrade before installation
+$ pip install --upgrade pip
 ```
 # 3. summary
 
