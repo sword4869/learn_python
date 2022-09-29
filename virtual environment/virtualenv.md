@@ -2,10 +2,11 @@
 - [2. command](#2-command)
   - [2.1. create](#21-create)
   - [2.2. activate](#22-activate)
-  - [example](#example)
+  - [2.3. example](#23-example)
 - [3. summary](#3-summary)
   - [3.1. other](#31-other)
-  - [pip](#pip)
+  - [3.2. pip](#32-pip)
+  - [第一行](#第一行)
 
 ---
 # 1. venv & virtualenv
@@ -41,7 +42,7 @@ $ source ENVIRONMENT/bin/activate
 ```
 
 Then, all package installed will be in directory `ENVIRONMENT`.
-## example
+## 2.3. example
 
 ```bash
 # get into project directory
@@ -69,7 +70,17 @@ virtual environments are mere shells, that contain little within themselves, and
 
 
 
-## pip 
+## 3.2. pip 
 `pip install --user package_name`
 
 使用`--user`仅安装在当前用户的路径下，其他用户看不见；虚拟环境中无需使用该配置，因为用户目录在该环境下不可见。
+
+## 第一行
+
+
+```python
+#!/usr/bin/env python
+```
+这种写法在你机器上安装了多个版本的python的时候有意义，这样声明的时候，会去取你机器的 PATH 中指定的第一个 python 来执行你的脚本。如果这时候你又配置了虚拟环境的话，那么这样写可以保证脚本会使用你虚拟环境中的 python 来执行。
+
+而不是`#!/usr/bin/python`，写死了，就是要 `/usr/bin/python`的 python 来执行你的脚本。
