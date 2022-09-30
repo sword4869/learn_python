@@ -17,9 +17,7 @@
 
 # 1. Introduction
 
-Different projects use different python version and different packages version.
-
-e.g. Project A (`python 3.8, tensorflow==2.8.0`), Project B(`python 3.5, tensorflow==2.1.0`)
+与venv, virtualenv不同的是，conda能创建系统上没有安装的python版本。
 
 # 2. Conda, Miniconda, Anaconda
 
@@ -54,6 +52,7 @@ $ vim ~/.condarc
 channels:
   - defaults
 show_channel_urls: true
+ssl_verify: false
 default_channels:
   - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main
   - https://mirrors.bfsu.edu.cn/anaconda/pkgs/r
@@ -67,6 +66,10 @@ custom_channels:
   pytorch-lts: https://mirrors.bfsu.edu.cn/anaconda/cloud
   simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud
 ```
+
+> SSLError(MaxRetryError('HTTPSConnectionPool(host=\'mirrors.bfsu.edu.cn\', port=443): Max retries exceeded with url: /anaconda/pkgs/main/linux-64/repodata.json (Caused by SSLError(SSLError("bad handshake: Error([(\'SSL routines\', \'ssl3_get_server_certificate\', \'certificate verify failed\')])")))'))
+
+在`~/.condarc`中加一句`ssl_verify: false`
 
 ## 3.3. in shell
 
@@ -187,17 +190,17 @@ conda env list
 
 > deactivate
 
-When the environment is deactivated, its name is no longer shown in your prompt, and the asterisk (*) returns to base.
 
 ```bash
-conda deactivate
+# exit conda virtual environment
+(ENVIRONMENT)$ conda deactivate
+$ 
 ```
-
-or
 
 ```bash
 # activate nothing denotes back to base.
-conda activate
+(ENVIRONMENT)$ conda activate
+(base)$
 ```
 
 > remove environment

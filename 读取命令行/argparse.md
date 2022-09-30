@@ -413,6 +413,7 @@ if __name__ == "__main__":
 ```
 
 ### 大型项目自定义分组
+定一个类
 
 ```python
 #!/usr/bin/env python
@@ -449,7 +450,6 @@ class Arguments(object):
         self._add_wpa_args(parser.add_argument_group(Color.s('{C}WPA{W}')))
         self._add_wps_args(parser.add_argument_group(Color.s('{C}WPS{W}')))
         self._add_pmkid_args(parser.add_argument_group(Color.s('{C}PMKID{W}')))
-        self._add_eviltwin_args(parser.add_argument_group(Color.s('{C}EVIL TWIN{W}')))
         self._add_command_args(parser.add_argument_group(Color.s('{C}COMMANDS{W}')))
 
         return parser.parse_args()
@@ -463,126 +463,8 @@ class Arguments(object):
             dest='verbose',
             help=Color.s('Shows more options ({C}-h -v{W}). Prints commands and ' +
                 'outputs. (default: {G}quiet{W})'))
-
-        glob.add_argument('-i',
-            action='store',
-            dest='interface',
-            metavar='[interface]',
-            type=str,
-            help=Color.s('Wireless interface to use, e.g. {C}wlan0mon{W} ' +
-                '(default: {G}ask{W})'))
-
-        glob.add_argument('-c',
-            action='store',
-            dest='channel',
-            metavar='[channel]',
-            type=int,
-            help=Color.s('Wireless channel to scan (default: {G}all 2Ghz channels{W})'))
-        glob.add_argument('--channel', help=argparse.SUPPRESS, action='store',
-                dest='channel', type=int)
-
-        glob.add_argument('-5',
-            '--5ghz',
-            action='store_true',
-            dest='five_ghz',
-            help=self._verbose('Include 5Ghz channels (default: {G}off{W})'))
-
-
-        glob.add_argument('-mac',
-            '--random-mac',
-            action='store_true',
-            dest='random_mac',
-            help=Color.s('Randomize wireless card MAC address (default: {G}off{W})'))
-
-        glob.add_argument('-p',
-            action='store',
-            dest='scan_time',
-            nargs='?',
-            const=10,
-            metavar='scan_time',
-            type=int,
-            help=Color.s('{G}Pillage{W}: Attack all targets after ' +
-                '{C}scan_time{W} (seconds)'))
-        glob.add_argument('--pillage', help=argparse.SUPPRESS, action='store',
-                dest='scan_time', nargs='?', const=10, type=int)
-
-        glob.add_argument('--kill',
-            action='store_true',
-            dest='kill_conflicting_processes',
-            help=Color.s('Kill processes that conflict with Airmon/Airodump ' +
-                '(default: {G}off{W})'))
-
-        glob.add_argument('-b',
-            action='store',
-            dest='target_bssid',
-            metavar='[bssid]',
-            type=str,
-            help=self._verbose('BSSID (e.g. {GR}AA:BB:CC:DD:EE:FF{W}) of access ' +
-                'point to attack'))
-        glob.add_argument('--bssid', help=argparse.SUPPRESS, action='store',
-                dest='target_bssid', type=str)
-
-        glob.add_argument('-e',
-            action='store',
-            dest='target_essid',
-            metavar='[essid]',
-            type=str,
-            help=self._verbose('ESSID (e.g. {GR}NETGEAR07{W}) of access point to attack'))
-        glob.add_argument('--essid', help=argparse.SUPPRESS, action='store',
-                dest='target_essid', type=str)
-
-        glob.add_argument('-E',
-            action='store',
-            dest='ignore_essid',
-            metavar='[text]',
-            type=str,
-            default=None,
-            help=self._verbose('Hides targets with ESSIDs that match the given text'))
-        glob.add_argument('--ignore-essid', help=argparse.SUPPRESS, action='store',
-                dest='ignore_essid', type=str)
-
-        glob.add_argument('--clients-only',
-            action='store_true',
-            dest='clients_only',
-            help=Color.s('Only show targets that have associated clients ' +
-                '(default: {G}off{W})'))
-
-        glob.add_argument('--showb',
-            action='store_true',
-            dest='show_bssids',
-            help=self._verbose('Show BSSIDs of targets while scanning'))
-
-        glob.add_argument('--nodeauths',
-            action='store_true',
-            dest='no_deauth',
-            help=Color.s('Passive mode: Never deauthenticates clients ' +
-                '(default: {G}deauth targets{W})'))
-        glob.add_argument('--no-deauths', action='store_true', dest='no_deauth',
-                help=argparse.SUPPRESS)
-        glob.add_argument('-nd',          action='store_true', dest='no_deauth',
-                help=argparse.SUPPRESS)
-
-        glob.add_argument('--num-deauths',
-            action='store',
-            type=int,
-            dest='num_deauths',
-            metavar='[num]',
-            default=None,
-            help=self._verbose('Number of deauth packets to send (default: ' +
-                '{G}%d{W})' % self.config.num_deauths))
-
-
-    def _add_eviltwin_args(self, group):
-        pass
-        '''
-        group.add_argument('--eviltwin',
-            action='store_true',
-            dest='use_eviltwin',
-            help=Color.s('Use the "Evil Twin" attack against all targets ' +
-                '(default: {G}off{W})'))
-        # TODO: Args to specify deauth interface, server port, etc.
-        '''
-
+        
+        # ...
 
     def _add_wep_args(self, wep):
         # WEP
@@ -590,8 +472,6 @@ class Arguments(object):
             action='store_true',
             dest='wep_filter',
             help=Color.s('Show only {C}WEP-encrypted networks{W}'))
-        wep.add_argument('-wep', help=argparse.SUPPRESS, action='store_true',
-                dest='wep_filter')
 
         wep.add_argument('--require-fakeauth',
             action='store_true',
@@ -889,6 +769,7 @@ if __name__ == '__main__':
     from .util.color import Color
     from .config import Configuration
     Configuration.initialize(False)
+    # 这里调用
     a = Arguments(Configuration)
     args = a.args
     for (key,value) in sorted(args.__dict__.items()):
