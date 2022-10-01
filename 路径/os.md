@@ -9,3 +9,51 @@ wd = os.getcwd()
 # 进入目录
 os.chdir(newPath)
 ```
+
+```python
+# 列出文件和目录
+
+# 当前工作目录
+os.listdir()
+
+# 指定目录下
+os.listdir(newPath)
+```
+
+```python
+# create directory
+
+# 单级目录
+# 如果目录有多级，则创建最后一级，如果最后一级目录的上级目录有不存在的，则会抛出一个 OSError
+os.mkdir(path)
+
+# 多级目录
+os.makedirs(path)
+```
+
+```python
+# remove
+
+# remove file, 不能删除目录
+os.remove(filePath) 
+
+os.rmdir(emptyDirectory) 
+
+# 递归删除一系列空文件夹
+# 当下目录下有`world/hh`，world下只有hh，hh里空，os.removedirs('world/hh')，hh是空文件夹被删，world是空文件被删除，到当前目录为止
+os.removedirs(bottomEmptyDirectory)
+```
+
+```python
+# file and directory are ok
+if os.path.exists(newPath):
+
+# 其子文件也适用
+os.path.exists('test/world.txt')
+```
+
+```python
+# 最后可以有或没有`/`
+# './root/test/runoob.txt'
+os.path.join('./root/','test/','runoob.txt')
+```
