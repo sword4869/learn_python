@@ -303,6 +303,7 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
 My method:
 
 1. choose vscode python interpreter.
+   ![1660639467216](/image/1660639467216.png)
 2. vscode setting
    `"python.terminal.activateEnvironment": true`. VSCode suggest setting it as false. But in practice, if you orginally use env1, you switch to other and run a python code, you will find that conda don't activate new vironment. That is because setting activateEnvironment as false .
 
