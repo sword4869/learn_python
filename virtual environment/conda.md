@@ -4,8 +4,8 @@
   - [3.1. Software Resoures:](#31-software-resoures)
   - [3.2. Conda Source](#32-conda-source)
   - [3.3. in shell](#33-in-shell)
-    - [3.3.1. conda init](#331-conda-init)
-    - [3.3.2. set environmental variable](#332-set-environmental-variable)
+    - [3.3.1. linux](#331-linux)
+    - [3.3.2. windows](#332-windows)
 - [4. Basic Command](#4-basic-command)
   - [4.1. Managing conda](#41-managing-conda)
   - [4.2. Managing environments](#42-managing-environments)
@@ -13,7 +13,6 @@
 - [5. Advanced Command](#5-advanced-command)
   - [5.1. conda export and import package lists](#51-conda-export-and-import-package-lists)
   - [5.2. Need to use pip](#52-need-to-use-pip)
-- [6. VSCode and conda](#6-vscode-and-conda)
 
 # 1. Introduction
 
@@ -37,9 +36,9 @@ PS: When you choose use conda, the conda itself contains a python interpreter. S
 
 ## 3.2. Conda Source
 
-[conda configuration](https://mirrors.bfsu.edu.cn/help/anaconda/)
+[bfsu 北外的源主页](https://mirrors.bfsu.edu.cn/help/anaconda/)
   
-the path in Win of file `.condarc` is 
+the path of file `.condarc` is 
 - `C:\Users\Administrator\.condarc`(win)
 - `~/.condarc`(linux)
 
@@ -73,9 +72,18 @@ custom_channels:
 
 ## 3.3. in shell
 
-### 3.3.1. conda init
+### 3.3.1. linux
+In linux, we set environmental variable.
+```bash
+$ vim ~/.bashrc
+export PATH="/home/USER/anaconda3/bin:$PATH"
 
-no needs to set Environment Variable of conda.
+$ source ~/.bashrc
+```
+
+### 3.3.2. windows
+
+In windows, there is no needs to set Environment Variable of conda.
 
 In your terminal,  you find `conda acvtivate env1` is not working because the lack of Environment Variable. But `conda init` provide a solution that modify the terminal startup configuration so that your terminal can directly be the conda environment after it is opened.
 
@@ -113,29 +121,16 @@ $ conda init --reverse
 
 > win10, git-bash
 
-- 为什么git-bash找不到
-  `conda init`创建一个 `.bash_profile`文件来配置shell，但 `git-bash.exe`使用 `.bashrc`配置文件。
-- conda 创建 `C:\Users\<username>\.bash_profile`和 bash 需要 `~/.bashrc` ，但是 `~/`不一定等于 `C:\Users\<username>\`。
-  
+1. 激活命令是`conda init bash`。git-bash被认为是`bash`。
 
-我的解决方案是：
-1. 从 VS Code 中的 git-bash 终端运行 `code ~/.bashrc`，确保`.bashrc`在正确的位置创建.
-2. 复制`C:\Users\<username>\.bash_profile` 的内容并粘贴到打开的 `.bashrc`.
-3. 重新打开 Git 终端。
+2. 如果出现激活成功却在使用`conda activate ENRIONMENT`时报错：
+  - 为什么git-bash找不到
+    `conda init`创建一个 `.bash_profile`文件来配置，但 老版本的`git-bash`使用 `.bashrc`配置文件，新的git-bash也使用`.bash_profile`自然没用问题。
+  - 我的解决方案是：
+    复制`C:\Users\<username>\.bash_profile`为`.bashrc`.
 
-PS:  输入`conda activate`，却报错，UnicodeEncodeError: 'gbk' codec can't encode character.
-
-这是发生在git-bash读取环境变量时，因为你的环境变量中有个路径含有中文，删除掉它或者给它改成英文名字就好。
-
-### 3.3.2. set environmental variable
-
-If conda init doesn't work, `CommandNotFoundError: No command 'conda init'.`, so we can environmental variable.
-```bash
-$ vim ~/.bashrc
-export PATH="/home/sword/anaconda3/bin:$PATH"
-
-$ source ~/.bashrc
-```
+3. 输入`conda activate`，却报错，UnicodeEncodeError: 'gbk' codec can't encode character. 
+  这是发生在git-bash读取环境变量时，因为你的环境变量中有个路径含有中文，删除掉它或者给它改成英文名字就好。
 # 4. Basic Command
 
 ## 4.1. Managing conda
@@ -294,16 +289,4 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
 - Store conda and pip requirements in text files
   `pip install -r requirement.txt `, `pip freeze > requirements.txt`, 
   `conda list --explicit > requirements.txt`, `conda install --file requirement.txt`.
-
-# 6. VSCode and conda
-
-[在 Visual Studio Code 中使用 Python 环境](https://code.visualstudio.com/docs/python/environments#_next-steps)
-
-
-My method:
-
-1. choose vscode python interpreter.
-   ![1660639467216](/image/1660639467216.png)
-2. vscode setting
-   `"python.terminal.activateEnvironment": true`. VSCode suggest setting it as false. But in practice, if you orginally use env1, you switch to other and run a python code, you will find that conda don't activate new vironment. That is because setting activateEnvironment as false .
 
