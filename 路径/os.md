@@ -57,3 +57,26 @@ os.path.exists('test/world.txt')
 # './root/test/runoob.txt'
 os.path.join('./root/','test/','runoob.txt')
 ```
+
+# 相对路径问题：
+> 原本
+
+`src.py`:
+```python
+# src.py中需要文件readme.txt，写法是`./reademe.txt`
+input_path = './readme.txt'
+```
+```bash
+# 那么我们就必须要在项目根目录下执行
+~/Project$ python src.py
+
+# 失败，这里认为readme.txt是在~/readme.txt
+~$ python Project/src.py
+```
+> 转换为绝对路径
+
+`src.py`:
+```python
+parentPath = os.path.dirname(__file__)
+input_path = os.path.abspath(os.path.join(parentPath, './readme.txt'))
+```
