@@ -29,6 +29,8 @@ os.mkdir(path)
 
 # 多级目录
 os.makedirs(path)
+# exist_ok：是否在目录已存在时触发异常。如果exist_ok为False（默认值），则在目标目录已存在的情况下触发FileExistsError异常；如果exist_ok为True，则不会触发异常。
+os.makedirs(path, exist_ok=True)
 ```
 
 ```python
