@@ -18,13 +18,13 @@
 |institution| global.index-url | install.trusted-host |
 |-|-|-|
 |清华|`https://pypi.tuna.tsinghua.edu.cn/simple`|`https://pypi.tuna.tsinghua.edu.cn`|
-|阿里云(限速)|`https://mirrors.aliyun.com/pypi/simple/`|
+|阿里云(限速)|`https://mirrors.aliyun.com/pypi/simple/`|`mirrors.aliyun.com`
 |中国科技大学|`https://pypi.mirrors.ustc.edu.cn/simple/`|
 
 
 ## 1.2. 临时换源
 
-可以在使用pip的时候加参数`-i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com`，其中`-i`表示换源，`--trusted-host`表示信任源。不然会有warning，
+可以在使用pip的时候加参数`-i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com`，其中`-i`(`--index-url`)表示换源，`--trusted-host`表示信任源。不然会有warning，
 
 ![20200602155038752](/image/20200602155038752.png)
 
@@ -94,17 +94,25 @@ trusted-host = https://pypi.tuna.tsinghua.edu.cn
 $ pip list
 ```
 
+
+```bash
+# 更新包
+# -U, --upgrade
+pip install --upgrade MODULE
+
+# 更新pip
+pip install --upgrade pip
+```
+```bash
+pip install SomePackage            # latest version
+pip install SomePackage==1.0.4     # specific version
+pip install 'SomePackage>=1.0.4'   # minimum version
+```
 ```bash
 # 输出到文件中
 $ pip freeze > requirements.txt
 
 # 安装文件中的包列表
+# -r, --requirement <file>
 $ pip install -r requirement.txt
-```
-```bash
-# 更新包
-pip install --upgrade MODULE
-
-# 更新pip
-pip install --upgrade pip
 ```

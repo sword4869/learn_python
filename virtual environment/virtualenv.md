@@ -7,7 +7,7 @@
   - [3.1. install](#31-install)
   - [3.2. create](#32-create)
   - [3.3. activate & deactivate](#33-activate--deactivate)
-- [4. summary](#4-summary)
+- [4. other](#4-other)
   - [4.1. pip](#41-pip)
   - [4.2. 在脚本中指定编译器](#42-在脚本中指定编译器)
 
@@ -118,7 +118,7 @@ $ source ENVIRONMENT/bin/activate
 
 $ deactivate
 ```
-# 4. summary
+# 4. other
 
 
 

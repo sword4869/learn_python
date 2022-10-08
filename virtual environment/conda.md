@@ -1,24 +1,27 @@
 - [1. Introduction](#1-introduction)
-- [2. Conda, Miniconda, Anaconda](#2-conda-miniconda-anaconda)
-- [3. Installation & Configuration](#3-installation--configuration)
-  - [3.1. Software Resoures:](#31-software-resoures)
-  - [3.2. Conda Source](#32-conda-source)
-  - [3.3. in shell](#33-in-shell)
-    - [3.3.1. linux](#331-linux)
-    - [3.3.2. windows](#332-windows)
-- [4. Basic Command](#4-basic-command)
-  - [4.1. Managing conda](#41-managing-conda)
-  - [4.2. Managing environments](#42-managing-environments)
-  - [4.3. Managing packages](#43-managing-packages)
-- [5. Advanced Command](#5-advanced-command)
-  - [5.1. conda export and import package lists](#51-conda-export-and-import-package-lists)
-  - [5.2. Need to use pip](#52-need-to-use-pip)
+  - [1.1. conda, virtualenv(venv)](#11-conda-virtualenvvenv)
+  - [1.2. Conda, Miniconda, Anaconda](#12-conda-miniconda-anaconda)
+- [2. Installation & Configuration](#2-installation--configuration)
+  - [2.1. Software Resoures:](#21-software-resoures)
+  - [2.2. Conda Source](#22-conda-source)
+  - [2.3. in shell](#23-in-shell)
+    - [2.3.1. linux](#231-linux)
+    - [2.3.2. windows](#232-windows)
+- [3. Basic Command](#3-basic-command)
+  - [3.1. Managing conda](#31-managing-conda)
+  - [3.2. Managing environments](#32-managing-environments)
+  - [3.3. Managing packages](#33-managing-packages)
+- [4. Other](#4-other)
+  - [4.1. Need to use pip](#41-need-to-use-pip)
+  - [packages that conda can install](#packages-that-conda-can-install)
 
 # 1. Introduction
 
+## 1.1. conda, virtualenv(venv)
+
 与venv, virtualenv不同的是，conda能创建系统上没有安装的python版本。
 
-# 2. Conda, Miniconda, Anaconda
+## 1.2. Conda, Miniconda, Anaconda
 
 Conda is a package manage tool. Miniconda and Anaconda are the free minimal installers for conda.
 
@@ -28,13 +31,14 @@ Anaconda contains many things that are not commonly used. It is too large. For s
 
 PS: When you choose use conda, the conda itself contains a python interpreter. So you can uninstall the original python (the packages between the orginal python and conda's python are not interconnected, the original python is s useless).
 
-# 3. Installation & Configuration
+# 2. Installation & Configuration
 
-## 3.1. Software Resoures:
+## 2.1. Software Resoures:
 
-- [miniconda download](https://docs.conda.io/en/latest/miniconda.html)
+- [miniconda download](https://docs.conda.io/en/latest/miniconda.html)]
+- [anaconda download](https://www.anaconda.com/products/distribution)
 
-## 3.2. Conda Source
+## 2.2. Conda Source
 
 [bfsu 北外的源主页](https://mirrors.bfsu.edu.cn/help/anaconda/)
   
@@ -70,9 +74,9 @@ custom_channels:
 
 在`~/.condarc`中加一句`ssl_verify: false`
 
-## 3.3. in shell
+## 2.3. in shell
 
-### 3.3.1. linux
+### 2.3.1. linux
 In linux, we set environmental variable.
 ```bash
 $ vim ~/.bashrc
@@ -81,7 +85,7 @@ export PATH="/home/USER/anaconda3/bin:$PATH"
 $ source ~/.bashrc
 ```
 
-### 3.3.2. windows
+### 2.3.2. windows
 
 In windows, there is no needs to set Environment Variable of conda.
 
@@ -131,9 +135,9 @@ $ conda init --reverse
 
 3. 输入`conda activate`，却报错，UnicodeEncodeError: 'gbk' codec can't encode character. 
   这是发生在git-bash读取环境变量时，因为你的环境变量中有个路径含有中文，删除掉它或者给它改成英文名字就好。
-# 4. Basic Command
+# 3. Basic Command
 
-## 4.1. Managing conda
+## 3.1. Managing conda
 
 ```bash
 conda --version
@@ -144,7 +148,7 @@ conda --version
 conda update conda
 ```
 
-## 4.2. Managing environments
+## 3.2. Managing environments
 
 When you begin using conda, you already have a default environment named `base`.
 
@@ -204,7 +208,7 @@ $
 conda remove --name ENVIROMENT --all
 ```
 
-## 4.3. Managing packages
+## 3.3. Managing packages
 
 To find a package you have already installed, first activate the environment you want to search
 
@@ -250,19 +254,18 @@ or
 conda remove PACKAGE
 ```
 
-# 5. Advanced Command
-
-## 5.1. conda export and import package lists
+> conda export and import package lists
 
 We want Environment 2 has same packages.
 
-Environment 1
+Environment 1: export
 
 ```bash
+# --explicit, -e
 conda list --explicit > D:/requirements.txt
 ```
 
-Environment 2
+Environment 2: import
 
 ```bash
 conda install --file FILE
@@ -273,8 +276,11 @@ or directly create a new environment with packages installed.
 ```bash
 conda create --name ENVIRONMENT python=3.8 --file FILE
 ```
+# 4. Other
 
-## 5.2. Need to use pip
+
+
+## 4.1. Need to use pip
 
 When the package does not exist in conda, we need to install it with pip in the conda's environment.
 
@@ -290,3 +296,11 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
   `pip install -r requirement.txt `, `pip freeze > requirements.txt`, 
   `conda list --explicit > requirements.txt`, `conda install --file requirement.txt`.
 
+## packages that conda can install
+
+```python
+conda install git
+
+# if your python doesn't hava installed pip
+conda install pip
+```
