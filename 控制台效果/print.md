@@ -20,7 +20,10 @@ print("{: >20}".format('hello'))
 print("{:.3s}".format('hello'))
 hel
 ```
-
+```python
+print("{:0>5}".format(45))
+00045
+```
 
 ```python
 print("{:,d}".format(123456))
