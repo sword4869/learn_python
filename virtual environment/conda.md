@@ -13,7 +13,8 @@
   - [3.3. Managing packages](#33-managing-packages)
 - [4. Other](#4-other)
   - [4.1. Need to use pip](#41-need-to-use-pip)
-  - [packages that conda can install](#packages-that-conda-can-install)
+  - [4.2. packages that conda can install](#42-packages-that-conda-can-install)
+  - [4.3. jupyter notebook](#43-jupyter-notebook)
 
 # 1. Introduction
 
@@ -296,7 +297,7 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
   `pip install -r requirement.txt `, `pip freeze > requirements.txt`, 
   `conda list --explicit > requirements.txt`, `conda install --file requirement.txt`.
 
-## packages that conda can install
+## 4.2. packages that conda can install
 
 ```python
 conda install git
@@ -309,3 +310,30 @@ conda install cuda -c nvidia
 # Installing Previous CUDA Releases
 conda install cuda -c nvidia/label/cuda-11.3.0
 ```
+
+## 4.3. jupyter notebook
+
+> 如何在 Jupyter Notebook 中切换/使用 conda 虚拟环境？
+```bash
+conda activate myenv    # this is the environment for your project and code
+conda install ipykernel
+conda deactivate
+conda activate base      # could be also some other environment
+
+conda install nb_conda_kernels
+jupyter notebook
+```
+这里的 conda install nb_conda_kernels 是在 base 环境下操作的。
+
+安装好后，打开 jupyter notebook 就会显示所有的 conda 环境啦，点击随意切换。
+
+![](https://img-blog.csdnimg.cn/img_convert/a87689a7f4efa74318f3882edba5b084.png)
+
+
+
+> 如何为Jupyter Notebook添加功能
+```bash
+# This also automatically installs the Javascript and CSS files (using jupyter contrib nbextension install --sys-prefix),
+conda install -c conda-forge jupyter_contrib_nbextensions
+```
+![picture 1](/image/e1302b5180f51ddeeb61901221623842bbaf66ac2180d7690d7eea532cee2dd3.png)  
