@@ -3,8 +3,9 @@
 - [3. create directory](#3-create-directory)
 - [4. remove](#4-remove)
 - [5. exist](#5-exist)
-- [6. 相对路径问题](#6-相对路径问题)
-- [7. 环境变量](#7-环境变量)
+- [6. 路径拼接](#6-路径拼接)
+- [7. 相对路径问题](#7-相对路径问题)
+- [8. 环境变量](#8-环境变量)
 ---
 
 ```python
@@ -58,18 +59,22 @@ os.removedirs(bottomEmptyDirectory)
 ```python
 # file and directory are ok
 if os.path.exists(newPath):
-
-# 其子文件也适用
-os.path.exists('test/world.txt')
+    pass
 ```
-
+# 6. 路径拼接
 ```python
 # 最后可以有或没有`/`
 # './root/test/runoob.txt'
 os.path.join('./root/','test/','runoob.txt')
 ```
 
-# 6. 相对路径问题
+路径中的分隔符
+```python
+print(os.sep)
+# 文件的路径分隔符是'\'，在Linux上是'/'
+```
+
+# 7. 相对路径问题
 > 原本
 
 `src.py`:
@@ -91,7 +96,7 @@ input_path = './readme.txt'
 parentPath = os.path.dirname(__file__)
 input_path = os.path.abspath(os.path.join(parentPath, './readme.txt'))
 ```
-# 7. 环境变量
+# 8. 环境变量
 
 1、os.environ() 详解
 在 python 中通过 os.environ 可以获取有关系统的各种信息
