@@ -1,3 +1,9 @@
+- [open](#open)
+- [effect](#effect)
+- [output](#output)
+- [Example](#example)
+  - [mp3 -> wav](#mp3---wav)
+
 ```bash
 pip install pydub
 ```
