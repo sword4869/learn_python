@@ -32,6 +32,9 @@ virtual environments are mere shells, that contain little within themselves, and
 > Q1: If you download a package in your virtual environment, when you deleted it, is there still hava a package quick load in other environment using the same package. What's more, when you don't delete it and use it in other virtual environment, what happened? 
 > Q2: This broken problem, could it happen to the conda?
 
+
+与conda:
+venv的安装环境可以打包在项目中,直接上传到服务器. 这就是venv相对于conda的优势.
 # 2. venv command
 ## 2.1. create
 
