@@ -61,8 +61,8 @@ torchaudio
 
 ## 2.2. 临时源的例子
 ```
---index-url https://pypi.tuna.tsinghua.edu.cn/simple
---trusted-host https://pypi.tuna.tsinghua.edu.cn
+--index-url https://mirrors.bfsu.edu.cn/pypi/web/simple	
+--trusted-host https://mirrors.bfsu.edu.cn
 numpy
 ```
 
