@@ -44,12 +44,13 @@ venv的安装环境可以打包在项目中,直接上传到服务器. 这就是v
 # ~/hello-world/tutorial(non-current directory)
 $ python3.8 -m venv ENVIRONMENT
 ```
-containing a copy of the Python interpreter, `python3.8`.
+containing a copy of the current Python interpreter, `python3.8`.
 
+`ENVIRONMENT`: When you download modules, the location of installed modules is here.
 
-A common directory location for a virtual environment `ENVIRONMENT` is `.venv`. When you download modules, the location of installed modules is here.
+The `venv` module is often in **project** directory, every project configurates a virtual environment. 
 
-The `venv` module is often in **project** directory, every project configurates a `.venv` virtual environment. When you want to delete the project, you also delete this virtual environment. `rm -rf ENVIRONMENT`
+When you want to delete the project, you also delete the directory of this virtual environment. `rm -rf ENVIRONMENT`
 
 ## 2.2. activate & deactivate
 
@@ -59,7 +60,16 @@ $ source ENVIRONMENT/bin/activate
 $ deactivate
 ```
 
-Then, all package installed will be in directory `ENVIRONMENT`.
+PS: Don't use hidden direcotor as `ENVIRONMENT`.
+In some case, if your `ENVIRONMENT` is `.xxxx`(hidden directory), then source may not correctly work.
+```bash
+$ source .vv/bin/activate
+
+# even it shows (.vv), it is actually wrong.
+# python interpreter should be .vv/bin/python
+(.vv)$ which python
+/home/admin/anaconda3/bin/python
+```
 ## 2.3. example
 
 ```bash
