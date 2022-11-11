@@ -1,21 +1,32 @@
 
+# 传入字典而不是数组
 
+整体是一个字典
+```python
+data = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
+# data = [{'a': 1}, {'b': 2}, {'c': 3}, {'d': 4}, {'e': 5}] 列表是错的
+json_str = json.dumps(data)
+```
 # 和字典的区别
 
-```json
-{"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}
-```
+json字符串:
+- 里面必须是双引号, 而不是单引号
+
+- 这是字符串, 而不是字典类型
 
 ```python
 import json
-
+# json_str
 jsonData = '{"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}'
 
 text = json.loads(jsonData)
 print(text)
 ```
-必须是双引号, 而不是单引号
-是字符串, 而不是字典类型
+
+json文件:
+```json
+{"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}
+```
 
 # json中不能有注释
 ```json
