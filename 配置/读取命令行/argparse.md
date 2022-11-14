@@ -25,26 +25,22 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--integer', type=int)
 args = parser.parse_args()
+# 自带的函数，来打印 help信息
 parser.print_help()
 
+print(args)
+# . 来引用
+print(args.integer)
 '''
+# python t.py --integer=1
+$ python t.py --integer 1
 usage: t.py [-h] [--integer INTEGER]
 
 optional arguments:
   -h, --help         show this help message and exit
   --integer INTEGER
-
-
-(fff) PS E:\CodeProject\Git\rubbish> python a.py -h
-usage: a.py [-h] [--integer INTEGER]
-
-optional arguments:
-  -h, --help         show this help message and exit
-  --integer INTEGER
-(fff) $ python a.py --integer 1
-hello 1
-(fff) $ python a.py --integer=1
-hello 1
+Namespace(integer=1)
+1
 '''
 ```
 # 3. Advance
