@@ -1,6 +1,7 @@
 - [1. Instal](#1-instal)
 - [2. 头](#2-头)
 - [3. config file](#3-config-file)
+  - [format_values](#format_values)
 
 
 # 1. Instal
@@ -70,10 +71,43 @@ num: 1    # (yaml style)
 no_cache
 --no_cache
 no_cache = True    # "True" and "true" are the same
-no_cache: True
+no_cache: False    # Allowed
 
 
 # how to specify a list arg (eg. arg which has action="append")
 fruit = [apple, orange, lemon]
 indexes = [1, 12, 35 , 40]
 ```
+
+## format_values
+
+
+看似不用`args = parser.parse_args()`的返回值`args`，但是要经过`parser.parse_args()`的初始化来读取参数，还得写。
+```python
+import configargparse
+parser = configargparse.ArgumentParser()
+parser.add_argument('--config', is_config_file=True, help='config file path')
+parser.add_argument("--num", default=0, type=int)
+parser.add_argument("--no_cache", action='store_true')
+parser.add_argument("--default_value", default=0, type=int)
+parser.add_argument("--value", type=int)
+parser.add_argument("--test", action='store_true')
+
+
+args = parser.parse_args()
+print(args)
+print()
+print(parser.format_values())
+```
+```bash
+$ python t.py --config some.txt --test
+Namespace(config='some.txt', num=1, no_cache=True, default_value=0, value=None, test=True)
+
+Command Line Args:   --config some.txt --test
+Config File (some.txt):
+  num:               1
+  no_cache:          true
+Defaults:
+  --default_value:   0
+```
+会打印来自命令行、配置文件、默认值的参数。然而，不在这三者的`value`就不会被打印。

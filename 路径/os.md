@@ -1,17 +1,22 @@
-- [1. 进入目录 & 当前工作目录](#1-进入目录--当前工作目录)
-- [2. 列出文件和目录](#2-列出文件和目录)
-- [3. create directory](#3-create-directory)
-- [4. remove](#4-remove)
-- [5. exist](#5-exist)
-- [6. 路径拼接](#6-路径拼接)
-- [7. 相对路径问题](#7-相对路径问题)
-- [8. 环境变量](#8-环境变量)
+- [1. function](#1-function)
+  - [1.1. 进入目录 & 当前工作目录](#11-进入目录--当前工作目录)
+  - [1.2. 列出文件和目录](#12-列出文件和目录)
+  - [1.3. create directory](#13-create-directory)
+  - [1.4. remove](#14-remove)
+  - [1.5. exist](#15-exist)
+  - [1.6. 路径拼接](#16-路径拼接)
+- [2. example](#2-example)
+  - [图片路径](#图片路径)
+  - [2.1. 相对路径问题](#21-相对路径问题)
+- [3. 环境变量](#3-环境变量)
 ---
 
 ```python
 import os
 ```
-# 1. 进入目录 & 当前工作目录 
+
+# 1. function
+## 1.1. 进入目录 & 当前工作目录 
 
 ```python
 # 当前工作目录
@@ -20,7 +25,7 @@ wd = os.getcwd()
 # 进入目录
 os.chdir(newPath)
 ```
-# 2. 列出文件和目录
+## 1.2. 列出文件和目录
 一级目录
 ```python
 # 当前工作目录
@@ -44,7 +49,7 @@ for root, dirs, files in os.walk("..", topdown=False):
     for name in dirs:
         print(os.path.join(root, name))
 ```
-# 3. create directory
+## 1.3. create directory
 ```python
 # 单级目录
 # 如果目录有多级，则创建最后一级，如果最后一级目录的上级目录有不存在的，则会抛出一个 OSError
@@ -56,7 +61,7 @@ os.makedirs(path)
 os.makedirs(path, exist_ok=True)
 ```
 常用 `makedirs`
-# 4. remove
+## 1.4. remove
 
 ```python
 
@@ -69,14 +74,14 @@ os.rmdir(emptyDirectory)
 # 当下目录下有`world/hh`，world下只有hh，hh里空，os.removedirs('world/hh')，hh是空文件夹被删，world是空文件被删除，到当前目录为止
 os.removedirs(bottomEmptyDirectory)
 ```
-# 5. exist
+## 1.5. exist
 
 ```python
 # file and directory are ok
 if os.path.exists(newPath):
     pass
 ```
-# 6. 路径拼接
+## 1.6. 路径拼接
 ```python
 # 最后可以有或没有`/`
 # './root/test/runoob.txt'
@@ -88,8 +93,18 @@ os.path.join('./root/','test/','runoob.txt')
 print(os.sep)
 # 文件的路径分隔符是'\'，在Linux上是'/'
 ```
+# 2. example
 
-# 7. 相对路径问题
+## 图片路径
+```python
+# 根目录+图片目录
+imgdir = os.path.join(basedir, 'images')
+# 既listdir又join
+imgs = [os.path.join(imgdir, f) for f in sorted(os.listdir(imgdir))]
+# 后缀判断
+imgs = [f for f in imgs if any([f.endswith(ex) for ex in ['JPG', 'jpg', 'jpeg', 'png', 'PNG']])]
+```
+## 2.1. 相对路径问题
 > 原本
 
 `src.py`:
@@ -111,7 +126,7 @@ input_path = './readme.txt'
 parentPath = os.path.dirname(__file__)
 input_path = os.path.abspath(os.path.join(parentPath, './readme.txt'))
 ```
-# 8. 环境变量
+# 3. 环境变量
 
 1、os.environ() 详解
 在 python 中通过 os.environ 可以获取有关系统的各种信息
