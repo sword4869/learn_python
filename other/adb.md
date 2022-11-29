@@ -27,6 +27,7 @@
 - [4. 总结](#4-总结)
   - [4.1. 截图并传输到电脑上](#41-截图并传输到电脑上)
   - [设备大小](#设备大小)
+- [TroubleShoot](#troubleshoot)
 
 
 ---
@@ -243,4 +244,52 @@ def get_size():
     size = bytes.decode(size)
     size = re.findall('[0-9]+', size)
     return (int(size[0]), int(size[1]))
+```
+
+# TroubleShoot
+
+```
+$ adb devices
+List of devices attached
+faf80ac1	no permissions (user in plugdev group; are your udev rules wrong?); see [http://developer.android.com/tools/device.html]
+```
+
+1. 修改外设规则
+
+不一定是`51-android.rules`
+```bash
+$ ls /etc/udev/rules.d/
+60-vboxdrv.rules
+
+# 在文件末尾添加
+# ffb0 是你查找手机设备的usb 的地址。Bus 001 Device 014: ID 19d2:ffb0 ZTE WCDMA Technologies MSM
+$ vim /etc/udev/rules.d/60-vboxdrv.rules
+ATTR{idProduct}=="ffb0", SYMLINK+="android_adb", MODE="0660", GROUP="plugdev", TAG+="uaccess", SYMLINK+="android"
+```
+2. 重编
+
+```bash
+$ sudo usermod -a -G plugdev $(id -u -n)
+$ sudo udevadm control --reload-rules
+$ sudo service udev restart
+$ sudo udevadm trigger
+```
+
+3. 重启adb
+
+```bash
+$ adb kill-server 
+$ adb start-server
+$ adb devices
+```
+
+总结:
+```bash
+$ lsusb
+找到ID号
+
+read ID
+fileName=/etc/udev/rules.d/`ls /etc/udev/rules.d/`
+content='ATTR{idProduct}=="'$ID'", SYMLINK+="android_adb", MODE="0660", GROUP="plugdev", TAG+="uaccess", SYMLINK+="android"'
+echo $content >> $fileName
 ```
