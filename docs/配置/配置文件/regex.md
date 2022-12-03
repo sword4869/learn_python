@@ -1,4 +1,4 @@
-![picture 1](/image/275bcc66bee23b340f87f7a42182610d63d858aacc6123748d4d8449f46540e7.png)  
+![picture 1](../../../image/275bcc66bee23b340f87f7a42182610d63d858aacc6123748d4d8449f46540e7.png)  
 以上的正则表达式可以匹配 `runoob`、`runoob1`、`run-oob`、`run_oob`， 但不匹配 `ru`，因为它包含的字母太短了，小于 3 个无法匹配。也不匹配 `runoob$`, 因为它包含特殊字符。
 
 在js程序中，regex用`//`包裹
