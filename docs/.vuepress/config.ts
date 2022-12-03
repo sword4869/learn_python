@@ -14,119 +14,133 @@ export default defineConfig({
     // custom text for edit link. Defaults to "Edit this page"
     editLinkText: "Help us improve this page!",
 
-    sidebar: [
-      ["README.md", "README.md"],
-      { title: ".vuepress", children: [["config.ts", "config.ts"]] },
-      {
-        title: "other",
-        children: [
-          ["adb.md", "adb.md"],
-          [
-            "the use guidance of jupyter notebook.md",
-            "the use guidance of jupyter notebook.md",
+    sidebar: {
+      "/": [
+        ["README.md", "README.md"],
+        {
+          title: ".vuepress",
+          children: [["/.vuepress/config.ts", "config.ts"]],
+        },
+        {
+          title: "other",
+          children: [
+            ["/other/adb.md", "adb.md"],
+            [
+              "/other/the use guidance of jupyter notebook.md",
+              "the use guidance of jupyter notebook.md",
+            ],
+            ["/other/调试pdb.ipynb", "调试pdb.ipynb"],
           ],
-          ["调试pdb.ipynb", "调试pdb.ipynb"],
-        ],
-      },
-      {
-        title: "virtual environment",
-        children: [
-          ["conda.md", "conda.md"],
-          ["pip.md", "pip.md"],
-          ["requirements.md", "requirements.md"],
-          ["virtualenv.md", "virtualenv.md"],
-        ],
-      },
-      { title: "压缩", children: [["pickle.md", "pickle.md"]] },
-      {
-        title: "命令行",
-        children: [
-          ["readme.md", "readme.md"],
-          ["sh.ipynb", "sh.ipynb"],
-          ["sh.py", "sh.py"],
-          ["tmp_log.log", "tmp_log.log"],
-        ],
-      },
-      {
-        title: "图像",
-        children: [
-          ["1.jpg", "1.jpg"],
-          ["PIL.ipynb", "PIL.ipynb"],
-          ["ffmpy.md", "ffmpy.md"],
-          ["skvideo.io.ipynb", "skvideo.io.ipynb"],
-        ],
-      },
-      { title: "声音处理", children: [["pydub.md", "pydub.md"]] },
-      {
-        title: "控制台效果",
-        children: [
-          ["color.md", "color.md"],
-          ["print.md", "print.md"],
-          ["进度条.ipynb", "进度条.ipynb"],
-        ],
-      },
-      { title: "读写文件", children: [["filename.ipynb", "filename.ipynb"]] },
-      {
-        title: "路径",
-        children: [
-          ["os.md", "os.md"],
-          ["readme.md", "readme.md"],
-          ["t.ipynb", "t.ipynb"],
-        ],
-      },
-      {
-        title: "配置",
-        children: [
-          {
-            title: "读取命令行",
-            children: [
-              ["argparse.md", "argparse.md"],
-              ["readme.md", "readme.md"],
-              ["sys and getopt.md", "sys and getopt.md"],
-            ],
-          },
-          {
-            title: "配置文件",
-            children: [
-              ["regex.md", "regex.md"],
-              {
-                title: "configargparse",
-                children: [
-                  ["configargparse.md", "configargparse.md"],
-                  ["some.ini", "some.ini"],
-                  ["some.txt", "some.txt"],
-                  ["some.yaml", "some.yaml"],
-                  ["t.py", "t.py"],
-                ],
-              },
-              {
-                title: "csv",
-                children: [
-                  ["csv.ipynb", "csv.ipynb"],
-                  ["some.csv", "some.csv"],
-                ],
-              },
-              { title: "ini", children: [["ini.md", "ini.md"]] },
-              {
-                title: "json",
-                children: [
-                  ["json.ipynb", "json.ipynb"],
-                  ["json.md", "json.md"],
-                  ["some.json", "some.json"],
-                ],
-              },
-              {
-                title: "yaml",
-                children: [
-                  ["some.yaml", "some.yaml"],
-                  ["yaml.ipynb", "yaml.ipynb"],
-                  ["yaml.md", "yaml.md"],
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+        },
+        {
+          title: "virtual environment",
+          children: [
+            ["/virtual environment/conda.md", "conda.md"],
+            ["/virtual environment/pip.md", "pip.md"],
+            ["/virtual environment/requirements.md", "requirements.md"],
+            ["/virtual environment/virtualenv.md", "virtualenv.md"],
+          ],
+        },
+        { title: "压缩", children: [["/压缩/pickle.md", "pickle.md"]] },
+        {
+          title: "命令行",
+          children: [
+            ["/命令行/readme.md", "readme.md"],
+            ["/命令行/sh.ipynb", "sh.ipynb"],
+            ["/命令行/sh.py", "sh.py"],
+            ["/命令行/tmp_log.log", "tmp_log.log"],
+          ],
+        },
+        {
+          title: "图像",
+          children: [
+            ["/图像/1.jpg", "1.jpg"],
+            ["/图像/PIL.ipynb", "PIL.ipynb"],
+            ["/图像/ffmpy.md", "ffmpy.md"],
+            ["/图像/skvideo.io.ipynb", "skvideo.io.ipynb"],
+          ],
+        },
+        { title: "声音处理", children: [["/声音处理/pydub.md", "pydub.md"]] },
+        {
+          title: "控制台效果",
+          children: [
+            ["/控制台效果/color.md", "color.md"],
+            ["/控制台效果/print.md", "print.md"],
+            ["/控制台效果/进度条.ipynb", "进度条.ipynb"],
+          ],
+        },
+        {
+          title: "读写文件",
+          children: [["/读写文件/filename.ipynb", "filename.ipynb"]],
+        },
+        {
+          title: "路径",
+          children: [
+            ["/路径/os.md", "os.md"],
+            ["/路径/readme.md", "readme.md"],
+            ["/路径/t.ipynb", "t.ipynb"],
+          ],
+        },
+        {
+          title: "配置",
+          children: [
+            {
+              title: "读取命令行",
+              children: [
+                ["/配置//读取命令行/argparse.md", "argparse.md"],
+                ["/配置//读取命令行/readme.md", "readme.md"],
+                ["/配置//读取命令行/sys and getopt.md", "sys and getopt.md"],
+              ],
+            },
+            {
+              title: "配置文件",
+              children: [
+                ["/配置//配置文件/regex.md", "regex.md"],
+                {
+                  title: "configargparse",
+                  children: [
+                    [
+                      "/配置//配置文件//configargparse/configargparse.md",
+                      "configargparse.md",
+                    ],
+                    ["/配置//配置文件//configargparse/some.ini", "some.ini"],
+                    ["/配置//配置文件//configargparse/some.txt", "some.txt"],
+                    ["/配置//配置文件//configargparse/some.yaml", "some.yaml"],
+                    ["/配置//配置文件//configargparse/t.py", "t.py"],
+                  ],
+                },
+                {
+                  title: "csv",
+                  children: [
+                    ["/配置//配置文件//csv/csv.ipynb", "csv.ipynb"],
+                    ["/配置//配置文件//csv/some.csv", "some.csv"],
+                  ],
+                },
+                {
+                  title: "ini",
+                  children: [["/配置//配置文件//ini/ini.md", "ini.md"]],
+                },
+                {
+                  title: "json",
+                  children: [
+                    ["/配置//配置文件//json/json.ipynb", "json.ipynb"],
+                    ["/配置//配置文件//json/json.md", "json.md"],
+                    ["/配置//配置文件//json/some.json", "some.json"],
+                  ],
+                },
+                {
+                  title: "yaml",
+                  children: [
+                    ["/配置//配置文件//yaml/some.yaml", "some.yaml"],
+                    ["/配置//配置文件//yaml/yaml.ipynb", "yaml.ipynb"],
+                    ["/配置//配置文件//yaml/yaml.md", "yaml.md"],
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
 });
