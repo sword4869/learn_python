@@ -1,7 +1,7 @@
 import { defineConfig } from "vuepress/config";
 export default defineConfig({
   title: "Hello Python",
-  base: "/learn-python/",
+  base: "/learn_python/",
   themeConfig: {
     // if your docs are in a different repo from your main project:
     docsRepo: "sword4869/learn_python",
