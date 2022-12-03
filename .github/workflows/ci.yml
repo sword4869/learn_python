@@ -10,12 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-          cache: 'yarn'
-      - run: yarn install
-
       - name: vuepress-deploy
         uses: jenkey2011/vuepress-deploy@master
         env:
@@ -23,4 +17,3 @@ jobs:
           TARGET_BRANCH: gh-pages
           BUILD_SCRIPT: yarn install && yarn vuepress:build
           BUILD_DIR: docs/.vuepress/dist/
-          
