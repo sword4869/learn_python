@@ -46,3 +46,13 @@ json文件:
   "?name": "defines a nickname"
 }
 ```
+
+# json的对象不能以逗号结尾
+
+```json
+{
+  "name": "Roman",
+}
+```
+
+错误的
