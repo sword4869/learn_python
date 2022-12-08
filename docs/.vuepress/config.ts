@@ -16,6 +16,7 @@ export default defineConfig({
 
     sidebar: {
       "/": [
+        ["/", "README"],
         {
           title: "other",
           children: [
@@ -60,6 +61,7 @@ export default defineConfig({
               title: "读取命令行",
               children: [
                 ["/配置/读取命令行/argparse.md", "argparse.md"],
+                ["/配置/读取命令行/", "README"],
                 ["/配置/读取命令行/sys and getopt.md", "sys and getopt.md"],
               ],
             },
