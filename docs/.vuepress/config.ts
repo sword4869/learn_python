@@ -84,7 +84,7 @@ export default defineConfig({
                 },
                 {
                   title: "json",
-                  children: [["/配置/配置文件/json/注意事项.md", "注意事项.md"], ["/配置/配置文件/json/json.html", "json.html"]],
+                  children: [["/配置/配置文件/json/注意事项.md", "注意事项.md"]],
                 },
                 {
                   title: "yaml",
