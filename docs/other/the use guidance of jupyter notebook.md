@@ -41,7 +41,7 @@ Autopep8：轻轻一击就能获得简洁代码
 # This also automatically installs the Javascript and CSS files (using jupyter contrib nbextension install --sys-prefix),
 conda install -c conda-forge jupyter_contrib_nbextensions
 ```
-![picture 1](../../image/e1302b5180f51ddeeb61901221623842bbaf66ac2180d7690d7eea532cee2dd3.png)  
+![picture 1](../../images/e1302b5180f51ddeeb61901221623842bbaf66ac2180d7690d7eea532cee2dd3.png)  
 
 # 2. VSCode Jupyter notebook
 

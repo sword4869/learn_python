@@ -8,7 +8,7 @@ filename = f'{name}.txt'
 ```
 
 # 复杂效果
-![picture 1](../../image/e592944f5b9e84cbdfd95adbc282a085f9125b12012108a4527b422ac6b8addb.png)  
+![picture 1](../../images/e592944f5b9e84cbdfd95adbc282a085f9125b12012108a4527b422ac6b8addb.png)  
 
 ```python
 print("{:#^20}".format('hello'))

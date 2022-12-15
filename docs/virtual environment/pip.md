@@ -89,7 +89,7 @@ trusted-host = https://pypi.tuna.tsinghua.edu.cn
 
 可以在使用pip的时候加参数`-i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com`，其中`-i`(`--index-url`)表示换源，`--trusted-host`表示信任源。不然会有warning，
 
-![20200602155038752](../../image/20200602155038752.png)
+![20200602155038752](../../images/20200602155038752.png)
 
 例如：
 ```bash
