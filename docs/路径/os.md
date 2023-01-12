@@ -1,22 +1,29 @@
-- [1. function](#1-function)
-  - [1.1. 进入目录 & 当前工作目录](#11-进入目录--当前工作目录)
-  - [1.2. 列出文件和目录](#12-列出文件和目录)
-  - [1.3. create directory](#13-create-directory)
-  - [1.4. remove](#14-remove)
-  - [1.5. exist](#15-exist)
-  - [1.6. 路径拼接](#16-路径拼接)
-- [2. example](#2-example)
-  - [图片路径](#图片路径)
-  - [2.1. 相对路径问题](#21-相对路径问题)
-- [3. 环境变量](#3-环境变量)
+- [1. os](#1-os)
+  - [1.1. Intro](#11-intro)
+  - [1.2. function](#12-function)
+    - [1.2.1. 进入目录 \& 当前工作目录](#121-进入目录--当前工作目录)
+    - [1.2.2. 列出文件和目录](#122-列出文件和目录)
+    - [1.2.3. create directory](#123-create-directory)
+    - [1.2.4. remove](#124-remove)
+    - [1.2.5. path](#125-path)
+      - [1.2.5.1. exist](#1251-exist)
+      - [1.2.5.2. 相对路径与绝对路径](#1252-相对路径与绝对路径)
+      - [1.2.5.3. 路径拼接](#1253-路径拼接)
+  - [1.3. example](#13-example)
+    - [1.3.1. 图片路径](#131-图片路径)
+  - [1.4. 环境变量](#14-环境变量)
 ---
+
+# 1. os
+
+## 1.1. Intro
 
 ```python
 import os
 ```
 
-# 1. function
-## 1.1. 进入目录 & 当前工作目录 
+## 1.2. function
+### 1.2.1. 进入目录 & 当前工作目录 
 
 ```python
 # 当前工作目录
@@ -25,7 +32,7 @@ wd = os.getcwd()
 # 进入目录
 os.chdir(newPath)
 ```
-## 1.2. 列出文件和目录
+### 1.2.2. 列出文件和目录
 一级目录
 ```python
 # 当前工作目录
@@ -49,7 +56,7 @@ for root, dirs, files in os.walk("..", topdown=False):
     for name in dirs:
         print(os.path.join(root, name))
 ```
-## 1.3. create directory
+### 1.2.3. create directory
 ```python
 # 单级目录
 # 如果目录有多级，则创建最后一级，如果最后一级目录的上级目录有不存在的，则会抛出一个 OSError
@@ -61,7 +68,7 @@ os.makedirs(path)
 os.makedirs(path, exist_ok=True)
 ```
 常用 `makedirs`
-## 1.4. remove
+### 1.2.4. remove
 
 ```python
 
@@ -74,28 +81,66 @@ os.rmdir(emptyDirectory)
 # 当下目录下有`world/hh`，world下只有hh，hh里空，os.removedirs('world/hh')，hh是空文件夹被删，world是空文件被删除，到当前目录为止
 os.removedirs(bottomEmptyDirectory)
 ```
-## 1.5. exist
+### 1.2.5. path 
+
+#### 1.2.5.1. exist
 
 ```python
 # file and directory are ok
 if os.path.exists(newPath):
     pass
 ```
-## 1.6. 路径拼接
+
+#### 1.2.5.2. 相对路径与绝对路径
+
 ```python
-# 最后可以有或没有`/`
+a = 'images/166.png'
+
+# 绝对路径
+abspath = os.path.abspath(a)    # E:\\learn_python\\images\\1663935316.png
+
+# 父目录
+dirname = os.path.dirname(abspath)  # E:\\learn_python\\images
+
+# basename返回路径最后一个子路径
+basename = os.path.basename(a)  # 'images/166.png' -> '166.png'
+basename2 = os.path.basename(dirname) # 'E:\\learn_python\\images' -> 'images'
+```
+
+dirname对相对路径可能失效
+```python
+a = 'images/166.png'
+
+dir1 = os.path.dirname(a)     # 'images'
+abs1 = os.path.abspath(dir1)  # 'E:\\learn_python\\images'
+
+dir2 = os.path.dirname(dir1)  # ''
+abs2 = os.path.abspath(dir2)  # 'E:\\learn_python'
+
+# 到''在dirname就不变了
+dir3 = os.path.dirname(dir2)  # ''
+abs3 = os.path.abspath(dir3)  # 'E:\\learn_python'
+
+# 所以 dirname 要绝对路径
+abs = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(a)))) # 'E:\\'
+```
+#### 1.2.5.3. 路径拼接
+
+```python
+# 每个子路径的结尾可以有或没有`/`
 # './root/test/runoob.txt'
 os.path.join('./root/','test/','runoob.txt')
 ```
 
 路径中的分隔符
 ```python
-print(os.sep)
+print(os.sep, os.path.sep)
 # 文件的路径分隔符是'\'，在Linux上是'/'
 ```
-# 2. example
 
-## 图片路径
+## 1.3. example
+
+### 1.3.1. 图片路径
 ```python
 # 根目录+图片目录
 imgdir = os.path.join(basedir, 'images')
@@ -104,29 +149,8 @@ imgs = [os.path.join(imgdir, f) for f in sorted(os.listdir(imgdir))]
 # 后缀判断
 imgs = [f for f in imgs if any([f.endswith(ex) for ex in ['JPG', 'jpg', 'jpeg', 'png', 'PNG']])]
 ```
-## 2.1. 相对路径问题
-> 原本
 
-`src.py`:
-```python
-# src.py中需要文件readme.txt，写法是`./reademe.txt`
-input_path = './readme.txt'
-```
-```bash
-# 那么我们就必须要在项目根目录下执行
-~/Project$ python src.py
-
-# 失败，这里认为readme.txt是在~/readme.txt
-~$ python Project/src.py
-```
-> src.py相对于readme.txt的相对路径，再将结果转换为绝对路径
-
-`src.py`:
-```python
-parentPath = os.path.dirname(__file__)
-input_path = os.path.abspath(os.path.join(parentPath, './readme.txt'))
-```
-# 3. 环境变量
+## 1.4. 环境变量
 
 1、os.environ() 详解
 在 python 中通过 os.environ 可以获取有关系统的各种信息

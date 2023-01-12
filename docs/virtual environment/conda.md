@@ -1,7 +1,7 @@
 - [1. Introduction](#1-introduction)
   - [1.1. conda, virtualenv(venv)](#11-conda-virtualenvvenv)
   - [1.2. Conda, Miniconda, Anaconda](#12-conda-miniconda-anaconda)
-- [2. Installation & Configuration](#2-installation--configuration)
+- [2. Installation \& Configuration](#2-installation--configuration)
   - [2.1. Software Resoures:](#21-software-resoures)
   - [2.2. Conda Source](#22-conda-source)
   - [2.3. in shell](#23-in-shell)
@@ -38,12 +38,14 @@ PS: When you choose use conda, the conda itself contains a python interpreter. S
 - [miniconda download](https://docs.conda.io/en/latest/miniconda.html)]
 - [anaconda download](https://www.anaconda.com/products/distribution)
 
+下载完毕后，记得更新下conda。
+
 ## 2.2. Conda Source
 
 [bfsu 北外的源主页](https://mirrors.bfsu.edu.cn/help/anaconda/)
   
 the path of file `.condarc` is 
-- `C:\Users\Administrator\.condarc`(win)
+- `C:\Users\<USERNAME>\.condarc`(win)
 - `~/.condarc`(linux)
 
 ```bash

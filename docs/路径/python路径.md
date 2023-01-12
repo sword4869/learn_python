@@ -1,0 +1,1 @@
+`__file__`. In Python 3.8 and earlier, this path is either absolute or relative (depending on how the script was passed to the python interpreter), while in Python 3.9 and later, it is always an absolute path.

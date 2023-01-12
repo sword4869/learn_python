@@ -1,22 +1,19 @@
-- [1. 换源](#1-换源)
-  - [1.1. 永久修改](#11-永久修改)
-    - [1.1.1. pip自动](#111-pip自动)
-    - [1.1.2. 手动](#112-手动)
-  - [1.2. 临时换源](#12-临时换源)
-- [2. 命令](#2-命令)
-  - [2.1. 包列表](#21-包列表)
+[toc]
+
+
 
 ---
 
-# 1. 换源
+# 1. pip
+## 1.1. 换源
 
 
 
 
-## 1.1. 永久修改
+### 1.1.1. 永久修改
 
 
-### 1.1.1. pip自动
+#### 1.1.1.1. pip自动
 linux和win都通用。
 
 - 设置
@@ -63,7 +60,7 @@ trusted-host = https://mirrors.bfsu.edu.cn
 # 再删install的trusted-host
 $ pip config unset install.trusted-host
 ```
-### 1.1.2. 手动
+#### 1.1.1.2. 手动
 
 内容如下：
 ```
@@ -85,7 +82,7 @@ trusted-host = https://pypi.tuna.tsinghua.edu.cn
 修改文件`C:/Users/Admin/AppData/Roaming/pip/pip.ini`
 
 
-## 1.2. 临时换源
+### 1.1.2. 临时换源
 
 可以在使用pip的时候加参数`-i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com`，其中`-i`(`--index-url`)表示换源，`--trusted-host`表示信任源。不然会有warning，
 
@@ -95,9 +92,9 @@ trusted-host = https://pypi.tuna.tsinghua.edu.cn
 ```bash
 $ pip install pyspider -i $url1 --trusted-host $url2
 ```
-# 2. 命令
+## 1.2. 命令
 
-## 2.1. 包列表
+### 1.2.1. 常用
 ```bash
 # 打印到控制台
 $ pip list
@@ -124,4 +121,10 @@ $ pip freeze > requirements.txt
 # 安装文件中的包列表
 # -r, --requirement <file>
 $ pip install -r requirement.txt
+```
+
+### 1.2.2. 离线包
+
+```bash
+pip install xxx.whl
 ```
