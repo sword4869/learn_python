@@ -9,8 +9,6 @@
 - [1. pyaudio](#1-pyaudio)
   - [1.1. Intro](#11-intro)
   - [1.2. pyaudio](#12-pyaudio)
-    - [1.2.1. 固定秒数录音](#121-固定秒数录音)
-    - [1.2.2. 不定秒数录音](#122-不定秒数录音)
 
 ---
 
@@ -26,57 +24,6 @@ pip install wave
 ```
 
 ## 1.2. pyaudio
-### 1.2.1. 固定秒数录音
-```python
-import wave
-import pyaudio
-
-# 定义数据流块
-FORMAT = pyaudio.paInt16    # paInt16（一个数据点占2个字节）或者paInt32（一个数据点占4个字节）
-CHANNELS = 1    # 声道数
-RATE = 16000    # 采样率
-CHUNK = 1024    # 一个buffer(chunk)包含多少帧
-
-
-# 创建PyAudio对象
-p = pyaudio.PyAudio()
-
-# 打开数据流
-stream = p.open(format=FORMAT,
-                channels=CHANNELS,
-                rate=RATE,
-                input=True,
-                frames_per_buffer=CHUNK)
-
-print("* recording")
-
-# 开始录音
-RECORD_SECONDS = 5  # 录音时间
-frames = []
-for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-    data = stream.read(CHUNK)
-    frames.append(data)
-
-print("* done recording")
-
-# 停止数据流
-stream.stop_stream()
-stream.close()
-
-# 关闭PyAudio
-p.terminate()
-
-# 写入录音文件
-WAVE_OUTPUT_FILENAME = "output.wav"
-wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-wf.setnchannels(CHANNELS)   # 声道数目
-wf.setsampwidth(p.get_sample_size(FORMAT))  # 采样带宽
-wf.setframerate(RATE)   # 频率
-wf.writeframes(b''.join(frames))
-wf.close()
-```
-
-### 1.2.2. 不定秒数录音
 
 ```python
 import time
@@ -87,24 +34,28 @@ import pyaudio
 
 class MyAudio:
     # 定义音频属性
-    CHUNK = 1024
-    FORMAT = pyaudio.paInt16
-    CHANNELS = 1
-    RATE = 16000
-    WAVE_OUTPUT_FILENAME = "output.wav"  
+    frames_per_buffer = 1024
+    pyaudio_format = pyaudio.paInt16
+    n_channels = 1
+    sample_rate = 16000
+    audio_path = "output.wav"  
     
     def __init__(self):
         pass
         
-    def _record_start(self):
+    def record_start(self):
+        ### 
+        # 不定时长录音之启动
+        ###
+
         # 创建PyAudio对象
         self.p = pyaudio.PyAudio()
 
         # 创建wave对象        
-        self.wf = wave.open(self.WAVE_OUTPUT_FILENAME, 'wb')
-        self.wf.setnchannels(self.CHANNELS)
-        self.wf.setsampwidth(self.p.get_sample_size(self.FORMAT))
-        self.wf.setframerate(self.RATE)
+        self.wf = wave.open(self.audio_path, 'wb')
+        self.wf.setnchannels(self.n_channels)
+        self.wf.setsampwidth(self.p.get_sample_size(self.pyaudio_format))
+        self.wf.setframerate(self.sample_rate)
 
 
         def callback(in_data, frame_count, time_info, status):
@@ -112,36 +63,71 @@ class MyAudio:
             return (in_data, pyaudio.paContinue)
 
         # 打开数据流
-        self.stream = self.p.open(format=self.FORMAT,
-                        channels=self.CHANNELS,
-                        rate=self.RATE,
+        self.stream = self.p.open(format=self.pyaudio_format,
+                        channels=self.n_channels,
+                        rate=self.sample_rate,
                         input=True,
-                        frames_per_buffer=self.CHUNK,
+                        frames_per_buffer=self.frames_per_buffer,
                         stream_callback=callback)
 
         print("* recording")
 
         # 开始录音
+        # start_stream()之后stream会开始调用callback函数
         self.stream.start_stream()
 
 
-    def _record_stop(self):
-        # 停止数据流
-        self.stream.stop_stream()
+    def record_stop(self):   
+        ### 
+        # 不定时长录音之停止
+        ###
+        #      
+        self.stream.stop_stream()   # 停止数据流
         self.stream.close()
-
-        # 关闭PyAudio
-        self.p.terminate()
-
-        # 关闭 wave
-        self.wf.close()
+        self.p.terminate()          # 关闭 PyAudio
+        self.wf.close()             # 关闭 wave
 
         print("* done recording")
 
+    def record_seconds(self, seconds):
+        ### 
+        # 定时长录音
+        ###
 
-    def _record_play(self):
-        wf=wave.open(self.WAVE_OUTPUT_FILENAME,'rb')
- 
+        # 创建PyAudio对象
+        p = pyaudio.PyAudio()
+
+        # 创建wave对象        
+        wf = wave.open(self.audio_path, 'wb')
+        wf.setnchannels(self.n_channels)
+        wf.setsampwidth(p.get_sample_size(self.pyaudio_format))
+        wf.setframerate(self.sample_rate)
+
+        # 打开数据流
+        stream = p.open(format=self.pyaudio_format,
+                        channels=self.n_channels,
+                        rate=self.sample_rate,
+                        input=True,
+                        frames_per_buffer=self.frames_per_buffer,
+                    )
+
+        # 一次全读完
+        data = stream.read(self.sample_rate * seconds)
+        wf.writeframes(data)
+
+        print(f"* record done {seconds} seconds")
+
+        stream.stop_stream()   # 停止数据流
+        stream.close()
+        p.terminate()          # 关闭 PyAudio
+        wf.close()             # 关闭 wave
+
+    def record_play(self):
+        ### 
+        # 播放录音
+        ###
+
+        wf=wave.open(self.audio_path, 'rb')
 
         p=pyaudio.PyAudio()
         stream=p.open(
@@ -153,28 +139,36 @@ class MyAudio:
         
         print('* play...')
         
-        while True:
-            data=wf.readframes(self.CHUNK)
-            if data==b"":   # 空字节退出
-                break
-            stream.write(data)
+
+        #### 写入就是播放，都是阻塞式
+        ## 方法一：逐步写入
+        # while True:
+        #     data=wf.readframes(self.frames_per_buffer)
+        #     if data==b"":   # 空字节退出
+        #         break
+        #     stream.write(data)
+
+        ## 方法二：直接全部写入
+        stream.write(wf.readframes(wf.getnframes()))
         
-        # 停止数据流
-        stream.stop_stream()
+        stream.stop_stream()   # 停止数据流
         stream.close()
-
-        # 关闭PyAudio
-        p.terminate()
-
-        # 关闭 wave
-        wf.close()
+        p.terminate()          # 关闭 PyAudio
+        wf.close()             # 关闭 wave
 
         print('* done play')
 
 if __name__ == '__main__':
     myAudio = MyAudio()
-    myAudio._record_start()
+    
+    # 5秒录音
+    # myAudio.record_seconds(5)   
+    
+    # 不定时录音
+    myAudio.record_start()
     time.sleep(3)
-    myAudio._record_stop()
-    myAudio._record_play()
+    myAudio.record_stop()
+    
+    # 播放录音
+    myAudio.record_play()
 ```
