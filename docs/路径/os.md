@@ -9,6 +9,7 @@
       - [1.2.5.1. exist](#1251-exist)
       - [1.2.5.2. 相对路径与绝对路径](#1252-相对路径与绝对路径)
       - [1.2.5.3. 路径拼接](#1253-路径拼接)
+      - [1.2.5.4. dir与name分离](#1254-dir与name分离)
   - [1.3. example](#13-example)
     - [1.3.1. 图片路径](#131-图片路径)
   - [1.4. 环境变量](#14-环境变量)
@@ -136,6 +137,15 @@ os.path.join('./root/','test/','runoob.txt')
 ```python
 print(os.sep, os.path.sep)
 # 文件的路径分隔符是'\'，在Linux上是'/'
+```
+
+#### 1.2.5.4. dir与name分离
+```python
+os.path.split('some.pdf')
+# ('', 'some.pdf')
+
+os.path.split('log/1/2/some.pdf')
+# ('log/1/2', 'some.pdf')
 ```
 
 ## 1.3. example
