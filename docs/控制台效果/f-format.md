@@ -1,15 +1,12 @@
+# f-format
 
 
-# 简单嵌入变量
-
-```python
-name = 'model'
-filename = f'{name}.txt'
-```
-
-# 复杂效果
 ![picture 1](../../images/e592944f5b9e84cbdfd95adbc282a085f9125b12012108a4527b422ac6b8addb.png)  
 
+
+
+- `"{}".format(VARIABLE)`
+- `f"{VARIABLE}"`
 ```python
 print("{:#^20}".format('hello'))
 #######hello########

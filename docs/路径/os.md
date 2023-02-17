@@ -10,6 +10,7 @@
       - [1.2.5.2. 相对路径与绝对路径](#1252-相对路径与绝对路径)
       - [1.2.5.3. 路径拼接](#1253-路径拼接)
       - [1.2.5.4. dir与name分离](#1254-dir与name分离)
+      - [替换~](#替换)
   - [1.3. example](#13-example)
     - [1.3.1. 图片路径](#131-图片路径)
   - [1.4. 环境变量](#14-环境变量)
@@ -148,6 +149,24 @@ os.path.split('log/1/2/some.pdf')
 # ('log/1/2', 'some.pdf')
 ```
 
+#### 替换~
+
+expanduser函数，它可以将参数中开头部分的 `~` 替换为当前用户的home目录并返回
+
+```python
+import os
+
+new_path = "~/test_dir"
+os.makedirs(new_path)
+# 不能将 ~/test_dir 识别为/home/USER/test_dir
+# 反而是理解为是一个相对路径, 在当前路径下创建了一个`~/test_dir`目录.
+# 也就是说, 把`~`当作了一个普通字符, 而不是代表`/home/USER`的根目录位置.
+
+new_path_2 = os.path.expanduser(new_path)
+print(new_path_2)
+# /home/USER/test_dir
+os.makedirs(new_path_2)
+```
 ## 1.3. example
 
 ### 1.3.1. 图片路径

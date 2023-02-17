@@ -91,8 +91,8 @@ im = img.rotate(45)
 ```
 - 旋转：
 
-  ![图 1](../../images/01963753d6524216a4ba5fc3480fd554fb35b26507ab1b10b84831c46c648262.png)  
-  ![图 2](../../images/196a76ab7e709bfdf2849990e6611bdeb4ea477c3d1407b8a77d7ce16d1a3008.png)  
+  ![图 1](../../../images/01963753d6524216a4ba5fc3480fd554fb35b26507ab1b10b84831c46c648262.png)  
+  ![图 2](../../../images/196a76ab7e709bfdf2849990e6611bdeb4ea477c3d1407b8a77d7ce16d1a3008.png)  
 
 # 像素操作
 ```python
