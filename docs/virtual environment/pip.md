@@ -13,6 +13,9 @@
 ### 1.1.1. 永久修改
 
 
+这是全局效果，系统python、conda的base环境python、conda自创环境下的python都读取同一个配置文件`~/.config/pip/pip.conf`。
+
+
 #### 1.1.1.1. pip自动
 linux和win都通用。
 

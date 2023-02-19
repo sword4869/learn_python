@@ -1,29 +1,31 @@
-- [1. Introduction](#1-introduction)
-  - [1.1. conda, virtualenv(venv)](#11-conda-virtualenvvenv)
-  - [1.2. Conda, Miniconda, Anaconda](#12-conda-miniconda-anaconda)
-- [2. Installation \& Configuration](#2-installation--configuration)
-  - [2.1. Software Resoures:](#21-software-resoures)
-  - [2.2. Conda Source](#22-conda-source)
-  - [2.3. in shell](#23-in-shell)
-    - [2.3.1. linux](#231-linux)
-    - [2.3.2. windows](#232-windows)
-- [3. Basic Command](#3-basic-command)
-  - [3.1. Managing conda](#31-managing-conda)
-  - [3.2. Managing environments](#32-managing-environments)
-  - [3.3. Managing packages](#33-managing-packages)
-- [4. Other](#4-other)
-  - [4.1. Need to use pip](#41-need-to-use-pip)
-  - [4.2. packages that conda can install](#42-packages-that-conda-can-install)
+- [1. conda](#1-conda)
+  - [1.1. Introduction](#11-introduction)
+    - [1.1.1. conda, virtualenv(venv)](#111-conda-virtualenvvenv)
+    - [1.1.2. Conda, Miniconda, Anaconda](#112-conda-miniconda-anaconda)
+  - [1.2. Installation \& Configuration](#12-installation--configuration)
+    - [1.2.1. Software Resoures:](#121-software-resoures)
+    - [1.2.2. Conda Source](#122-conda-source)
+    - [1.2.3. in shell](#123-in-shell)
+      - [1.2.3.1. linux](#1231-linux)
+      - [1.2.3.2. windows](#1232-windows)
+  - [1.3. Basic Command](#13-basic-command)
+    - [1.3.1. Managing conda](#131-managing-conda)
+    - [1.3.2. Managing environments](#132-managing-environments)
+    - [1.3.3. Managing packages](#133-managing-packages)
+  - [1.4. Other](#14-other)
+    - [1.4.1. 重置base环境](#141-重置base环境)
+    - [1.4.2. Need to use pip](#142-need-to-use-pip)
 
-# 1. Introduction
+# 1. conda
+## 1.1. Introduction
 
-## 1.1. conda, virtualenv(venv)
+### 1.1.1. conda, virtualenv(venv)
 
 与venv, virtualenv不同的是，conda能创建系统上没有安装的python版本。
 
-## 1.2. Conda, Miniconda, Anaconda
+### 1.1.2. Conda, Miniconda, Anaconda
 
-Conda is a package manage tool. Miniconda and Anaconda are the free minimal installers for conda.
+conda是一个通用的包管理器，意思是什么语言的包都可以用其进行管理，自然也就包括Python了。 Miniconda and Anaconda are the free minimal installers for conda.
 
 Miniconda is a small, bootstrap version of Anaconda. So it is same to use the conda command in Miniconda and Anaconda.
 
@@ -31,16 +33,20 @@ Anaconda contains many things that are not commonly used. It is too large. For s
 
 PS: When you choose use conda, the conda itself contains a python interpreter. So you can uninstall the original python (the packages between the orginal python and conda's python are not interconnected, the original python is s useless).
 
-# 2. Installation & Configuration
+## 1.2. Installation & Configuration
 
-## 2.1. Software Resoures:
+### 1.2.1. Software Resoures:
 
-- [miniconda download](https://docs.conda.io/en/latest/miniconda.html)]
+- [miniconda download](https://docs.conda.io/en/latest/miniconda.html)
 - [anaconda download](https://www.anaconda.com/products/distribution)
 
 下载完毕后，记得更新下conda。
 
-## 2.2. Conda Source
+```bash
+conda update -n base conda
+```
+
+### 1.2.2. Conda Source
 
 [bfsu 北外的源主页](https://mirrors.bfsu.edu.cn/help/anaconda/)
   
@@ -76,10 +82,30 @@ custom_channels:
 
 在`~/.condarc`中加一句`ssl_verify: false`
 
-## 2.3. in shell
+### 1.2.3. in shell
 
-### 2.3.1. linux
-In linux, we set environmental variable.
+#### 1.2.3.1. linux
+When you install conda, it will **automatically** set environmental variable by itself.
+```bash
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/sword/miniconda3/bin/conda' 'shell.bash' 'hook' 2>
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/sword/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/sword/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/sword/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+```
+
+
+If the above process doesn't work, we can manually set environmental variable.
+
 ```bash
 $ vim ~/.bashrc
 export PATH="/home/USER/anaconda3/bin:$PATH"
@@ -87,7 +113,7 @@ export PATH="/home/USER/anaconda3/bin:$PATH"
 $ source ~/.bashrc
 ```
 
-### 2.3.2. windows
+#### 1.2.3.2. windows
 
 In windows, there is no needs to set Environment Variable of conda.
 
@@ -137,9 +163,9 @@ $ conda init --reverse
 
 3. 输入`conda activate`，却报错，UnicodeEncodeError: 'gbk' codec can't encode character. 
   这是发生在git-bash读取环境变量时，因为你的环境变量中有个路径含有中文，删除掉它或者给它改成英文名字就好。
-# 3. Basic Command
+## 1.3. Basic Command
 
-## 3.1. Managing conda
+### 1.3.1. Managing conda
 
 ```bash
 conda --version
@@ -147,10 +173,10 @@ conda --version
 
 ```bash
 # update the conda's version
-conda update conda
+conda update -n base conda
 ```
 
-## 3.2. Managing environments
+### 1.3.2. Managing environments
 
 When you begin using conda, you already have a default environment named `base`.
 
@@ -160,14 +186,14 @@ When you begin using conda, you already have a default environment named `base`.
 
 ```bash
 # -n ENVIRONMENT, --name ENVIRONMENT
-conda create --name ENVIRONMENT
+conda create -n ENVIRONMENT
 ```
 
 - another python version
 
 ```bash
 # -y: confirm all choices
-conda create --name ENVIRONMENT python=3.9 -y
+conda create -n ENVIRONMENT python=3.9 -y
 ```
 
 > activate (switch) to a certain environment
@@ -191,34 +217,29 @@ conda env list
 
 > deactivate
 
-
+return to base environment
 ```bash
 # exit conda virtual environment
 (ENVIRONMENT)$ conda deactivate
-$ 
 ```
-
+or
 ```bash
 # activate nothing denotes back to base.
 (ENVIRONMENT)$ conda activate
-(base)$
 ```
 
 > remove environment
 
 ```bash
-conda remove --name ENVIROMENT --all
+# 先去base，不然自己删除自己会出错
+conda deactivate
+conda remove -n ENVIROMENT --all
 ```
 
-## 3.3. Managing packages
+### 1.3.3. Managing packages
 
 To find a package you have already installed, first activate the environment you want to search
 
-> list all packages in this environment
-
-```bash
-conda list
-```
 
 > seach package version
 
@@ -230,12 +251,24 @@ conda search PACKAGE
 
 ```bash
 conda install PACKAGE
+conda install -n ENVIROMENT PACKAGE
 ```
+
+相比pip install，多走一步缓存。
+1. 通过`conda install xxx`的方式安装的库都会放在Anaconda的`pkgs`目录下，如`anaconda\pkgs\numpy-1.18.1-py36h48dd78f_1`。这样的好处就是，当在某个环境下已经下载好了某个库，再在另一个环境中还需要这个库时，就可以直接从pkgs目录下将该库复制至新环境。
+2. 在一个环境中需要这个库时，就可以直接从`pkgs`目录下将该库复制至新`site-packages`。效果如同`pip install`。
+3. 和pip安装一样，不同的conda环境下有不同的包，`site-packages`。
 
 > update
 
+update a certain packages
+
 ```bash
+# 当前环境
 conda update PACKAGE
+
+# 指定某个环境下的包
+conda update -n ENVIROMENT PACKAGE
 ```
 
 update all packages
@@ -246,6 +279,7 @@ conda update all
 
 > uninstall package
 
+
 ```bash
 conda uninstall PACKAGE
 ```
@@ -255,6 +289,27 @@ or
 ```bash
 conda remove PACKAGE
 ```
+如果通过`conda uninstall xxx`删除当前环境下某个库时，删除的只是当前环境下`site-packages`目录中该库的内容，它的效果和通过`pip uninstall xxx`是一样的。如果再到另一个环境中通过`conda install xxx`下载这个库，则还是通过将`pkgs`目录下的库复制到当前环境。若要清空这个`pkgs`下的已下载库，可以通过命令
+```bash
+conda clean -a
+```
+
+> list all packages in this environment
+
+```bash
+conda list
+conda list -n ENVIROMENT
+```
+
+```bash
+(base)$ conda list
+# conda environments:
+#
+base                  *  /home/USER/miniconda3
+myenv                    /home/USER/miniconda3/envs/myenv
+test                     /home/USER/miniconda3/envs/test
+```
+`*`表示当前所在环境。
 
 > conda export and import package lists
 
@@ -278,11 +333,19 @@ or directly create a new environment with packages installed.
 ```bash
 conda create --name ENVIRONMENT python=3.8 --file FILE
 ```
-# 4. Other
+## 1.4. Other
+
+### 1.4.1. 重置base环境
 
 
+```bash
+conda list --revisions
+conda install --rev 0
+```
+第一条命令可以看到不同版本的历史。
+第二条命令的0代表要恢复到的版本
 
-## 4.1. Need to use pip
+### 1.4.2. Need to use pip
 
 When the package does not exist in conda, we need to install it with pip in the conda's environment.
 
@@ -297,19 +360,4 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
 - Store conda and pip requirements in text files
   `pip install -r requirement.txt `, `pip freeze > requirements.txt`, 
   `conda list --explicit > requirements.txt`, `conda install --file requirement.txt`.
-
-## 4.2. packages that conda can install
-
-```python
-conda install git
-
-# if your python doesn't hava installed pip
-conda install pip
-
-# Installing latest CUDA Releases
-conda install cuda -c nvidia
-# Installing Previous CUDA Releases
-conda install cuda -c nvidia/label/cuda-11.3.0
-```
-
 
