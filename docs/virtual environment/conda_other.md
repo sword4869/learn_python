@@ -13,9 +13,7 @@ conda install git
 conda install pip
 
 # Installing latest CUDA Releases
-conda install cuda -c nvidia
-# Installing Previous CUDA Releases
-conda install cuda -c nvidia/label/cuda-11.3.0
+conda install cudatoolkit=11.6 -c nvidia
 ```
 
 

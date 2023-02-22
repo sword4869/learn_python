@@ -15,6 +15,7 @@
   - [1.4. Other](#14-other)
     - [1.4.1. 重置base环境](#141-重置base环境)
     - [1.4.2. Need to use pip](#142-need-to-use-pip)
+    - [1.4.3. Store conda and pip requirements in text files](#143-store-conda-and-pip-requirements-in-text-files)
 
 # 1. conda
 ## 1.1. Introduction
@@ -357,7 +358,13 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
   After conda -> pip, conda is now unaware of these changes by pip and may make modifications that would break the environment. So, rather than continue to conda in this environment(conda -> pip -> conda), it is better to create a new environment (conda -> pip).
 - Use conda environments for isolation
   Create a conda environment to isolate any changes pip makes. Care should be taken to avoid running pip in the "base/root" environment.
-- Store conda and pip requirements in text files
-  `pip install -r requirement.txt `, `pip freeze > requirements.txt`, 
-  `conda list --explicit > requirements.txt`, `conda install --file requirement.txt`.
+### 1.4.3. Store conda and pip requirements in text files
+- `pip install -r requirement.txt `, `pip freeze > requirements.txt`, 
+    如果只用pip安装，那么没有问题
+    但是混合了conda install后，就会出现`Cython @ file:///croot/cython_1676568029361/work`。所以，这种情况下用`conda list =e`。
+
+- 只通过conda install的包`conda list --explicit > requirements.txt`, `conda install --file requirement.txt`.
+
+- 通过conda和pip install的包`conda list -e > requirements.txt`, `conda install --file requirement.txt`.
+
 
