@@ -5,14 +5,11 @@
   - [2.3. 自动匹配前缀](#23-自动匹配前缀)
   - [2.4. 长短参数](#24-长短参数)
   - [2.5. type](#25-type)
-  - [2.6. 必选参数&可选参数](#26-必选参数可选参数)
-- [3. Advance](#3-advance)
+  - [2.6. 必选参数\&可选参数](#26-必选参数可选参数)
+- [3. action](#3-action)
   - [3.1. 计数count](#31-计数count)
   - [3.2. 限定选项](#32-限定选项)
-    - [3.2.1. verbosity 分组](#321-verbosity-分组)
-- [4. project example](#4-project-example)
-  - [4.1. 小型项目](#41-小型项目)
-  - [4.2. 大型项目自定义分组](#42-大型项目自定义分组)
+- [how to specify a list arg (eg. arg which has action="append")](#how-to-specify-a-list-arg-eg-arg-which-has-actionappend)
 
 # 1. Install
 内置于python，不需要安装
@@ -256,7 +253,7 @@ hello Namespace(c=1, d=None)
 '''
 ```
 
-# 3. Advance
+# 3. action
 
 ## 3.1. 计数count
 若default不设为0，则会有None和整数比较的异常。
@@ -315,173 +312,9 @@ a.py: error: argument --level: invalid choice: 12 (choose from 0, 1)
 
 
 
-### 3.2.1. verbosity 分组
-当显示帮助消息时，ArgumentParser 将 命令行 参数分组为 “positional arguments” 和 “optional arguments”
-```python
-import argparse
-
-parser = argparse.ArgumentParser()
-# 互斥
-group = parser.add_mutually_exclusive_group()
-group.add_argument('--verbose', action='store_true')
-group.add_argument('--quiet', action='store_true')
-args = parser.parse_args()
-print('hello', args)
-
-if args.quiet:
-    print('quiet form')
-elif args.verbose:
-    print('long form')
-else:
-    print('normal form')
 
 
-'''
-(fff) PS E:\CodeProject\Git\rubbish> python a.py --h
-usage: a.py [-h] [--verbose | --quiet]
 
-optional arguments:
-  -h, --help  show this help message and exit
-  --verbose
-  --quiet
-(fff) PS E:\CodeProject\Git\rubbish> python a.py 
-hello Namespace(verbose=False, quiet=False)
-normal form
-(fff) PS E:\CodeProject\Git\rubbish> python a.py --quiet
-hello Namespace(verbose=False, quiet=True)
-(fff) PS E:\CodeProject\Git\rubbish> python a.py --verbose
-hello Namespace(verbose=True, quiet=False)
-long form
-'''
-```
-
-# 4. project example
-## 4.1. 小型项目
-```python
-import argparse
-
-def my_parse():
-    parser = argparse.ArgumentParser()
-
-    # randomizer params
-    parser.add_argument("--seed", type=int, default=None, help="random seed for generating consistent images per prompt")
-    # scheduler params
-    parser.add_argument("--beta-start", type=float, default=0.00085, help="LMSDiscreteScheduler::beta_start")
-    # output name
-    parser.add_argument("--output", type=str, default="output.png", help="output image name")
-    # pipeline configure
-    parser.add_argument("--model", type=str, default="bes-dev/stable-diffusion-v1-4-openvino", help="model name")
-
-    args = parser.parse_args()
-    regularize_args(args)
-
-        
-
-def engine():
-    pass
-
-# 解系参数的函数
-if __name__ == "__main__":
-    my_parse()
-
-    # 根据是不是None而有不同的处理方案
-    if args.init_image is None:
-        scheduler = LMSDiscreteScheduler(
-            beta_start=args.beta_start,
-            beta_end=args.beta_end,
-            beta_schedule=args.beta_schedule,
-            tensor_format="np"
-        )
-    else:
-        scheduler = PNDMScheduler(
-            beta_start=args.beta_start,
-            beta_end=args.beta_end,
-            beta_schedule=args.beta_schedule,
-            skip_prk_steps = True,
-            tensor_format="np"
-        )
-    
-    engine()
-```
-
-## 4.2. 大型项目自定义分组
-定一个类,
-`__init__()`包办，生成实例就直接返回args。`args = Arguments().args`
-
-
-<https://github.com/derv82/wifite2/blob/master/wifite/args.py>
-```python
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-from .util.color import Color
-
-import argparse, sys
-
-class Arguments(object):
-    ''' Holds arguments used by the Wifite '''
-
-    def __init__(self, configuration):
-        # Hack: Check for -v before parsing args; so we know which commands to display.
-        self.verbose = '-v' in sys.argv or '-hv' in sys.argv or '-vh' in sys.argv
-        self.config = configuration
-        self.args = self.get_arguments()
-
-    def _verbose(self, msg):
-        if self.verbose:
-            return Color.s(msg)
-        else:
-            return argparse.SUPPRESS
-
-    def get_arguments(self):
-        ''' Returns parser.args() containing all program arguments '''
-
-        parser = argparse.ArgumentParser(usage=argparse.SUPPRESS,
-                formatter_class=lambda prog: argparse.HelpFormatter(
-                    prog, max_help_position=80, width=130))
-
-        self._add_global_args(parser.add_argument_group(Color.s('{C}SETTINGS{W}')))
-        self._add_wep_args(parser.add_argument_group(Color.s('{C}WEP{W}')))
-        self._add_wpa_args(parser.add_argument_group(Color.s('{C}WPA{W}')))
-        self._add_wps_args(parser.add_argument_group(Color.s('{C}WPS{W}')))
-        self._add_pmkid_args(parser.add_argument_group(Color.s('{C}PMKID{W}')))
-        self._add_command_args(parser.add_argument_group(Color.s('{C}COMMANDS{W}')))
-
-        return parser.parse_args()
-
-
-    def _add_global_args(self, glob):
-        glob.add_argument('-v',
-            '--verbose',
-            action='count',
-            default=0,
-            dest='verbose',
-            help=Color.s('Shows more options ({C}-h -v{W}). Prints commands and ' +
-                'outputs. (default: {G}quiet{W})'))
-        
-        # ...
-
-    def _add_wep_args(self, wep):
-        # WEP
-        wep.add_argument('--wep',
-            action='store_true',
-            dest='wep_filter',
-            help=Color.s('Show only {C}WEP-encrypted networks{W}'))
-
-    def _add_wpa_args(self, wpa):
-        wpa.add_argument('--wpa',
-            action='store_true',
-            dest='wpa_filter',
-            help=Color.s('Show only {C}WPA-encrypted networks{W} (includes {C}WPS{W})'))
-        wpa.add_argument('-wpa', help=argparse.SUPPRESS, action='store_true',
-                dest='wpa_filter')
-
-if __name__ == '__main__':
-    from .config import Configuration
-    Configuration.initialize(False)
-    # 这里调用
-    a = Arguments(Configuration)
-    args = a.args
-    for (key,value) in sorted(args.__dict__.items()):
-        Color.pl('{C}%s: {G}%s{W}' % (key.ljust(21),value))
-```
+# how to specify a list arg (eg. arg which has action="append")
+fruit = [apple, orange, lemon]
+indexes = [1, 12, 35 , 40]
