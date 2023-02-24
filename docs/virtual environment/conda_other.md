@@ -13,9 +13,12 @@ conda install git
 conda install pip
 
 # Installing latest CUDA Releases
-conda install cudatoolkit=11.6 -c nvidia
+conda install cudatoolkit=11.7 -c nvidia
 ```
 
+```bash
+
+```
 
 
 ## 1.2. Microsoft Visual C++ 14.0 

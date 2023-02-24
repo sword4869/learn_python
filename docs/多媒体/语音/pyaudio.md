@@ -19,6 +19,9 @@
 > Installation
 
 ```bash
+# linux: before pip install
+# sudo apt-get install portaudio19-dev
+# sudo apt-get install python3-all-dev
 pip install pyaudio
 pip install wave
 ```
