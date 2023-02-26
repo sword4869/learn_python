@@ -16,10 +16,15 @@ requests == 2.8.*
 
 # 2. Global options
 
-The following options have an effect on the entire pip install run, and must be specified **on their individual lines**.
+- The following options have an effect on the entire pip install run
+- must be specified **on their individual lines**.
+- 会在安装包前都扫描完全有的options后，才安装包。所以，不论写在哪里都行，比如，一开始写在文件开头，写在文件末尾，写在安装的中间。
+- 正因为全扫描完，所以如果出现冲突，就得分文件。比如，index-url不兼容（不是包安随便哪个index-url都能运行的情况），一个包指定index-url，另一个指定安装别的index-url，那么就得拆分成不同`requirements_01.txt`，一个一个文件安装。
+
 
 ```
 -i, --index-url
+只有一个，再写一个就会代替。
 
 --extra-index-url
 

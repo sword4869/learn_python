@@ -11,14 +11,13 @@ conda install git
 
 # 系统python没有pip时，我们可以这样给系统python安装pip
 conda install pip
-
-# Installing latest CUDA Releases
-conda install cudatoolkit=11.7 -c nvidia
 ```
 
 ```bash
-
+# Installing latest CUDA Releases
+conda install cudatoolkit=11.7 -c nvidia
 ```
+For details(cuda and cudnn), see the learn_linux/basic/drivers
 
 
 ## 1.2. Microsoft Visual C++ 14.0 
