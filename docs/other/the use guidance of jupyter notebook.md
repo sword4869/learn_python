@@ -11,15 +11,11 @@
 
 ## 1.1. 如何在 Jupyter Notebook 中切换 conda 虚拟环境？
 ```bash
+conda install -n myenv ipykernel
+conda install -n myenv nb_conda_kernels
 conda activate myenv    # this is the environment for your project and code
-conda install ipykernel
-conda deactivate
-conda activate base      # could be also some other environment
-
-conda install nb_conda_kernels
 jupyter notebook
 ```
-这里的 conda install nb_conda_kernels 是在 base 环境下操作的。
 
 安装好后，打开 jupyter notebook 就会显示所有的 conda 环境啦，点击随意切换。
 
@@ -39,7 +35,8 @@ variable inspector：跟踪你的工作空间
 Autopep8：轻轻一击就能获得简洁代码
 ```bash
 # This also automatically installs the Javascript and CSS files (using jupyter contrib nbextension install --sys-prefix),
-conda install -c conda-forge jupyter_contrib_nbextensions
+conda install -n myenv jupyter_contrib_nbextensions
+conda install -n myenv jupyter_nbextensions_configurator
 ```
 ![picture 1](../../images/e1302b5180f51ddeeb61901221623842bbaf66ac2180d7690d7eea532cee2dd3.png)  
 
