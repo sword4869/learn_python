@@ -70,21 +70,22 @@ d={"中国":"北京","美国":"华盛顿","法国":"巴黎"}
 print(d.keys())
 # dict_keys(['中国', '美国', '法国'])	    #可以for遍历
 
-for k in d:
-    print(k, end=' ')
-# 中国 美国 法国
-
-print("中国"in d)
-# True
-
+print("中国"in d)               # True
+print("中国"in d.keys())        # True
 
 #### 值 value
 
 print(d.values())
 # dict_values(['北京', '华盛顿', '巴黎'])
 
+print("北京"in d.values())      # True
+
 
 #### 键值对
+for k in d:
+    print(k, ',', d[k])
+
+# 中国 北京
 for k, v in d.items():
     print(k, ',', v)
 

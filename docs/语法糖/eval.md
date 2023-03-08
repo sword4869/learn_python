@@ -2,8 +2,15 @@
 
  eval()是Python内置函数，点进去是这样的
 
-```
-def eval(*args, **kwargs): """    Evaluate the given source in the context of globals and locals.    The source may be a string representing a Python expression    or a code object as returned by compile().    The globals must be a dictionary and locals can be any mapping,    defaulting to the current globals and locals.    If only globals is given, locals defaults to it.    """pass
+```python
+def eval(*args, **kwargs): 
+    """    
+    Evaluate the given source in the context of globals and locals.    
+    The source may be a string representing a Python expression or a code object as returned by compile().    
+    The globals must be a dictionary and locals can be any mapping, defaulting to the current globals and locals.    
+    If only globals is given, locals defaults to it.    
+    """
+    pass
 ```
 
  pycharm提示是这样的
