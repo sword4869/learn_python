@@ -1,16 +1,52 @@
 <http://ffmpeg.org/download.html>
+<https://itsfoss.com/ffmpeg/>
 
 #示例
+
 ```bash
-# Mp3 转换为 16k 16bit 单声道 pcm
-ffmpeg -y -i test.mp3 -acodec pcm_s16le -f s16le -ac 1 -ar 16000 test.pcm
+# 显示信息，同时也是输入文件
+# ffmpeg -i file_name
+# -hide_banner不显示ffmpeg配置信息
 
-# wav 转换为 16k 16bit 单声道 pcm
-ffmpeg -y -i test.wav -acodec pcm_s16le -f s16le -ac 1 -ar 16000 test.pcm
-
-# 44100,16bit,单声道pcm 转换为 16k 16bit 单声道 pcm
-ffmpeg -y -f s16le -ar 44100 -ac 1 -i test.pcm -acodec pcm_s16le -f s16le -ac 1 -ar 16000 test.pcm
+$ ffmpeg -i 001.mp3 -hide_banner
+Input #0, mp3, from '001.mp3':
+  Metadata:
+    encoder         : Lavf58.29.100
+  Duration: 00:00:25.66, start: 0.046042, bitrate: 32 kb/s
+  Stream #0:0: Audio: mp3, 24000 Hz, mono, fltp, 32 kb/s
+At least one output file must be specified
 ```
 
-# cmd = f'ffmpeg -i {inmp4} -i {wav_file} -codec copy ./final_output.mp4'
-# cmd = f'ffmpeg -i {inmp4} -i {wav_file} -codec copy ./demo_mead_rec.mp4'
+```bash
+# 转换格式
+ffmpeg -i video_input.mp4 video_output.avi 
+ffmpeg -i audio_input.mp3 audio_output.ogg 
+
+# specify more output files:
+ffmpeg -i audio_input.wav audio_output_1.mp3 audio_output_2.ogg
+```
+
+
+```bash
+# Extract Audio from Video
+ffmpeg -i video.mp4 -vn audio.mp3
+```
+
+```bash
+# 采样频率
+-ar 44100 
+# 通道数
+-ac 2
+
+ffmpeg -i 001.mp3 -ar 16000 -ac 1 001.wav 
+```
+
+-stats
+
+```bash
+# Audio Volume Multiplying
+# The first command amplifies the volume 1.5 times. The second command makes the audio 1/4 (0.25) times quieter.
+
+ffmpeg -i input.wav -af "volume=1.5" output.wav 
+ffmpeg -i input.ogg -af "volume=0.75" output.ogg
+```
