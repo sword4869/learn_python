@@ -1,7 +1,18 @@
-# json
+- [1. json](#1-json)
+  - [1.1. json\_str](#11-json_str)
+  - [1.2. json文件](#12-json文件)
+    - [1.2.1. 写入](#121-写入)
+    - [1.2.2. 读取](#122-读取)
+  - [1.3. Advance](#13-advance)
+    - [1.3.1. 中文问题](#131-中文问题)
+  - [1.4. 注意](#14-注意)
+    - [1.4.1. 不能跳步创造数组或字典](#141-不能跳步创造数组或字典)
+
+
+# 1. json
 内置库
 
-## json_str
+## 1.1. json_str
 > 转化
 ```python
 import json
@@ -33,8 +44,8 @@ print(text)
 {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
 '''
 ```
-## json文件
-> 写入
+## 1.2. json文件
+### 1.2.1. 写入
 ```python
 import json
 
@@ -42,40 +53,9 @@ data = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
 with open("some.json", "w", encoding='utf-8') as f:
     json.dump(data, f)
 ```
-> 读取
-```python
-import json
 
-with open("some.json", encoding='utf-8') as f:
-    text = json.loads(f.read())
-    print(text)
 
-print(type(text))
-
-'''
-{'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
-dict
-'''
-```
-## Advance
-
-### 中文问题
-
-```python
-import json
-
-data = {'a': 1, 'b': '坐忘道'}
-
-json_str = json.dumps(data)
-print(json_str)
-# {"a": 1, "b": "\u5750\u5fd8\u9053"}
-
-json_str_ok = json.dumps(data).encode('utf-8').decode('unicode_escape')
-print(json_str_ok)
-# {"a": 1, "b": "坐忘道"}
-```
-### 缩进
-
+缩进
 ```python
 import json
 
@@ -92,8 +72,42 @@ with open("some.json", "w", encoding='utf-8') as f:
 }
 '''
 ```
-## 注意
-### 不能跳步创造数组或字典
+### 1.2.2. 读取
+```python
+import json
+
+with open("some.json", 'r', encoding='utf-8') as f:
+    text = json.load(f)
+    print(text)
+
+print(type(text))
+
+'''
+{'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
+dict
+'''
+```
+
+## 1.3. Advance
+
+### 1.3.1. 中文问题
+
+```python
+import json
+
+data = {'a': 1, 'b': '坐忘道'}
+
+json_str = json.dumps(data)
+print(json_str)
+# {"a": 1, "b": "\u5750\u5fd8\u9053"}
+
+json_str_ok = json.dumps(data).encode('utf-8').decode('unicode_escape')
+print(json_str_ok)
+# {"a": 1, "b": "坐忘道"}
+```
+
+## 1.4. 注意
+### 1.4.1. 不能跳步创造数组或字典
 ```python
 d = {'size':1}
 d['world'] = 'fuck'
