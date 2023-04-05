@@ -15,7 +15,7 @@ conda install pip
 
 ```bash
 # Installing latest CUDA Releases
-conda install cudatoolkit=11.7 -c nvidia
+conda install cudatoolkit=11.7 -c conda-forge
 ```
 For details(cuda and cudnn), see the learn_linux/basic/drivers
 
