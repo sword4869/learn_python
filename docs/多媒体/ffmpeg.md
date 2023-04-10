@@ -50,3 +50,9 @@ ffmpeg -i 001.mp3 -ar 16000 -ac 1 001.wav
 ffmpeg -i input.wav -af "volume=1.5" output.wav 
 ffmpeg -i input.ogg -af "volume=0.75" output.ogg
 ```
+
+```bash
+# fps 20
+# -i 图片格式, 01.png,02.png
+ffmpeg -r 20 -i %01d.png name.gif
+```
