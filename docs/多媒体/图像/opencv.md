@@ -1,5 +1,8 @@
+- [1. install](#1-install)
+- [2. Usage](#2-usage)
 
-## install
+---
+## 1. install
 
 a. Packages for standard desktop environments (Windows, macOS, almost any GNU/Linux distribution)
 
@@ -18,7 +21,7 @@ Headless: Packages for server environments (such as Docker, cloud environments e
 
 所以，一般选择 `pip install opencv-contrib-python` 
 
-## Usage
+## 2. Usage
 
 ```python
 import cv2
