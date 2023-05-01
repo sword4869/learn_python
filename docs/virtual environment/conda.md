@@ -16,6 +16,7 @@
     - [1.4.1. 重置base环境](#141-重置base环境)
     - [1.4.2. Need to use pip](#142-need-to-use-pip)
     - [1.4.3. Store conda and pip requirements in text files](#143-store-conda-and-pip-requirements-in-text-files)
+    - [ClobberError](#clobbererror)
 
 # 1. conda
 ## 1.1. Introduction
@@ -367,4 +368,11 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
 
 - 通过conda和pip install的包`conda list -e > requirements.txt`, `conda install --file requirement.txt`.
 
+### ClobberError
 
+`This transaction has incompatible packages due to a shared path.`
+
+解法：
+```bash
+conda clean --all
+```
