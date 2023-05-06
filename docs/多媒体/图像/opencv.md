@@ -28,9 +28,35 @@ import cv2
 
 image_path = r'C:\Users\lab\git\learn_python\images\8a85432a391c379d6006ddf59e77df7fd138f2a80e115058abbd06431d727d30.png'
 image = cv2.imread(image_path)
+cv2.imshow("imageA", image)
+cv2.waitKey(0)
 ```
 
 ```python
 # 数组模式
 h,w,c = image.shape
+# ndarry
+```
+
+```python
+# 需要是 uint8, np.uint16, np.float32
+# 因为 np的float默认是np.float64，会报错
+diff_gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+```
+
+```python
+# diff_gray 必须是灰度图
+thresh = cv2.threshold(diff_gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+```
+
+```python
+cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+cnts = cnts[0] if len(cnts) == 2  else cnts[1]
+for c in cnts:
+	# compute the bounding box of the contour and then draw the
+	# bounding box on both input images to represent where the two
+	# images differ
+    (x, y, w, h) = cv2.boundingRect(c)
+    cv2.rectangle(imageA, (x, y), (x + w, y + h), (0, 0, 255), 2)
+    cv2.drawContours(mask, [c], 0, (0,255,0), -1)
 ```

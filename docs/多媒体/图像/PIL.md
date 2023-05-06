@@ -138,5 +138,7 @@ array = np.array(img)
 print(array.shape)  # (28, 58, 3)
 
 # nparry -> Image
-out = Image.fromarray(array)
+# Image.fromarray 需要 ndarry 数组的格式 是[0, 255], uint8, [H, W, C]
+# image = (image * 255).astype(np.uint8)
+out = Image.fromarray(image)
 ```

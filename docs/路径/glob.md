@@ -1,8 +1,10 @@
 `glob` is used to return all file **absolute paths** that match a specific pattern.
 
+
 These patterns:
 - Asterisk (*): Matches zero or more characters.
 - Question mark (?): Matches exactly one character.
+- `glob.glob("../images")`没用！`glob.glob("../images/*")`
 
 
 ```python

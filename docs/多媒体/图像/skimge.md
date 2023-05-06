@@ -19,8 +19,6 @@ from skimage import io
 # as_gray=True，变为灰度图
 image = io.imread(image_path)
 
-
-# 直接对uint8的[0, 255]、float64的[0, 255]/255.0的都行
 ###### 显示图片
 
 # [1] plt

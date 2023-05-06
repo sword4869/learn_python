@@ -1,30 +1,42 @@
 # f-format
 
+|符号顺序|内容|
+|-|-|
+|`:`|引导符号|
+|`<填充>`|用于填充的单个字符，任意单字符，默认空格。比如,数字`0`|
+|`<对齐>`|`<`左对齐, `^`居中, `>`右对齐（默认）|
+|`<宽度>`|槽的设定输出宽度，即print()输出内容的宽度|
+|`<,>`|数字的千位分隔符，适用于整数和浮点数|
+|`<精度>`|浮点数小数部分的精度如`.2f`，字符串的最大输出长度`.3s`|
+|`<类型>`|整数类型`b`,`c`,`d`,`o`,`x`,`X`，浮点数类型`f`,`e`,`E`,`%`|
 
-![picture 1](../../images/e592944f5b9e84cbdfd95adbc282a085f9125b12012108a4527b422ac6b8addb.png)  
 
-
-
-- `"{}".format(VARIABLE)`
-- `f"{VARIABLE}"`
+- `"{}".format(VARIABLE)`: `print("{:0<5}".format(45))`
+- `f"{VARIABLE}"`: `print(f"{45:0<5}")`
 ```python
 print("{:#^20}".format('hello'))
 #######hello########
 
 print("{: >20}".format('hello'))
                hello
-
-print("{:.3s}".format('hello'))
-hel
 ```
 ```python
+print("{:0<5}".format(45))
+print("{:0^5}".format(45))
 print("{:0>5}".format(45))
+print("{:05}".format(45))
+45000
+04500
+00045
 00045
 ```
 
 ```python
 print("{:,d}".format(123456))
+# 浮点数不管小数部分
+print("{:,f}".format(1234.56789))
 123,456
+1,234.567890
 ```
 
 ```python
@@ -39,7 +51,7 @@ print("{0:d} {0:b} {0:o} {0:x} {0:X}".format(111))
 print("{:.3f}".format(3.1415926))
 3.142
 
-# 不能print("{0:d}".format(3.1415926))
+# 截断
 print("{:.0f}".format(3.1415926))
 3
 
