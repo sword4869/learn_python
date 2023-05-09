@@ -159,12 +159,15 @@ parser.add_argument('--online', action='store_true', default=False)
 # 出问题了，用不上和用上都是True
 # parser.add_argument('--online', action='store_true', default=True)
 '''
+# 必须不赋值
 $ python a.py
 hello Namespace(online=False)
 
 $ python a.py --online  
 hello Namespace(online=True)
-
+'''
+'''
+# 赋值不可以 error: unrecognized arguments: True
 $ python a.py --online True
 usage: a.py [-h] [--online]
 a.py: error: unrecognized arguments: True

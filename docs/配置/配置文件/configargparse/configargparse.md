@@ -76,15 +76,25 @@ num 1     # key is case sensitive: "Num" isn't "num"
 num = 1   # (.ini style)  (white space is ignored, so num = 1 same as num=1)
 num: 1    # (yaml style)
 --num 1   # (argparse style)
+```
 
-# how to set a flag arg (eg. arg which has action="store_true")
+action="store_true"的特殊效果，原本无论argparse和configargparse都无法对命令行参数下的`--no_cache True/False`进行解析`error: unrecognized arguments: True`，而通过config配置文件就可以做到显式赋值。
+```
 # 可以 no_cache 表示 True，不写就 False
-# 此外，区别于命令行传参， 这里可以显示传值，允许 no_cache = True 和 no_cache = False
 no_cache
 --no_cache
+# 此外，区别于命令行传参， 这里可以显示传值，允许 no_cache = True 和 no_cache = False
 no_cache = True    # "True" and "true" are the same
-no_cache: False    # "False"， Allowed
+no_cache = False   # "False" and "false" are the same
+```
+```
+# 但和用命令行的一样，当`default=True`，无论赋值还是不赋值，结果都是True.
+parser.add_argument("--no_cache", action='store_true', default=True)
 
+no_cache
+--no_cache
+no_cache = True
+no_cache = False
 ```
 
 ### 1.3.2. parse string
