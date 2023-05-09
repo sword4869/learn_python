@@ -17,6 +17,7 @@ from skimage import io
 
 ###### 读入图片
 # as_gray=True，变为灰度图
+# 读取进来就是float64, [0, 1.0]
 image = io.imread(image_path)
 
 ###### 显示图片
@@ -44,6 +45,11 @@ from skimage import color
 image_gray = color.rgb2gray(image)
 ```
 ## 4. 缩放/上下采样
+
+- `resize()`好，灰度图和彩色图的参数不动, `rescale()`还得加`channel_axis`
+- 输入的`image`均可uint8或者float。
+- 返回的图片都是 float64.
+
 单张灰度图片
 ```python
 from skimage.transform import rescale, resize, downscale_local_mean

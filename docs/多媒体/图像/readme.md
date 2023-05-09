@@ -50,10 +50,12 @@ image = image / 255.
 
 
 ### 3.2. 保存rgb归一化的图片
+- skimage, imageio 的显示对`[0, 255]`和`[0.0, 1.0]`都行。
 
-skimage, imageio 的显示对`[0, 255]`和`[0.0, 1.0]`都行。
+- skimage 读取进来就是 float64的 `[0.0, 1.0]`
+  imageio 读取进来是uint8 
 
-但是保存`[0, 255]`行，`[0.0, 1.0]`不行，skimage, imageio, PIL, torch 都是调用 PIL的`save()`。
+- 但是保存`[0, 255]`行，`[0.0, 1.0]`不行，skimage, imageio, PIL, torch 都是调用 PIL的`save()`。
 ```python
 # Image.fromarray 需要 ndarry 数组的格式 是[0, 255], uint8
 image = (image * 255).astype(np.uint8)

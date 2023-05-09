@@ -151,8 +151,13 @@ parser.add_argument("--datadir", type=str, default='./data/llff/fern',
 还用上面的写法会在False上出问题，得用action
 
 ```python
-# 用上表示True，不用False，不能赋值。
+# 用上表示True，不用False
 parser.add_argument('--online', action='store_true')
+# 可以赋值默认False，效果同上
+parser.add_argument('--online', action='store_true', default=False)
+
+# 出问题了，用不上和用上都是True
+# parser.add_argument('--online', action='store_true', default=True)
 '''
 $ python a.py
 hello Namespace(online=False)
