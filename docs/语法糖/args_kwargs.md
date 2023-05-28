@@ -1,11 +1,20 @@
+- [1. 定义函数](#1-定义函数)
+- [2. 传入函数](#2-传入函数)
+
+---
 [Python之可变参数，*参数，**参数，以及传入*参数，**参数解包，*args，**kwargs的理解](https://blog.csdn.net/cadi2011/article/details/84871401)
 
-定义函数
+
+- `*`的是args, `(), tuple`类型
+- `**`的是kwargs, `{}, dict`类型、
+## 1. 定义函数
+
+定义函数时，`*args`表示不定量的`"北京", "海淀"`这种形式，`**kwargs`(keyword args)表示不定量的`style="开心", price=0.1`这种形式。
+
+顺序： 默认值参数位于普通参数后面，`*args, **kwargs`位于普通参数和默认值参数后面，`**kwargs`位于`*args`后面。
 ```python
 # def printStr(普通参数, 默认值参数="默认值", *参数, **参数):
 def my_first_blood(name, age=0, *args, **kwargs):
-    # args = (), tuple
-    # kwargs = {}, dict
     print(name)
     print(age)
     print(args)
@@ -17,8 +26,18 @@ my_first_blood("王", 32, "北京", "海淀", style="开心")
 # 32
 # ('北京', '海淀')
 # {'style': '开心'}
+
+# "王" | 32 | "北京", "海淀" | style="开心"
+my_first_blood("王", 32, "北京", "海淀", style="开心", price=0.1)
+# 王
+# 32
+# ('北京', '海淀')
+# {'style': '开心', 'price': 0.1}
 ```
-解包
+
+## 2. 传入函数
+
+`*`用来解开 tuple, list, str, range, dict
 ```python
 first = (1,2,3)
 print(*first)
@@ -35,7 +54,13 @@ print(*third)
 fourth = range(4)
 print(*fourth)
 # 0 1 2 3
+
+fifth = {'a':1, 'b':2}
+print(*fifth)
+# a b
 ```
+
+`**`用来解包字典，相当于`k1=v1, k2=v2,...`
 ```python
 def printStr(first, **dict):
     pass
@@ -43,4 +68,24 @@ def printStr(first, **dict):
 d = {"name": "tyson", "age":"99"}
 printStr(100, **d)
 # 等同于 printStr(100, name="tyson", age="99") 
+```
+
+
+```python
+def test_args_kwargs(arg1, arg2, arg3=None):
+    print("arg1:", arg1)
+    print("arg2:", arg2)
+    print("arg3:", arg3)
+
+# 一一对应
+args = ("two", 3, 5)
+test_args_kwargs(*args)
+
+# 会正确对应到相应的位置：arg1=5, arg2='two', arg3=3
+kwargs = {"arg3": 3, "arg2": "two", "arg1": 5}
+test_args_kwargs(**kwargs)
+
+# 默认值 arg3=None
+kwargs = {"arg2": "two", "arg1": 5}
+test_args_kwargs(**kwargs)
 ```
