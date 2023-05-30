@@ -7,11 +7,7 @@
   - [1.2. 命令](#12-命令)
     - [1.2.1. 常用](#121-常用)
     - [1.2.2. 离线包](#122-离线包)
-
-
-[toc]
-
-
+    - [1.2.3. git包](#123-git包)
 
 ---
 
@@ -113,15 +109,13 @@ $ pip install pyspider -i $url1 --trusted-host $url2
 # 打印到控制台
 $ pip list
 ```
-
-
 ```bash
 # 更新包
 # -U, --upgrade
-pip install --upgrade MODULE
+pip install -U MODULE
 
 # 更新pip
-pip install --upgrade pip
+pip install -U pip
 ```
 ```bash
 pip install SomePackage            # latest version
@@ -141,4 +135,24 @@ $ pip install -r requirement.txt
 
 ```bash
 pip install xxx.whl
+```
+
+### 1.2.3. git包
+
+以 [tinycudann](https://github.com/NVlabs/tiny-cuda-nn) 来举例，
+```bash
+# 官方建议
+# 这个是下载到缓存目录下，但是开了vpn还是下不下来
+pip install git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
+
+# -e参数，换了.git，并且会在当前目录下会根据egg创建`src/tinycudann`。
+# #egg=tinycudann 这个随便起，报错会告诉你真正叫做什么名字
+# 但是还是不行，因为是`src/tinycudann`，而具体安装是`src/tinycudann/bindings/torch`，会有局部路径找不到的问题。
+pip install -e "git+https://github.com/NVlabs/tiny-cuda-nn.git#egg=tinycudann&subdirectory=bindings/torch"
+```
+还是分开好，其实上面的命令就是下面命令的组合。
+```bash
+git clone git@github.com:NVlabs/tiny-cuda-nn.git
+tiny-cuda-nn$ cd bindings/torch
+tiny-cuda-nn/bindings/torch$ python setup.py install
 ```
