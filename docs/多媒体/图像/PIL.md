@@ -1,7 +1,12 @@
+- [1. 像素操作](#1-像素操作)
+- [2. 和 Numpy 数组之间的转化](#2-和-numpy-数组之间的转化)
+
+---
 ```bash
 pip install pillow
 ```
 
+## open,save,show
 ```python
 from PIL import Image
 
@@ -95,7 +100,7 @@ im = img.rotate(45)
   ![图 1](../../../images/01963753d6524216a4ba5fc3480fd554fb35b26507ab1b10b84831c46c648262.png)  
   ![图 2](../../../images/196a76ab7e709bfdf2849990e6611bdeb4ea477c3d1407b8a77d7ce16d1a3008.png)  
 
-# 像素操作
+# 1. 像素操作
 ```python
 from PIL import Image
 
@@ -127,12 +132,12 @@ im = img.split()
 im = im[2].point(lambda i: i > 128 and 255) # 对 B 通道进行二值化
 ```
 
-# 和 Numpy 数组之间的转化
+# 2. 和 Numpy 数组之间的转化
 ```python
 import numpy as np
 from PIL import Image
 
-# Image -> nparry
+# Image -> nparry：[0, 255], uint8, [H, W, C]
 img = Image.open('../image/20220923201825.jpg')
 array = np.array(img)
 print(array.shape)  # (28, 58, 3)

@@ -2,12 +2,18 @@
 - [2. 保存图片格式](#2-保存图片格式)
 - [3. rgb归一化](#3-rgb归一化)
   - [3.1. 255到1.0](#31-255到10)
-  - [3.2. 保存rgb归一化的图片](#32-保存rgb归一化的图片)
+  - [3.2.](#32)
 
 ---
 ## 1. 颜色通道和size
 
-images are represented as NumPy arrays `<class 'numpy.ndarray'>`. RGB and BGR use the same color space, except the order of colors is reversed. 
+> type and shape
+
+images are represented as NumPy arrays `<class 'numpy.ndarray'>`, `(H,W,C)`. 就PIL特殊，直接显示是特殊格式，`img.size`，`(W,H)`；其他库都是`(H,W,C)`. 但PIL有函数可以和ndarry转化，转化为ndarry的后就正常是`(H,W,C)`.
+
+> color channels
+
+RGB and BGR use the same color space, except the order of colors is reversed. 
 - `opencv`: BGR
 - `scikit-image`: RGB
 - `imageio`: RGB
@@ -20,9 +26,6 @@ images are represented as NumPy arrays `<class 'numpy.ndarray'>`. RGB and BGR us
     ```
 
 
-就PIL特殊，直接显示是特殊格式，`img.size`，`(W,H)`；其他库都是`(H,W,C)`.
-
-但PIL有函数可以和ndarry转化，转化为ndarry的后就正常是`(H,W,C)`
 
 ## 2. 保存图片格式
 
@@ -49,20 +52,27 @@ image = image / 255.
 ```
 
 
-### 3.2. 保存rgb归一化的图片
-- skimage, imageio 的显示对`[0, 255]`和`[0.0, 1.0]`都行。
+### 3.2. 
 
-- skimage 读取进来就是 float64的 `[0.0, 1.0]`
-  imageio 读取进来是uint8 
+|功能|skimage|imageio|PIL|torch|
+|-|-|-|-|-|
+|读入|float64|uint8|转为ndarry, 是uint8||
+|显示：两种类型都行|√|√|特有格式，转化需uint8||
+|保存：需转化|√|√|√|x，但通道有变|
+|plt.imshow和imsave对两种格式都行|√|√|转为ndarry|转为ndarry|
 
-- 但是保存`[0, 255]`行，`[0.0, 1.0]`不行，skimage, imageio, PIL, torch 都是调用 PIL的`save()`。
+但是保存`[0, 255]`行，`[0.0, 1.0]`不行，skimage, imageio, PIL, torch 都是调用 PIL的`save()`。
+- imageio 的 `imwrite` 是直接调用，需用户转化
+- skimage 的 `imsave` 是直接调用，需用户转化
+- torchvision.utils.save_image 是内部自动转化后调用。但是通道有变, `[C, H, W]`
 ```python
+'''
+保存rgb归一化的图片
+'''
+
 # Image.fromarray 需要 ndarry 数组的格式 是[0, 255], uint8
 image = (image * 255).astype(np.uint8)
 
 im = Image.fromarray(ndarr)
 im.save(fp, format=format)
 ```
-- imageio 的 `imwrite` 是直接调用，需用户转化
-- skimage 的 `imsave` 是直接调用，需用户转化
-- torchvision.utils.save_image 是自动转化后调用，不需要转化。但是通道有变, `[C, H, W]`
