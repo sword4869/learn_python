@@ -12,23 +12,12 @@ conda install git
 # 系统python没有pip时，我们可以这样给系统python安装pip
 conda install pip
 ```
-
-```bash
-# Installing latest CUDA Releases
-conda install cudatoolkit=11.7 -c conda-forge
-```
-For details(cuda and cudnn), see the learn_linux/basic/drivers
-
-
 ## 1.2. Microsoft Visual C++ 14.0 
 
-出现场景的电脑系统：windows系统
+> 直接Visual Studio 吧
 
-- 如果这包 conda 有， 那么可以
-  ```
-  conda install libpython m2w64-toolchain -c msys2
-  ```
-  然后用 conda 安装你需要的包
+以为百度云的就行: <https://pan.baidu.com/s/1fQdjG3cgROgrV4J_k2fQiw?pwd=4g4s>
 
-- pip 轮子
-  去这两个网址找轮子，<https://www.lfd.uci.edu/~gohlke/pythonlibs/>， <https://pypi.org/project/>
+但有些代码会去找`cl.exe`，比如, `paths = sorted(glob.glob(f"C:\\{executable}\\Microsoft Visual Studio\\*\\{edition}\\VC\\Tools\\MSVC\\*\\bin\\Hostx64\\x64"), reverse=True)`, `C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\cl.exe`
+
+这没办法。
