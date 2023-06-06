@@ -1,21 +1,28 @@
-- [1. drivers](#1-drivers)
-  - [summary](#summary)
-  - [1.1. 显卡驱动](#11-显卡驱动)
-    - [1.1.1. check whether you have installed a nvidia driver](#111-check-whether-you-have-installed-a-nvidia-driver)
-    - [1.1.2. Install which verison of driver](#112-install-which-verison-of-driver)
-  - [1.2. Driver+CUDA](#12-drivercuda)
-    - [1.2.1. Choose Version](#121-choose-version)
-    - [1.2.2. Installation](#122-installation)
-    - [1.2.5. 测试](#125-测试)
-    - [1.2.6. 卸载cuda](#126-卸载cuda)
-  - [1.3. cudnn](#13-cudnn)
+- [1. summary](#1-summary)
+- [2. 准备](#2-准备)
+  - [2.1. check whether you have installed a nvidia driver](#21-check-whether-you-have-installed-a-nvidia-driver)
+  - [2.2. Version Limitation](#22-version-limitation)
+- [3. installation](#3-installation)
+  - [3.1. Linux install](#31-linux-install)
+    - [3.1.1. 命令行安装Driver](#311-命令行安装driver)
+    - [3.1.2. 图形化安装Driver](#312-图形化安装driver)
+    - [3.1.3. CUDA Toolkit装Driver和CUDA](#313-cuda-toolkit装driver和cuda)
+  - [3.2. windows装驱动](#32-windows装驱动)
+  - [3.3. conda装CUDA](#33-conda装cuda)
+  - [3.4. 测试和卸载cuda](#34-测试和卸载cuda)
+- [4. cudnn](#4-cudnn)
 ---
 
-# 1. drivers
-## summary
+## 1. summary
 
-1. 硬件配置，直接下CUDA Toolkit（driver and cuda一步到位）
+1. 硬件配置，
+    windows: 直接下CUDA Toolkit（driver and cuda一步到位）
     直接下最新的：<https://developer.nvidia.com/cuda-toolkit-archive>
+    linux 只用装驱动就行: 
+    ```bash
+    $ ubuntu-drivers devices
+    $ sudo apt install nvidia-driver-515
+    ```
 2. conda环境配置，任意cuda版本
 
     ```bash
@@ -35,67 +42,88 @@
 
 
 
-## 1.1. 显卡驱动
-### 1.1.1. check whether you have installed a nvidia driver
+## 2. 准备
+### 2.1. check whether you have installed a nvidia driver
 
-If not, the result is as follows.
 
+- 通用显示
+  If not, the result is as follows.
+  ```bash
+  $ nvidia-smi
+
+  Command 'nvidia-smi' not found, but can be installed with:
+  ```
+- Linux
+  ```bash
+  $ sudo lshw -C video
+    *-display                 
+        description: VGA compatible controller
+        product: TU102 [GeForce RTX 2080 Ti Rev. A]
+        vendor: NVIDIA Corporation
+        physical id: 0
+        bus info: pci@0000:01:00.0
+        logical name: /dev/fb0
+        version: a1
+        width: 64 bits
+        clock: 33MHz
+        capabilities: pm msi pciexpress vga_controller bus_master cap_list rom fb
+        configuration: depth=32 driver=nvidia latency=0 mode=1920x1080 visual=truecolor xres=1920 yres=1080
+        resources: iomemory:600-5ff iomemory:600-5ff irq:151 memory:72000000-72ffffff memory:6020000000-602fffffff memory:6030000000-6031ffffff ioport:5000(size=128) memory:73000000-7307ffff
+    *-display
+        description: VGA compatible controller
+        product: Intel Corporation
+        vendor: Intel Corporation
+        physical id: 2
+        bus info: pci@0000:00:02.0
+        version: 05
+        width: 64 bits
+        clock: 33MHz
+        capabilities: pciexpress msi pm vga_controller bus_master cap_list rom
+        configuration: driver=i915 latency=0
+        resources: iomemory:600-5ff iomemory:400-3ff irq:150 memory:6033000000-6033ffffff memory:4000000000-400fffffff ioport:6000(size=64) memory:c0000-dffff
+  ```
+  configuration这一行中，  `driver=nouveau`说明nvidia驱动还没安装好，如果`driver=nvidia`说明驱动安装好了。
+
+
+### 2.2. Version Limitation
+
+
+
+> Pytorch 对 CUDA 的限制
+
+[pytorch](https://pytorch.org/)
+
+![图 5](../../images/02740af4fffad6a4bd5394789558db08fb3758ff8bb17c5c2b73ca0a2c347db0.png)  
+
+只能下这几个版本。
+
+> CUDA Toolkit对 Driver 的限制
+
+[CUDA Toolkit对于显卡驱动的版本要求](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html)
+其中Table-3.
+![图 4](../../images/3b4fc76fe84ea2178dc6692f17111fe88acfb8731c633ee09cd2f34446af00c7.png)  
+
+我们安装Driver是515.65，那么可以安装所有的CUDA版本。
+
+向下兼容，所以直接装最新版的Driver就行了。
+## 3. installation
+
+装两个东西：
+- Driver
+- CUDA
+
+命令行安装和图形化安装只是装 Driver，还得自己装CUDA。
+
+
+### 3.1. Linux install
+#### 3.1.1. 命令行安装Driver
+
+`ubuntu-drivers devices` tell you some versions of nvidia driver. 
+- `recommended` is that version you shoull install, here is `nvidia-driver-515`.
+- `GeForce RTX 2080 Ti Rev. A` is your hard-card type. 
+- `nvidia-driver-515` means desktop PC, `nvidia-driver-515-server` means server PC.
 ```bash
-$ nvidia-smi
-
-Command 'nvidia-smi' not found, but can be installed with:
-
-sudo apt install nvidia-utils-435         # version 435.21-0ubuntu7, or
-sudo apt install nvidia-utils-440         # version 440.82+really.440.64-0ubuntu6
-sudo apt install nvidia-340               # version 340.108-0ubuntu5.20.04.2
-sudo apt install nvidia-utils-390         # version 390.154-0ubuntu0.20.04.1
-sudo apt install nvidia-utils-450-server  # version 450.203.03-0ubuntu0.20.04.1
-sudo apt install nvidia-utils-470         # version 470.141.03-0ubuntu0.20.04.1
-sudo apt install nvidia-utils-470-server  # version 470.141.03-0ubuntu0.20.04.1
-sudo apt install nvidia-utils-510         # version 510.85.02-0ubuntu0.20.04.1
-sudo apt install nvidia-utils-510-server  # version 510.85.02-0ubuntu0.20.04.1
-sudo apt install nvidia-utils-515         # version 515.65.01-0ubuntu0.20.04.1
-sudo apt install nvidia-utils-515-server  # version 515.65.01-0ubuntu0.20.04.1
-sudo apt install nvidia-utils-418-server  # version 418.226.00-0ubuntu0.20.04.2
-```
-
-
-```bash
-$ sudo lshw -C video
-  *-display                 
-       description: VGA compatible controller
-       product: TU102 [GeForce RTX 2080 Ti Rev. A]
-       vendor: NVIDIA Corporation
-       physical id: 0
-       bus info: pci@0000:01:00.0
-       logical name: /dev/fb0
-       version: a1
-       width: 64 bits
-       clock: 33MHz
-       capabilities: pm msi pciexpress vga_controller bus_master cap_list rom fb
-       configuration: depth=32 driver=nvidia latency=0 mode=1920x1080 visual=truecolor xres=1920 yres=1080
-       resources: iomemory:600-5ff iomemory:600-5ff irq:151 memory:72000000-72ffffff memory:6020000000-602fffffff memory:6030000000-6031ffffff ioport:5000(size=128) memory:73000000-7307ffff
-  *-display
-       description: VGA compatible controller
-       product: Intel Corporation
-       vendor: Intel Corporation
-       physical id: 2
-       bus info: pci@0000:00:02.0
-       version: 05
-       width: 64 bits
-       clock: 33MHz
-       capabilities: pciexpress msi pm vga_controller bus_master cap_list rom
-       configuration: driver=i915 latency=0
-       resources: iomemory:600-5ff iomemory:400-3ff irq:150 memory:6033000000-6033ffffff memory:4000000000-400fffffff ioport:6000(size=64) memory:c0000-dffff
-```
-configuration这一行中，  `driver=nouveau`说明nvidia驱动还没安装好，如果`driver=nvidia`说明驱动安装好了。
-
-
-### 1.1.2. Install which verison of driver
-
-Tell you some versions of nvidia driver. `recommended` is that version you shoull install, here is `nvidia-driver-515`.
-`GeForce RTX 2080 Ti Rev. A` is your hard-card type. 
-```bash
+# Install which verison of driver
 $ ubuntu-drivers devices
 == /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0 ==
 modalias : pci:v000010DEd00001E07sv000019DAsd00002518bc03sc00i00
@@ -110,38 +138,19 @@ driver   : nvidia-driver-418-server - distro non-free
 driver   : nvidia-driver-470 - distro non-free
 driver   : nvidia-driver-450-server - distro non-free
 driver   : xserver-xorg-video-nouveau - distro free builtin
+
+$ sudo apt install nvidia-driver-515
 ```
 
-## 1.2. Driver+CUDA
+#### 3.1.2. 图形化安装Driver
 
-CUDA Toolkit里包含Driver， 所以不用自己去下Drivers。
+图形化安装
+![图 1](../../images/9d30e5bc45eeb7d369c9919966a535df21fcdb25450fa677b3303e9b885e4fae.png)  
 
-装一个系统的CUDA Toolkit直接下最新的。之后就不用管这硬件了。
 
-像是不同的项目安装时，遇到不同版本要求的CUDA，不用重安硬件的，而是去创个conda环境，然后自己去conda安装cudatoolkit（`conda install cudatoolkit=11.7 -c nvidia`）。下载后文件在`/home/xxx/miniconda3/pkgs`的cudatoolkit中和`/home/xxx/miniconda3/envs/sediment/lib/python3.8/site-packages/nvidia/`激活conda环境, 会覆盖掉系统CUDA.
+#### 3.1.3. CUDA Toolkit装Driver和CUDA
 
-装cudnn, 可以装tar(对应系统cudnn), 可以pip/conda(对应conda环境). 但这玩意装不装随意, 一般pytorch程序都用不上它, 也就玩paddle的时候用了次.
-
-### 1.2.1. Choose Version 
-
-> Driver 限制
-
-[CUDA Toolkit对于显卡驱动的版本要求](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html)
-其中Table-3.
-![图 4](../../images/3b4fc76fe84ea2178dc6692f17111fe88acfb8731c633ee09cd2f34446af00c7.png)  
-我们安装Driver是515.65，那么可以安装所有的CUDA版本。
-
-> Pytorch限制
-
-[pytorch](https://pytorch.org/)
-
-![图 5](../../images/02740af4fffad6a4bd5394789558db08fb3758ff8bb17c5c2b73ca0a2c347db0.png)  
-
-只能下这几个版本。
-
-### 1.2.2. Installation
-
-https://developer.nvidia.com/cuda-toolkit-archive
+CUDA Toolkit = Driver + CUDA, 所以不用自己去下Driver。 <https://developer.nvidia.com/cuda-toolkit-archive>
 
 选择 runfile(local)
 
@@ -221,77 +230,105 @@ export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 
 $ source ~/.bashrc
 ```
-### 1.2.5. 测试
+
+### 3.2. windows装驱动
+
+直接装 CUDA Toolkit 的 exe，没有linux多设置，点几下就完了。
+
+### 3.3. conda装CUDA
+
+下载后文件在`/home/xxx/miniconda3/pkgs`的cudatoolkit中和`/home/xxx/miniconda3/envs/sediment/lib/python3.8/site-packages/nvidia/`
+
+激活conda环境, 会覆盖掉系统CUDA.
 
 ```bash
-# 这个是显示系统的CUDA版本
-$ nvidia-smi
-Mon Sep 26 20:43:11 2022       
-+-----------------------------------------------------------------------------+
-| NVIDIA-SMI 515.65.01    Driver Version: 515.65.01    CUDA Version: 11.7     |
-|-------------------------------+----------------------+----------------------+
-| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|                               |                      |               MIG M. |
-|===============================+======================+======================|
-|   0  NVIDIA GeForce ...  Off  | 00000000:01:00.0 Off |                  N/A |
-|  0%   38C    P8     5W / 250W |      5MiB / 11264MiB |      0%      Default |
-|                               |                      |                  N/A |
-+-------------------------------+----------------------+----------------------+
-|   1  NVIDIA GeForce ...  Off  | 00000000:03:00.0 Off |                  N/A |
-|  0%   36C    P8     3W / 250W |      5MiB / 11264MiB |      0%      Default |
-|                               |                      |                  N/A |
-+-------------------------------+----------------------+----------------------+
-                                                                               
-+-----------------------------------------------------------------------------+
-| Processes:                                                                  |
-|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
-|        ID   ID                                                   Usage      |
-|=============================================================================|
-|    0   N/A  N/A      1513      G   /usr/lib/xorg/Xorg                  4MiB |
-|    1   N/A  N/A      1513      G   /usr/lib/xorg/Xorg                  4MiB |
-+-----------------------------------------------------------------------------+
-
-# nvcc 没有就没有，因为 /home/xxx/miniconda3/pkgs下是cudatoolkit的位置, 但其内bin里空空如也, 没有nvcc程序. 
-# 但不影响使用!
-# 不要乱安给出的建议apt install nvidia-cuda-toolkit7
-$ nvcc -V
-Command 'nvcc' not found, but can be installed with:
-apt install nvidia-cuda-toolkit7
-
-# 或者这里显示有, 但这是系统CUDA的, 对应 /usr/local/cuda
-$ nvcc -V
-nvcc: NVIDIA (R) Cuda compiler driver
-Copyright (c) 2005-2022 NVIDIA Corporation
-Built on Tue_Mar__8_18:18:20_PST_2022
-Cuda compilation tools, release 11.6, V11.6.124
-Build cuda_11.6.r11.6/compiler.31057947_0
-
-$ which nvcc
-/usr/local/cuda-11.6/bin/nvcc
+conda install cudatoolkit=11.7 -c nvidia -c conda-forge
 ```
 
-![nvidia-smi](../../images/nvidia-smi.jpg)
 
-一台机器只能有一个版本的驱动(nvidia-smi中显示的Driver Version)，然而CUDA是可以多版本共存的
+### 3.4. 测试和卸载cuda
 
-```python
-import torch
-print(torch.version.cuda)
-# '11.6'
-print(torch.cuda.is_available())
-# True
-```
+理解：
 
-### 1.2.6. 卸载cuda
+- 一台机器只能有一个版本的Driver(nvidia-smi中显示的Driver Version)，然而CUDA是可以多版本共存的（可以有或没有系统的CUDA，可以有多个系统的CUDA，可以直接装conda的CUDA）
+
+- 如果装CUDA Toolkit, 那么如果pytorch需要不同的CUDA时，直接conda装cuda，Driver是已经安装好的（基本没事，除非Driver太老了）。
+
+- 像是不同的项目安装时，遇到不同版本要求的CUDA，不用重安硬件的（没有系统CUDA都行），而是去创个conda环境，然后自己去conda安装cudatoolkit。
+
+- 看你到底是那个CUDA版本，是python程序看的。不是外面的命令行`nvidia-smi`,`nvcc -V`显示的版本。
+
+  ```bash
+  # 这个是显示系统的CUDA版本
+  $ nvidia-smi
+  Mon Sep 26 20:43:11 2022       
+  +-----------------------------------------------------------------------------+
+  | NVIDIA-SMI 515.65.01    Driver Version: 515.65.01    CUDA Version: 11.7     |
+  |-------------------------------+----------------------+----------------------+
+  | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+  | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+  |                               |                      |               MIG M. |
+  |===============================+======================+======================|
+  |   0  NVIDIA GeForce ...  Off  | 00000000:01:00.0 Off |                  N/A |
+  |  0%   38C    P8     5W / 250W |      5MiB / 11264MiB |      0%      Default |
+  |                               |                      |                  N/A |
+  +-------------------------------+----------------------+----------------------+
+  |   1  NVIDIA GeForce ...  Off  | 00000000:03:00.0 Off |                  N/A |
+  |  0%   36C    P8     3W / 250W |      5MiB / 11264MiB |      0%      Default |
+  |                               |                      |                  N/A |
+  +-------------------------------+----------------------+----------------------+
+                                                                                
+  +-----------------------------------------------------------------------------+
+  | Processes:                                                                  |
+  |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+  |        ID   ID                                                   Usage      |
+  |=============================================================================|
+  |    0   N/A  N/A      1513      G   /usr/lib/xorg/Xorg                  4MiB |
+  |    1   N/A  N/A      1513      G   /usr/lib/xorg/Xorg                  4MiB |
+  +-----------------------------------------------------------------------------+
+
+  # nvcc 没有就没有，因为 /home/xxx/miniconda3/pkgs下是cudatoolkit的位置, 但其内bin里空空如也, 没有nvcc程序. 
+  # 但不影响使用!
+  # 不要乱安给出的建议apt install nvidia-cuda-toolkit7
+  $ nvcc -V
+  Command 'nvcc' not found, but can be installed with:
+  apt install nvidia-cuda-toolkit7
+
+  # 或者这里显示有, 但这是系统CUDA的, 对应 /usr/local/cuda
+  $ nvcc -V
+  nvcc: NVIDIA (R) Cuda compiler driver
+  Copyright (c) 2005-2022 NVIDIA Corporation
+  Built on Tue_Mar__8_18:18:20_PST_2022
+  Cuda compilation tools, release 11.6, V11.6.124
+  Build cuda_11.6.r11.6/compiler.31057947_0
+
+  $ which nvcc
+  /usr/local/cuda-11.6/bin/nvcc
+  ```
+
+  ![nvidia-smi](../../images/nvidia-smi.jpg)
+
+  
+
+  ```python
+  # 这个才是真正看的版本
+  import torch
+  print(torch.version.cuda)
+  # '11.6'
+  print(torch.cuda.is_available())
+  # True
+  ```
+
+conda的直接删除环境；卸载系统的如下：
 ```bash
 $ cd /usr/local/cuda/bin/
 $ sudo ./cuda-uninstaller
 # cuda是cuda-11.7的软链接
 $ sudo rm -rf /usr/local/cuda-11.7
 ```
+## 4. cudnn
 
-## 1.3. cudnn
+装cudnn, 可以装tar(对应系统cudnn), 可以pip/conda(对应conda环境). 但这玩意装不装随意, 一般pytorch程序都用不上它, 也就玩paddle的时候用了次.
 
 > tar安装
 
