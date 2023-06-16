@@ -1,6 +1,8 @@
 - [1. 视频](#1-视频)
   - [1.1. 转换视频格式](#11-转换视频格式)
   - [1.2. 提取声音](#12-提取声音)
+    - [Extract Audio from Video](#extract-audio-from-video)
+    - [Extract Audio from Video](#extract-audio-from-video-1)
   - [1.3. 提取图片](#13-提取图片)
 - [2. 由图片生成gif](#2-由图片生成gif)
 
@@ -37,10 +39,9 @@ ffmpeg -i audio_input.wav audio_output_1.mp3 audio_output_2.ogg
 ```
 
 ### 1.2. 提取声音
-```bash
-# Extract Audio from Video
-ffmpeg -i video.mp4 -vn audio.mp3
-```
+
+
+#### Extract Audio from Video
 
 ```bash
 # 采样频率
@@ -60,7 +61,15 @@ ffmpeg -i 001.mp3 -ar 16000 -ac 1 001.wav
 ffmpeg -i input.wav -af "volume=1.5" output.wav 
 ffmpeg -i input.ogg -af "volume=0.75" output.ogg
 ```
+#### Extract Audio from Video
+```bash
+# -vn                 disable video
+ffmpeg -i video.mp4 -vn audio.mp3
+```
 
+```bash
+ffmpeg -i video.mp4 -vn -ar 16000 -ac 1 audio.mp3
+```
 ### 1.3. 提取图片
 
 ```bash

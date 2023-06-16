@@ -4,13 +4,13 @@
     - [1.2.1. 进入目录 \& 当前工作目录](#121-进入目录--当前工作目录)
     - [1.2.2. 列出文件和目录](#122-列出文件和目录)
     - [1.2.3. create directory](#123-create-directory)
+      - [1.2.3.1. 替换~](#1231-替换)
     - [1.2.4. remove](#124-remove)
     - [1.2.5. path](#125-path)
       - [1.2.5.1. exist](#1251-exist)
       - [1.2.5.2. 相对路径与绝对路径](#1252-相对路径与绝对路径)
       - [1.2.5.3. 路径拼接](#1253-路径拼接)
-      - [1.2.5.4. dir与name分离](#1254-dir与name分离)
-      - [1.2.5.5. 替换~](#1255-替换)
+      - [1.2.5.4. 划分路径](#1254-划分路径)
   - [1.3. example](#13-example)
     - [1.3.1. 图片路径](#131-图片路径)
   - [1.4. 环境变量](#14-环境变量)
@@ -72,6 +72,26 @@ os.mkdir(path)
 os.makedirs(path)
 # exist_ok：是否在目录已存在时触发异常。如果exist_ok为False（默认值），则在目标目录已存在的情况下触发FileExistsError异常；如果exist_ok为True，则不会触发异常。
 os.makedirs(path, exist_ok=True)
+```
+
+
+#### 1.2.3.1. 替换~
+
+expanduser函数，它可以将参数中开头部分的 `~` 替换为当前用户的home目录并返回
+
+```python
+import os
+
+new_path = "~/test_dir"
+os.makedirs(new_path)
+# 不能将 ~/test_dir 识别为/home/USER/test_dir
+# 反而是理解为是一个相对路径, 在当前路径下创建了一个`~/test_dir`目录.
+# 也就是说, 把`~`当作了一个普通字符, 而不是代表`/home/USER`的根目录位置.
+
+new_path_2 = os.path.expanduser(new_path)
+print(new_path_2)
+# /home/USER/test_dir
+os.makedirs(new_path_2)
 ```
 常用 `makedirs`
 ### 1.2.4. remove
@@ -144,33 +164,39 @@ print(os.sep, os.path.sep)
 # 文件的路径分隔符是'\'，在Linux上是'/'
 ```
 
-#### 1.2.5.4. dir与name分离
+#### 1.2.5.4. 划分路径
+
+- `split`: dirpath与filename。其实是根据最后一个`/`分开的。
 ```python
 os.path.split('some.pdf')
 # ('', 'some.pdf')
 
 os.path.split('log/1/2/some.pdf')
 # ('log/1/2', 'some.pdf')
+
+os.path.split('log/1/2')
+# ('log/1', '2')
+
+os.path.split('log/1/2/')
+# ('log/1/2', '')
 ```
 
-#### 1.2.5.5. 替换~
-
-expanduser函数，它可以将参数中开头部分的 `~` 替换为当前用户的home目录并返回
-
+- `splitext`: 前缀和后缀。根据`.`划分, `.`包含在后缀里。
 ```python
-import os
+os.path.splitext('some.pdf')
+# ('some', '.pdf')
 
-new_path = "~/test_dir"
-os.makedirs(new_path)
-# 不能将 ~/test_dir 识别为/home/USER/test_dir
-# 反而是理解为是一个相对路径, 在当前路径下创建了一个`~/test_dir`目录.
-# 也就是说, 把`~`当作了一个普通字符, 而不是代表`/home/USER`的根目录位置.
+os.path.splitext('log/1/2/some.pdf')
+# ('log/1/2/some', '.pdf')
 
-new_path_2 = os.path.expanduser(new_path)
-print(new_path_2)
-# /home/USER/test_dir
-os.makedirs(new_path_2)
+os.path.splitext('log/1/2')
+# ('log/1/2', '')
+
+os.path.splitext('log/1/2/')
+# ('log/1/2/', '')
 ```
+
+
 ## 1.3. example
 
 ### 1.3.1. 图片路径
