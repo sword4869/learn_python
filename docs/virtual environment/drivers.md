@@ -28,6 +28,15 @@
     ```bash
     conda install cudatoolkit=11.7 -c nvidia -c conda-forge
     ```
+    PS: 不让用外网。
+    - 就<https://conda.anaconda.org/nvidia/linux-64>, 搜`cudatoolkit-11.7`
+      ```bash
+      wget https://conda.anaconda.org/nvidia/linux-64/cudatoolkit-11.7.0-hd8887f6_10.tar.bz2
+      ```
+    - 传输上去，本地安装
+      ```bash
+      conda install --use-local cudatoolkit-11.7.0-hd8887f6_10.tar.bz2
+      ```
 3. torch
 
     ```bash
