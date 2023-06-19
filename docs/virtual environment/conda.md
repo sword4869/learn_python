@@ -16,7 +16,8 @@
     - [1.4.1. 重置base环境](#141-重置base环境)
     - [1.4.2. Need to use pip](#142-need-to-use-pip)
     - [1.4.3. Store conda and pip requirements in text files](#143-store-conda-and-pip-requirements-in-text-files)
-    - [ClobberError](#clobbererror)
+    - [1.4.4. ClobberError](#144-clobbererror)
+    - [1.4.5. 离线打包](#145-离线打包)
 
 # 1. conda
 ## 1.1. Introduction
@@ -368,11 +369,47 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
 
 - 通过conda和pip install的包`conda list -e > requirements.txt`, `conda install --file requirement.txt`.
 
-### ClobberError
+### 1.4.4. ClobberError
 
 `This transaction has incompatible packages due to a shared path.`
 
 解法：
 ```bash
 conda clean --all
+```
+
+### 1.4.5. 离线打包
+
+
+1. install
+```bash
+conda install conda-pack
+pip install conda-pack
+```
+
+2. pack on computer-A
+```bash
+# output `myenv.tar.gz`
+conda pack -n myenv
+```
+> This is usually due to `pip` uninstalling or clobbering conda managed files,
+resulting in an inconsistent environment. Please check your environment for
+conda/pip conflicts using `conda list`, and fix the environment by ensuring
+only one version of each package is installed (conda preferred).
+
+```bash
+conda pack -n myenv --ignore-missing-files
+```
+
+3. unpack on computer-B
+```bash
+# uncompress
+mkdir -p myenv
+tar -xzf myenv.tar.gz -C myenv
+
+# activate
+source myenv/bin/activate
+
+# deactivate
+source deactivate
 ```
