@@ -18,6 +18,7 @@
     - [1.4.3. Store conda and pip requirements in text files](#143-store-conda-and-pip-requirements-in-text-files)
     - [1.4.4. ClobberError](#144-clobbererror)
     - [1.4.5. 离线打包](#145-离线打包)
+    - [conda env / yaml](#conda-env--yaml)
 
 # 1. conda
 ## 1.1. Introduction
@@ -336,6 +337,8 @@ or directly create a new environment with packages installed.
 ```bash
 conda create --name ENVIRONMENT python=3.8 --file FILE
 ```
+
+
 ## 1.4. Other
 
 ### 1.4.1. 重置base环境
@@ -413,3 +416,18 @@ source myenv/bin/activate
 # deactivate
 source deactivate
 ```
+### conda env / yaml
+
+What command should I execute to install packages from my YAML file？
+
+`conda-env` command 
+```bash
+conda env export > environment.yaml
+
+# 根据 yaml 文件创建环境
+conda env create -n my_env --file ENV.yaml
+# 根据 yaml 文件更新已经创建的环境
+conda env update -n my_env --file ENV.yaml
+```
+
+然而安起来，还是总出问题。不如requirements.txt

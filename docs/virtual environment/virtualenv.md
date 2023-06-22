@@ -1,12 +1,12 @@
-- [1. venv & virtualenv](#1-venv--virtualenv)
+- [1. venv \& virtualenv](#1-venv--virtualenv)
 - [2. venv command](#2-venv-command)
   - [2.1. create](#21-create)
-  - [2.2. activate & deactivate](#22-activate--deactivate)
+  - [2.2. activate \& deactivate](#22-activate--deactivate)
   - [2.3. example](#23-example)
 - [3. virtualenv command](#3-virtualenv-command)
   - [3.1. install](#31-install)
   - [3.2. create](#32-create)
-  - [3.3. activate & deactivate](#33-activate--deactivate)
+  - [3.3. activate \& deactivate](#33-activate--deactivate)
 - [4. other](#4-other)
   - [4.1. pip](#41-pip)
   - [4.2. 在脚本中指定编译器](#42-在脚本中指定编译器)
@@ -25,16 +25,15 @@ virtualenv:
 
 venv & virtualenv:
 - `venv` is a subset of `virtualenv`. So if you want to use full capacities, you need to install `virtualenv`.
-- venv和virtualenv创建虚拟环境，只能使用当前系统已经安装好的python，**不能指定系统不存在的python环境版本**
+
+与conda：结论是不如conda
+- venv和virtualenv创建虚拟环境，只能使用当前系统已经安装好的python，**不能指定系统不存在的python环境版本**。而 conda 可以
 - broken system python
-virtual environments are mere shells, that contain little within themselves, and borrow most from the system python (this is what you installed, when you installed python itself). This does mean that if you upgrade your system python your virtual environments might break, so watch out. The upside of this, referring to the system python, is that creating virtual environments can be fast.
-> question: is this like docker? System python and virtual python is a stack architecture.
-> Q1: If you download a package in your virtual environment, when you deleted it, is there still hava a package quick load in other environment using the same package. What's more, when you don't delete it and use it in other virtual environment, what happened? 
-> Q2: This broken problem, could it happen to the conda?
+  venv & virtualenv 只是在系统python下的外壳，其内部几乎没有什么内容，并且大部分都是从系统python中借用的（这就是您在安装python时安装的内容）。这意味着，如果你升级你的系统python，你的虚拟环境可能会崩溃，所以要小心。对于系统python来说，这样做的好处是创建虚拟环境可以很快。
+  而conda没有此问题。
+- 打包
+  conda也可以。
 
-
-与conda:
-venv的安装环境可以打包在项目中,直接上传到服务器. 这就是venv相对于conda的优势.
 # 2. venv command
 ## 2.1. create
 

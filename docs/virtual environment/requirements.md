@@ -22,9 +22,11 @@ requests == 2.8.*
 - 正因为全扫描完，所以如果出现冲突，就得分文件。比如，index-url不兼容（不是包安随便哪个index-url都能运行的情况），一个包指定index-url，另一个指定安装别的index-url，那么就得拆分成不同`requirements_01.txt`，一个一个文件安装。
 
 
-```
+```bash
+# index-url 是主要的源（即pip配置的源）, extra-index-url 是 额外源
+
+# index-url : 只有一个，再写一个就会代替。
 -i, --index-url
-只有一个，再写一个就会代替。
 
 --extra-index-url
 
