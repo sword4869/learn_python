@@ -11,7 +11,10 @@
 
 定义函数时，`*args`表示不定量的`"北京", "海淀"`这种形式，`**kwargs`(keyword args)表示不定量的`style="开心", price=0.1`这种形式。
 
-顺序： 默认值参数位于普通参数后面，`*args, **kwargs`位于普通参数和默认值参数后面，`**kwargs`位于`*args`后面。
+顺序： `普通参数`->`默认值参数`->`*args`->`**kwargs`
+- 默认值参数位于普通参数后面，
+- `*args, **kwargs`位于普通参数和默认值参数后面
+- `**kwargs`位于`*args`后面。
 ```python
 # def printStr(普通参数, 默认值参数="默认值", *参数, **参数):
 def my_first_blood(name, age=0, *args, **kwargs):
