@@ -1,5 +1,7 @@
 - [1. install](#1-install)
 - [2. Usage](#2-usage)
+  - [2.1. 轮廓](#21-轮廓)
+  - [2.2. 缩放](#22-缩放)
 
 ---
 ## 1. install
@@ -48,7 +50,7 @@ diff_gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
 # diff_gray 必须是灰度图
 thresh = cv2.threshold(diff_gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 ```
-
+### 2.1. 轮廓
 ```python
 cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 cnts = cnts[0] if len(cnts) == 2  else cnts[1]
@@ -59,4 +61,16 @@ for c in cnts:
     (x, y, w, h) = cv2.boundingRect(c)
     cv2.rectangle(imageA, (x, y), (x + w, y + h), (0, 0, 255), 2)
     cv2.drawContours(mask, [c], 0, (0,255,0), -1)
+```
+### 2.2. 缩放
+`cv2.resize(src, dsize[, dst[, fx[, fy[, interpolation]]]])`
+
+```python
+# 方法1：dsize
+# 函数传入是特殊的 (W,H), 但是输出的图片还是 (H,W,C)
+img = cv2.resize(img, (W, H), interpolation=cv2.INTER_AREA)
+
+# 方法2：fx, fy
+# dsize需要设置None，一起用就会只用dsize起作用
+img = cv2.resize(img, dsize=None, fx=2, fy=2, interpolation=cv2.INTER_AREA)
 ```
