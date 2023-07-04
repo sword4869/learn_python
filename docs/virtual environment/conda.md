@@ -16,7 +16,9 @@
     - [1.4.1. 重置base环境](#141-重置base环境)
     - [1.4.2. Need to use pip](#142-need-to-use-pip)
     - [1.4.3. Store conda and pip requirements in text files](#143-store-conda-and-pip-requirements-in-text-files)
-    - [ClobberError](#clobbererror)
+    - [1.4.4. ClobberError](#144-clobbererror)
+    - [1.4.5. 离线打包](#145-离线打包)
+    - [conda env / yaml](#conda-env--yaml)
 
 # 1. conda
 ## 1.1. Introduction
@@ -335,6 +337,8 @@ or directly create a new environment with packages installed.
 ```bash
 conda create --name ENVIRONMENT python=3.8 --file FILE
 ```
+
+
 ## 1.4. Other
 
 ### 1.4.1. 重置base环境
@@ -368,7 +372,7 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
 
 - 通过conda和pip install的包`conda list -e > requirements.txt`, `conda install --file requirement.txt`.
 
-### ClobberError
+### 1.4.4. ClobberError
 
 `This transaction has incompatible packages due to a shared path.`
 
@@ -376,3 +380,54 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
 ```bash
 conda clean --all
 ```
+
+### 1.4.5. 离线打包
+
+
+1. install
+```bash
+conda install conda-pack
+pip install conda-pack
+```
+
+2. pack on computer-A
+```bash
+# output `myenv.tar.gz`
+conda pack -n myenv
+```
+> This is usually due to `pip` uninstalling or clobbering conda managed files,
+resulting in an inconsistent environment. Please check your environment for
+conda/pip conflicts using `conda list`, and fix the environment by ensuring
+only one version of each package is installed (conda preferred).
+
+```bash
+conda pack -n myenv --ignore-missing-files
+```
+
+3. unpack on computer-B
+```bash
+# uncompress
+mkdir -p myenv
+tar -xzf myenv.tar.gz -C myenv
+
+# activate
+source myenv/bin/activate
+
+# deactivate
+source deactivate
+```
+### conda env / yaml
+
+What command should I execute to install packages from my YAML file？
+
+`conda-env` command 
+```bash
+conda env export > environment.yaml
+
+# 根据 yaml 文件创建环境
+conda env create -n my_env --file ENV.yaml
+# 根据 yaml 文件更新已经创建的环境
+conda env update -n my_env --file ENV.yaml
+```
+
+然而安起来，还是总出问题。不如requirements.txt

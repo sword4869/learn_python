@@ -3,16 +3,18 @@
   - [1.2. Basic](#12-basic)
     - [1.2.1. iterable](#121-iterable)
     - [1.2.2. total](#122-total)
+    - [1.2.3. write](#123-write)
   - [1.3. Advance](#13-advance)
     - [1.3.1. 前缀](#131-前缀)
     - [1.3.2. 后缀](#132-后缀)
     - [1.3.3. 颜色](#133-颜色)
     - [1.3.4. 单位](#134-单位)
     - [1.3.5. 数字换算](#135-数字换算)
-  - [Other Environment](#other-environment)
+    - [1.3.6. 起点](#136-起点)
+  - [1.4. Other Environment](#14-other-environment)
 
 # 1. progressbar
-
+<https://tqdm.github.io/docs/tqdm/>
 ## 1.1. Install
 
 ```bash
@@ -72,7 +74,26 @@ with tqdm(total=10) as pbar:
         pbar.update(1)  # 每次更新1个
         sleep(0.1)
 ```
+### 1.2.3. write
 
+有时候 `print` 输出会跟在进度条的后面，半天找不到。
+
+`tqdm.write()`来替代，不过`tqdm.write(i)`不行，需要 `str`
+
+```python
+(method) def write(
+    s: str,
+    file: SupportsWrite[str] | None = None,
+    end: str = "\n",
+    nolock: bool = False
+) -> None
+```
+
+```python
+for i in pbar1:
+    # print(i)
+    tqdm.write(f"{i}")
+```
 
 ## 1.3. Advance
 ### 1.3.1. 前缀
@@ -153,7 +174,29 @@ unit_scale=True:
 '''
 ```
 
-## Other Environment
+### 1.3.6. 起点
+
+```python
+l1 = list(range(40))
+pbar1 = tqdm(l1, initial=30)
+for i in pbar1:
+    sleep(0.5)
+pbar1.close()
+
+'''
+...
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 39/39 [00:04<00:00,  2.00it/s]10
+40it [00:05,  2.00it/s]
+41it [00:05,  2.00it/s]
+...
+'''
+```
+已运行的时间还是从0开始，剩余时间也没问题。但是小心迭代次数还是`l1`的40次，而不是10次。
+
+所以，后续就是没有条的进度条，迭代完40次。
+
+不行。
+## 1.4. Other Environment
 
 ```python
 # the above is tqdm.std

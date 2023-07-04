@@ -25,9 +25,9 @@ iio.imwrite('1.jpg', img)
 ### gif
 ```python
 import imageio.v3 as iio
-# frames: [N, H, W, C]
+# imgs: np.ndarray, [N, H, W, C], [0.0, 1.0]
 # duration = 1000/fps
-iio.imwrite('1.gif', frames, duration=1000/1)
+iio.imwrite('1.gif', imgs, duration=1000/25)
 ```
 ## shape
 ```python

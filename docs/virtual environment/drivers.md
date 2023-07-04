@@ -40,12 +40,8 @@
 3. torch
 
     ```bash
-    # win
     pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
-    # linux
-    pip3 install torch torchvision torchaudio
 
-    # win and linux
     conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia -y
     ```
 
