@@ -55,14 +55,16 @@ requests == 2.8.*
 
 
 ## 2.1. pytorch的例子
-`pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116`
+`pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu117`
 
 ```
---extra-index-url https://download.pytorch.org/whl/cu116
+--extra-index-url https://download.pytorch.org/whl/cu117
 torch 
 torchvision 
 torchaudio 
 ```
+
+用国内源下的`torch`,`torch+gpu`都失败`torch.version.cuda = None`
 
 ## 2.2. 临时源的例子
 ```
