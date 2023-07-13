@@ -2,7 +2,8 @@
 - [2. 传入函数](#2-传入函数)
   - [2.1. 解包](#21-解包)
   - [2.2. dict损耗](#22-dict损耗)
-  - [2.3. 对应关系](#23-对应关系)
+  - [2.3. 只是在传dict](#23-只是在传dict)
+  - [2.4. 对应关系](#24-对应关系)
 
 ---
 [Python之可变参数，*参数，**参数，以及传入*参数，**参数解包，*args，**kwargs的理解](https://blog.csdn.net/cadi2011/article/details/84871401)
@@ -85,7 +86,22 @@ full_dict(100, **d)
 half_dict(100, **d)
 ```
 
-### 2.3. 对应关系
+### 2.3. 只是在传dict
+
+```python
+def full_dict(first, **dict):
+    print(first, dict)
+    # 100 {'name': 'tyson', 'age': '99'}
+
+def just_dict(dict):
+    print(dict)
+    # {'name': 'tyson', 'age': '99'}
+    full_dict(100, **dict)
+    
+d = {"name": "tyson", "age":"99"}
+just_dict(d)
+```
+### 2.4. 对应关系
 
 
 ```python
