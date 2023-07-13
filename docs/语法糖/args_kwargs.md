@@ -1,5 +1,8 @@
 - [1. 定义函数](#1-定义函数)
 - [2. 传入函数](#2-传入函数)
+  - [2.1. 解包](#21-解包)
+  - [2.2. dict损耗](#22-dict损耗)
+  - [2.3. 对应关系](#23-对应关系)
 
 ---
 [Python之可变参数，*参数，**参数，以及传入*参数，**参数解包，*args，**kwargs的理解](https://blog.csdn.net/cadi2011/article/details/84871401)
@@ -39,7 +42,7 @@ my_first_blood("王", 32, "北京", "海淀", style="开心", price=0.1)
 ```
 
 ## 2. 传入函数
-
+### 2.1. 解包
 `*`用来解开 tuple, list, str, range, dict
 ```python
 first = (1,2,3)
@@ -64,14 +67,25 @@ print(*fifth)
 ```
 
 `**`用来解包字典，相当于`k1=v1, k2=v2,...`
+
+### 2.2. dict损耗
+
 ```python
-def printStr(first, **dict):
-    pass
+def full_dict(first, **dict):
+    print(first, dict)
+    # 100 {'name': 'tyson', 'age': '99'}
+
+def half_dict(first, name, **dict):
+    print(first, name, dict)
+    # 100 tyson {'age': '99'}
 
 d = {"name": "tyson", "age":"99"}
-printStr(100, **d)
-# 等同于 printStr(100, name="tyson", age="99") 
+# 等同于 full_dict(100, name="tyson", age="99") 
+full_dict(100, **d)
+half_dict(100, **d)
 ```
+
+### 2.3. 对应关系
 
 
 ```python
