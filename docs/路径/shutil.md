@@ -1,13 +1,13 @@
 - [1. copy file](#1-copy-file)
 - [2. copy directory](#2-copy-directory)
 - [3. remove directory](#3-remove-directory)
-- [4. move directory](#4-move-directory)
+- [4. move file or directory](#4-move-file-or-directory)
 
 ---
 ## 1. copy file
 
 ```python
-import shutil import
+import shutil
 
 shutil.copy(src, dst)
 shutil.copy2(src, dst)
@@ -52,7 +52,9 @@ shutil.rmtree('./aaa')
 但是不能删除文件，`directory`要是一个文件名，报错。
 
 
-## 4. move directory
+## 4. move file or directory
+
+文件自然不用说。
 
 如果 `dst` 文件夹存在，将 `src`文件夹及其内容搬进`dst`中。
 如果 `dst` 文件夹不存在，将 `src`文件夹及其内容搬进`dst`所在父目录处，并重命名为`dst`。
