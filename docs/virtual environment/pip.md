@@ -31,20 +31,20 @@ linux和win都通用。
 新版ubuntu要求使用https源，要注意。
 ```bash
 # 北外（最快）
-$url1='https://mirrors.bfsu.edu.cn/pypi/web/simple'
-$url2='https://mirrors.bfsu.edu.cn'
+url1='https://mirrors.bfsu.edu.cn/pypi/web/simple'
+url2='https://mirrors.bfsu.edu.cn'
 
 # 中国科技大学	
-$url1='https://pypi.mirrors.ustc.edu.cn/simple'
-$url2='https://pypi.mirrors.ustc.edu.cn'
+url1='https://pypi.mirrors.ustc.edu.cn/simple'
+url2='https://pypi.mirrors.ustc.edu.cn'
 
 # 清华(有点限速)
-$url1='https://pypi.tuna.tsinghua.edu.cn/simple'
-$url2='https://pypi.tuna.tsinghua.edu.cn'
+url1='https://pypi.tuna.tsinghua.edu.cn/simple'
+url2='https://pypi.tuna.tsinghua.edu.cn'
 
 # 阿里云(十分限速)	
-$url1='https://mirrors.aliyun.com/pypi/simple'
-$url2='mirrors.aliyun.com'
+url1='https://mirrors.aliyun.com/pypi/simple'
+url2='mirrors.aliyun.com'
 ```
 ```bash
 pip config set global.index-url $url1

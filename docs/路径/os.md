@@ -202,4 +202,5 @@ imgdir = os.path.join(basedir, 'images')
 imgs = [os.path.join(imgdir, f) for f in sorted(os.listdir(imgdir))]
 # 后缀判断
 imgs = [f for f in imgs if any([f.endswith(ex) for ex in ['JPG', 'jpg', 'jpeg', 'png', 'PNG']])]
+# imgs = [f for f in imgs if any([ex in f for ex in ['JPG', 'jpg', 'jpeg', 'png', 'PNG']])]
 ```
