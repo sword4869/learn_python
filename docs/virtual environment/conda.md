@@ -408,7 +408,7 @@ conda pack -n myenv --ignore-missing-files
 ```bash
 # uncompress
 mkdir -p myenv
-tar -xzf myenv.tar.gz -C myenv
+tar -xvf myenv.tar.gz -C myenv
 
 # activate
 source myenv/bin/activate
