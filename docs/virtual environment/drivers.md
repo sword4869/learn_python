@@ -9,7 +9,8 @@
     - [3.1.3. CUDA Toolkit装Driver和CUDA](#313-cuda-toolkit装driver和cuda)
   - [3.2. windows装驱动](#32-windows装驱动)
   - [3.3. conda装CUDA](#33-conda装cuda)
-  - [3.4. 测试和卸载cuda](#34-测试和卸载cuda)
+  - [3.4. wsl的安装](#34-wsl的安装)
+  - [3.5. 测试和卸载cuda](#35-测试和卸载cuda)
 - [4. cudnn](#4-cudnn)
 ---
 
@@ -250,8 +251,17 @@ $ source ~/.bashrc
 conda install cudatoolkit=11.7 -c nvidia -c conda-forge
 ```
 
+### 3.4. wsl的安装
 
-### 3.4. 测试和卸载cuda
+**当你安装好windows的驱动后，wsl已经有了windows驱动的映射，所以不要在wsl上再安装驱动了**。否则，可能重写驱动。
+
+也就是说，wsl内已经安装好驱动了，下一步是cuda的安装（cuda还是要装的，这个不映射。所以会出现`Could not load library libcudnn_cnn_infer.so.8. Error: libcuda.so: cannot open shared object file: No such file or directory`的问题）。
+
+cudatoolkit 内自己蕴含驱动。所以如果用 linux 包管理工具 deb 来安装的话，记得不要选择安装驱动。
+
+而我发现，直接用conda环境的 `conda install cudatoolkit=11.7 -c nvidia -c conda-forge -y` 就行。
+
+### 3.5. 测试和卸载cuda
 
 理解：
 
