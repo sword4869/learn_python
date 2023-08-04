@@ -1,7 +1,8 @@
 - [1. 链接问题](#1-链接问题)
   - [1.1. kill-server与start-server](#11-kill-server与start-server)
-  - [1.2. 有线链接](#12-有线链接)
-  - [1.3. 无线链接](#13-无线链接)
+  - [1.2. 显示](#12-显示)
+  - [1.3. 有线链接](#13-有线链接)
+  - [1.4. 无线链接](#14-无线链接)
 - [2. 常用](#2-常用)
   - [2.1. 权限root](#21-权限root)
   - [2.2. 文件传送 adb push与adb pull](#22-文件传送-adb-push与adb-pull)
@@ -17,6 +18,7 @@
   - [3.7. 截图并传输到电脑上](#37-截图并传输到电脑上)
   - [3.8. 获取手机屏幕分辨率](#38-获取手机屏幕分辨率)
   - [3.9. 修改手机时间](#39-修改手机时间)
+  - [3.10. TroubleShoot](#310-troubleshoot)
 
 ---
 # 1. 链接问题
@@ -25,14 +27,19 @@
 adb kill-server			# 杀死连接的设备
 adb start-server		# 启动连接搜寻设备
 ```
-## 1.2. 有线链接
+
+## 1.2. 显示
+```bash
+adb devices
+```
+## 1.3. 有线链接
 插上手机线后，开发者也打开后，usb调试也打开，然后在终端输入
 ```bash
 $ adb devices
 List of devices attached      
 61BANF99HYNRAAMN        device
 ```
-## 1.3. 无线链接
+## 1.4. 无线链接
 1. 将手机和电脑连在同一个局域网WIFI下
 2. 查看手机的IP address (in Settings → About phone → Status).
 3. **链接手机和电脑的数据线**
@@ -222,7 +229,21 @@ adb pull /sdcard/1.png
 adb shell rm /sdcard/1.png
 ```
 
+```python
+import subprocess
+import PIL
 
+def get_screen():
+    '''screen shot and upload'''
+    cmds = [
+        'adb shell screencap -p /sdcard/1.png',
+        'adb pull /sdcard/1.png',
+        'adb shell rm /sdcard/1.png'
+    ]
+    for cmd in cmds:
+        subprocess.check_output(cmd, shell=True)
+    return Image.open('1.png').convert("RGB")
+```
 
 
 ## 3.8. 获取手机屏幕分辨率
@@ -230,6 +251,19 @@ adb shell rm /sdcard/1.png
 # 宽x高 WH
 $ adb shell wm size
 Physical size: 1080x2400
+```
+
+```python
+import re
+import subprocess
+
+def get_size():
+    '''width x height'''
+    cmd = 'adb shell wm size'
+    size = subprocess.check_output(cmd, shell=True)
+    size = bytes.decode(size)
+    size = re.findall('[0-9]+', size)
+    return (int(size[0]), int(size[1]))
 ```
 ## 3.9. 修改手机时间
 
@@ -259,4 +293,53 @@ def big_clip(self, str_time):
     small_clip(f"date '{str_time}'")
     small_clip('exit')
     small_clip('su')
+```
+
+
+## 3.10. TroubleShoot
+
+```
+$ adb devices
+List of devices attached
+faf80ac1	no permissions (user in plugdev group; are your udev rules wrong?); see [http://developer.android.com/tools/device.html]
+```
+
+1. 修改外设规则
+
+不一定是`51-android.rules`
+```bash
+$ ls /etc/udev/rules.d/
+60-vboxdrv.rules
+
+# 在文件末尾添加
+# ffb0 是你查找手机设备的usb 的地址。Bus 001 Device 014: ID 19d2:ffb0 ZTE WCDMA Technologies MSM
+$ vim /etc/udev/rules.d/60-vboxdrv.rules
+ATTR{idProduct}=="ffb0", SYMLINK+="android_adb", MODE="0660", GROUP="plugdev", TAG+="uaccess", SYMLINK+="android"
+```
+2. 重编
+
+```bash
+$ sudo usermod -a -G plugdev $(id -u -n)
+$ sudo udevadm control --reload-rules
+$ sudo service udev restart
+$ sudo udevadm trigger
+```
+
+3. 重启adb
+
+```bash
+$ adb kill-server 
+$ adb start-server
+$ adb devices
+```
+
+总结:
+```bash
+$ lsusb
+找到ID号
+
+read ID
+fileName=/etc/udev/rules.d/`ls /etc/udev/rules.d/`
+content='ATTR{idProduct}=="'$ID'", SYMLINK+="android_adb", MODE="0660", GROUP="plugdev", TAG+="uaccess", SYMLINK+="android"'
+echo $content >> $fileName
 ```

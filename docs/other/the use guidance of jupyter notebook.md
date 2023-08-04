@@ -144,3 +144,13 @@ jupyter中代码提示也太慢了、太不全了吧，安装了插件Hinterland
 pip install jupyter_contrib_nbextensions
 jupyter nbconvert --to markdown source.ipynb
 ```
+
+> ModuleNotFoundError: No module named 'notebook.base'
+
+I ran into this yesterday. It appears that in notebook v 7.0 (published two days ago) they removed the base module: https://github.com/jupyter/notebook/tree/dc2082c84c3f29ecf31f3a05e9b51cf401d5dddd/notebook
+
+You can force notebook to version 6.5 and the configurator will continue to work.
+
+```bash
+pip install notebook<7.0
+```
