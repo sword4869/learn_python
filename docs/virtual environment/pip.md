@@ -139,20 +139,21 @@ pip install xxx.whl
 
 ### 1.2.3. git包
 
-以 [tinycudann](https://github.com/NVlabs/tiny-cuda-nn) 来举例，
-```bash
-# 官方建议
-# 这个是下载到缓存目录下，但是开了vpn还是下不下来
-pip install git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
-
-# -e参数，换了.git，并且会在当前目录下会根据egg创建`src/tinycudann`。
-# #egg=tinycudann 这个随便起，报错会告诉你真正叫做什么名字
-# 但是还是不行，因为是`src/tinycudann`，而具体安装是`src/tinycudann/bindings/torch`，会有局部路径找不到的问题。
-pip install -e "git+https://github.com/NVlabs/tiny-cuda-nn.git#egg=tinycudann&subdirectory=bindings/torch"
+```bash  
+pip install -e git+https://github.com/openai/CLIP.git@main#egg=clip
 ```
-还是分开好，其实上面的命令就是下面命令的组合。
+- 会在当前目录下创建`src/clip`。也就是说，会下载到`src`文件夹中（所以不要用`src`作为代码文件夹）。`clip`是根据`#egg=clip`得到的。`#egg=clip` 这个随便起，报错会告诉你真正叫做什么名字。
+- `-e`会当前项目安装到python环境中，会使用`src/clip/setup.py`来安装`clip`包。
+
+PS：
+1. 这种没有`.git`的，实在下载不下来。废弃！
 ```bash
-git clone git@github.com:NVlabs/tiny-cuda-nn.git
-tiny-cuda-nn$ cd bindings/torch
-tiny-cuda-nn/bindings/torch$ python setup.py install
+pip install -e git+https://github.com/openai/CLIP@main#egg=clip
+```
+
+2. 其实上面的命令就是下面命令的组合。
+```bash
+git clone https://github.com/openai/CLIP.git
+cd src/clip
+python setup.py install
 ```
