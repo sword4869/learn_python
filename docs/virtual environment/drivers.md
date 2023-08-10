@@ -241,6 +241,8 @@ $ source ~/.bashrc
 
 直接装 CUDA Toolkit 的 exe，没有linux多设置，点几下就完了。
 
+或者单装驱动：<https://www.nvidia.com/drivers>
+
 ### 3.3. conda装CUDA
 
 下载后文件在`/home/xxx/miniconda3/pkgs`的cudatoolkit中和`/home/xxx/miniconda3/envs/sediment/lib/python3.8/site-packages/nvidia/`
