@@ -13,12 +13,13 @@
     - [1.3.2. Managing environments](#132-managing-environments)
     - [1.3.3. Managing packages](#133-managing-packages)
   - [1.4. Other](#14-other)
-    - [1.4.1. 重置base环境](#141-重置base环境)
-    - [1.4.2. Need to use pip](#142-need-to-use-pip)
-    - [1.4.3. Store conda and pip requirements in text files](#143-store-conda-and-pip-requirements-in-text-files)
-    - [1.4.4. ClobberError](#144-clobbererror)
-    - [1.4.5. 离线打包](#145-离线打包)
-    - [conda env / yaml](#conda-env--yaml)
+    - [1.4.1. 更新](#141-更新)
+    - [1.4.2. 重置base环境](#142-重置base环境)
+    - [1.4.3. Need to use pip](#143-need-to-use-pip)
+    - [1.4.4. Store conda and pip requirements in text files](#144-store-conda-and-pip-requirements-in-text-files)
+    - [1.4.5. ClobberError](#145-clobbererror)
+    - [1.4.6. 离线打包](#146-离线打包)
+    - [1.4.7. conda env / yaml](#147-conda-env--yaml)
 
 # 1. conda
 ## 1.1. Introduction
@@ -341,7 +342,17 @@ conda create --name ENVIRONMENT python=3.8 --file FILE
 
 ## 1.4. Other
 
-### 1.4.1. 重置base环境
+### 1.4.1. 更新
+
+```bash
+# 更新conda
+conda update -n base conda
+
+# 更新当前环境的python版本
+conda update python
+```
+
+### 1.4.2. 重置base环境
 
 
 ```bash
@@ -351,7 +362,7 @@ conda install --rev 0
 第一条命令可以看到不同版本的历史。
 第二条命令的0代表要恢复到的版本
 
-### 1.4.2. Need to use pip
+### 1.4.3. Need to use pip
 
 When the package does not exist in conda, we need to install it with pip in the conda's environment.
 
@@ -363,7 +374,7 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
   After conda -> pip, conda is now unaware of these changes by pip and may make modifications that would break the environment. So, rather than continue to conda in this environment(conda -> pip -> conda), it is better to create a new environment (conda -> pip).
 - Use conda environments for isolation
   Create a conda environment to isolate any changes pip makes. Care should be taken to avoid running pip in the "base/root" environment.
-### 1.4.3. Store conda and pip requirements in text files
+### 1.4.4. Store conda and pip requirements in text files
 - `pip install -r requirement.txt `, `pip freeze > requirements.txt`, 
     如果只用pip安装，那么没有问题
     但是混合了conda install后，就会出现`Cython @ file:///croot/cython_1676568029361/work`。所以，这种情况下用`conda list =e`。
@@ -372,7 +383,7 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
 
 - 通过conda和pip install的包`conda list -e > requirements.txt`, `conda install --file requirement.txt`.
 
-### 1.4.4. ClobberError
+### 1.4.5. ClobberError
 
 `This transaction has incompatible packages due to a shared path.`
 
@@ -381,7 +392,7 @@ The package installed by pip, `conda list`'s the `Build` attribute is `pypi`.
 conda clean --all
 ```
 
-### 1.4.5. 离线打包
+### 1.4.6. 离线打包
 
 
 1. install
@@ -416,7 +427,7 @@ source myenv/bin/activate
 # deactivate
 source deactivate
 ```
-### conda env / yaml
+### 1.4.7. conda env / yaml
 
 What command should I execute to install packages from my YAML file？
 

@@ -4,10 +4,8 @@
   - [2.2. systax](#22-systax)
 - [3. Errors](#3-errors)
 - [4. `__init__.py`](#4-__init__py)
-  - [4.1. `from package import *`](#41-from-package-import-)
-  - [4.2. import package](#42-import-package)
-  - [4.3. object in `__init__`](#43-object-in-__init__)
-  - [4.4. The dir() Function¶](#44-the-dir-function)
+  - [4.1. `__all__`](#41-__all__)
+  - [4.2. `__init__.py`中导入模块和object](#42-__init__py中导入模块和object)
 - [5. 相对导入](#5-相对导入)
   - [5.1. 几个dot基于`__name__`](#51-几个dot基于__name__)
   - [5.2. main module](#52-main-module)
@@ -35,9 +33,9 @@ https://zhuanlan.zhihu.com/p/55682016
 
 ### 2.1. 包、模块、库
 
-- 模块Module就是单个的py文件。
+- 模块Module就是**单个py文件**。
 
-- 包Package是一个文件夹，其内包含多个模块，即包含多个py文件。以及包套子包。
+- 包Package是一个文件夹，其内包含多个模块，即包含**多个py文件**。以及包套子包。
 
 - 在python中，库Library就是在说包。
 
@@ -84,28 +82,34 @@ https://zhuanlan.zhihu.com/p/55682016
     ```
     [【2】](./2/src/mod1/mod1_main.py)
 
+    相对导入是基于当前模块文件的名称，所以对于包关系来说，在哪里执行都可以
+    ```python
+    project$ python main.py
+    home$ python FacePic/project/main.py
+    ```
 
 
 ## 3. Errors
 
 
 - `FileNotFoundError`
-    **working directory**：当前执行这条import语句的脚本所在的路径。影响fopen的文件`"./1.txt"`。
-    ```python
-    # 所以对于包关系来说，在哪里执行都可以
-    project$ python main.py
-    home$ python FacePic/project/main.py
-    ```
+    **working directory**：当前执行这条import语句的脚本所在的路径。影响fopen的文件`open("./1.txt", "r")`。
     [【1】](./1/src/mod2/mod2_main.py)
     - `img_path = '../deepwater.jpg'`。working directory必须是在`1`下
+        ```bash
+        learn_python\docs\工程路径\1$ python main.py
+        ```
     - `img_path = '工程路径/deepwater.jpg'`，working directory必须是在`docs`下
+        ```bash
+        learn_python\docs$ python 工程路径/1/main.py
+        ```
     - `img_path = os.path.join(sys.argv[0], '../..', r'deepwater.jpg')`根据`main.py`定位, 所以随便working directory.
     - `img_path = os.path.join(__file__, '../../../..', r'deepwater.jpg')`根据`mod2_main.py`自身定位, 所以随便working directory.
 - `ModuleNotFoundError`
   
     **search path**：`sys.path`。影响模块导入。
 
-    - 创新用法了属于是，e.g. `import <package>.<module>.<object>`, `import src.mod1.mod1_main.call`
+    - 创新用法了属于是，`import <package>.<module>.<object>`（不能导入object）, e.g. `import src.mod1.mod1_main.call`
 
 - `AttributeError`
     
@@ -124,15 +128,27 @@ https://zhuanlan.zhihu.com/p/55682016
     相对导入的点超过了`__name__`的点。
 
 - `ImportError: attempted relative import with no known parent package`
-    main module里使用相对导入，`from .src.mod1.mod1_main import call`, `from . import src`
+    main module里使用相对导入(Since the name of the main module is always "__main__", modules intended for use as the main module of a Python application must always use absolute imports)，e.g.`from .src.mod1.mod1_main import call`, `from . import src`
+
+PS: The built-in function `dir()` is used to find out which names a module defines.
+
+```python
+from src import mod2
+print(dir(mod2))
+# ['__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'mod2_main']
+```
+```python
+from src import *
+print(dir())    # 打印当前module的内容
+# ['__annotations__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__']
+```
+
 
 ## 4. `__init__.py`
 
 在python3.3后，包内就不用创建个`__init__.py`文件来标识此为包了，标识为包的作用不用了。
 
-但是还有别的用处：package下多个module的导入。
-
-
+但是还有别的用处：package下多个module的导入（**仅限于导入module，对于sub-package无效**）。
 ```python
 ├── main.py
 └── modules
@@ -141,9 +157,9 @@ https://zhuanlan.zhihu.com/p/55682016
     └── module_2.py
 ```
 
-### 4.1. `from package import *`
+### 4.1. `__all__`
 
-[【100】](./100/main.py)
+[【5b main】](./5b/main.py)
 
 ```python
 # main.py
@@ -153,48 +169,31 @@ from modules import *           # 多个文件出错，什么都没有导入，�
 ```
 If `__all__` is not defined, the statement `from modules import *` does not import all submodules from the package `modules` into the current namespace.
 
-这时候需要你创建`__init__.py`，定义一个列表`__all__ = ["module_name_1", "module_name_2"]`.
 
-PS: `__all__` is taken to be the list of module names that should be imported when `from modules import *` is encountered. 对于 `import package`， `__all__` 是无效的！
+这时候需要你创建`__init__.py`，定义一个列表`__all__ = ["module_name_1", "module_name_2"]`.  [【100 `__init__`】](./100/modules/__init__.py)
 
-### 4.2. import package
-[【5】](./5/main.py)
-[【101】](./101/modules/__init__.py)
+PS: `__all__` 仅限于 `from modules import *` is encountered. 对于 `import package`， `__all__` 是无效的！[【100 main2】](./100/main2.py)
 
-对于没有`__init__.py`处理的`import package`，什么也没有导入
+### 4.2. `__init__.py`中导入模块和object
+
+> 对于没有`__init__.py`处理的`import package`，什么也没有导入
+
 ```python
 # module_1, module_2实际上没有被导入
 import modules
 print(dir(modules))
 # ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'a']
 ```
-
-需要在`__init__.py`导入`module_1, module_2`
-
-
-### 4.3. object in `__init__`
+> 在`__init__.py`中导入模块和object
 
 [【101】](./101/modules/__init__.py)
-```python
-import modules
-print(modules.a)
-```
-```python
-from modules import a
-print(a)
-```
-Remember that importing a package essentially imports the package’s `__init__.py` file as a module.
-
-
-### 4.4. The dir() Function¶
-
-The built-in function `dir()` is used to find out which names a module defines.
 
 ```python
-from src import mod2
-print(dir(mod2))
-# ['__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'mod2_main']
+from modules import a   # 从 modules.__init__.py 中寻找 a
 ```
+
+不仅对于 `import modules` 有效 [【101】](./101/main.py)，也对于 `from modules import *` 有效 [【101】](./101/main2.py)。
+
 
 ## 5. 相对导入
 
@@ -228,7 +227,8 @@ Note that relative imports are based on **the `__name__` of the current module**
 
 ### 5.2. main module
 
-The name `__name__` of your main module( intended for use as the main module of a Python application) is `__main__`,  you cannot do **relative imports**, must always use **absolute imports**.
+The `__name__` of your main module( intended for use as the main module of a Python application) is `__main__`,  you cannot do **relative imports**, must always use **absolute imports**.
+
 Because `__main__` has no dots, Therefore you cannot use `from . import` statements inside it. 
 
 ```python
@@ -241,6 +241,8 @@ Because `__main__` has no dots, Therefore you cannot use `from . import` stateme
 # 只能使用绝对路径
 from src import xxx
 ```
+
+PS: 执行包用的不是`__name__`，而是`__package__` 来判断位置。见[模块化的方法.md](./__main__.md)
 
 [【4】](./4/main.py)
 
@@ -259,9 +261,9 @@ When a file is loaded, it is given a name (which is stored in its `__name__` att
 
     
 - When a module is loaded from shell command line, the module is run as the top-level script, `python -m package.subpackage1.moduleX`. 
-  The `-m` tells Python to load it as a module, not as the top-level script.
-    it adds the **current directory** to `sys.path`
-    relative imports are resolved using `__package__` rather than `__name__` in this case.
+    
+    - 虽然前面说`__name__`是`__main__`的不能使用`from . import *`相对导入，但是现在可以使用相对导入。因为 `python -m mytree` 和 `python mytree` 是执行的包，而执行包用的不是`__name__`，而是`__package__` 来判断位置。
+    - 甚至因为`__package__`，也可以使用 `import package.module`
 
 PS：查询方式
 要么在被导入的module
@@ -279,7 +281,7 @@ print(module.__name__)
 
 ### 5.4. 关系
 
-- main module 使用绝对导入来导入其他module
+- main module 使用**绝对导入**来导入其他module
 - 被导入的其他module根据 main module 的 import statement 来得到 `__name__`，相对导入又根据此`__name__`找到对应的module
 - 其他module也可以像main module一样使用绝对导入，这个绝对导入的import statement 对不对取决于search path找不找得到。
 
@@ -289,13 +291,12 @@ print(module.__name__)
 
 面对`import abc`, python 会按这样的顺序查找：
 1. `sys.module`. 
-    This is a cache of all modules that have been previously imported.
-2. standard library / built-in modules. 
+    This is a cache of all modules that have been **previously imported**.
+2. **standard library** / built-in modules. 
     These module names are listed in `sys.builtin_module_names`.
 3. `sys.path` (**search path**)
-    It is a list of directories.
-    When importing the package, Python searches through **search path** looking for the package subdirectory. 搜索search path的每个path内的每个子文件夹为package、每个py文件为module。
-    - Python adds **the directory containing the input script** to `sys.path`. e.g. for `python /path/to/script.py`, add `/path/to` to `sys.path`. This is searched first.
+    It is a list of directories. 当导入包时，会搜索search path的每个path内的每个子文件夹为package、每个py文件为module。
+    - **包含要被执行脚本的目录**. e.g. for `python /path/to/script.py`, add `/path/to` to `sys.path`. This is searched first.
         e.g. 
         ```python|
         ├── main.py
@@ -306,8 +307,8 @@ print(module.__name__)
             ├── module_2.py
             └── main.py
         ```
-        `python modules/main.py`, `import submodules.moduleX`, not `import modules.submodules.moduleX`.
-    - `PYTHONPATH` (a list of directory names, with the same syntax as the shell variable `PATH`).
+        `python modules/main.py`, 检索`modules`下的东西，故而`import submodules.moduleX`, 而不是 `import modules.submodules.moduleX`.
+    - `PYTHONPATH`. 默认值是当前工作目录 working directory。
     - 第三方包 (by convention including a `site-packages` directory).
 
 **shadowing the built-in module with our local module**. 因为built-in module 在第二步被导入，第三步又导入重名的local module，local module覆盖了built-in module.

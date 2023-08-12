@@ -7,7 +7,7 @@
   - [1.2. 命令](#12-命令)
     - [1.2.1. 常用](#121-常用)
     - [1.2.2. 离线包](#122-离线包)
-    - [1.2.3. git包](#123-git包)
+    - [1.2.4. git包](#124-git包)
 
 ---
 
@@ -137,23 +137,27 @@ $ pip install -r requirement.txt
 pip install xxx.whl
 ```
 
-### 1.2.3. git包
+### 1.2.4. git包
 
 ```bash  
 pip install -e git+https://github.com/openai/CLIP.git@main#egg=clip
 ```
+`-e`: 
 - 会在当前目录下创建`src/clip`。也就是说，会下载到`src`文件夹中（所以不要用`src`作为代码文件夹）。`clip`是根据`#egg=clip`得到的。`#egg=clip` 这个随便起，报错会告诉你真正叫做什么名字。
 - `-e`会当前项目安装到python环境中，会使用`src/clip/setup.py`来安装`clip`包。
 
+没有`-e`也行，就是不会显示创建`src/clip`
+
 PS：
-1. 这种没有`.git`的，实在下载不下来。废弃！
+1. 不加`.git`下载不下来
 ```bash
 pip install -e git+https://github.com/openai/CLIP@main#egg=clip
 ```
 
-2. 其实上面的命令就是下面命令的组合。
+1. 如果实在不行，可以分解开来
 ```bash
 git clone https://github.com/openai/CLIP.git
 cd src/clip
-python setup.py install
+pip install .
 ```
+最后一句 `pip install .` 可以替换为[手动打包](./pip打包.md)提到的 `python setup.py install`。

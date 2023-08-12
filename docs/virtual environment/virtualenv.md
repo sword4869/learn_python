@@ -6,7 +6,6 @@
 - [3. virtualenv command](#3-virtualenv-command)
   - [3.1. install](#31-install)
   - [3.2. create](#32-create)
-  - [3.3. activate \& deactivate](#33-activate--deactivate)
 - [4. other](#4-other)
   - [4.1. pip](#41-pip)
   - [4.2. 在脚本中指定编译器](#42-在脚本中指定编译器)
@@ -25,6 +24,7 @@ virtualenv:
 
 venv & virtualenv:
 - `venv` is a subset of `virtualenv`. So if you want to use full capacities, you need to install `virtualenv`.
+- 但是通常只用`venv`就够了
 
 与conda：结论是不如conda
 - venv和virtualenv创建虚拟环境，只能使用当前系统已经安装好的python，**不能指定系统不存在的python环境版本**。而 conda 可以
@@ -43,6 +43,8 @@ venv & virtualenv:
 # ~/hello-world/tutorial(non-current directory)
 $ python3.8 -m venv ENVIRONMENT
 ```
+`python -m`不可省略：不同于之后的`virtualenv`是一个可执行文件，`venv`只是包，所以要`python -m`来执行。
+
 containing a copy of the current Python interpreter, `python3.8`.
 
 `ENVIRONMENT`: When you download modules, the location of installed modules is here.
@@ -76,13 +78,18 @@ $ source .vv/bin/activate
 $ cd ~/PROJECT
 
 # create a python virtual environment, named hello
-$ python3 -m venv .venv
+$ python3 -m venv venv
 
 # activate it
-$ source .venv/bin/activate
+# linux
+$ source venv/bin/activate
+# windows
+$ .\venv\Scripts\activate
 
 # please upgrade before the installation of any package.
 $ pip install --upgrade pip
+
+$ deactivate
 ```
 
 # 3. virtualenv command
@@ -122,13 +129,6 @@ $ virtualenv --python=3.8 .venv
 # 不能安没有的python
 $ virtualenv --python=3.9 .venv
 RuntimeError: failed to find interpreter for Builtin discover of python_spec='3.9'
-```
-## 3.3. activate & deactivate
-
-```bash
-$ source ENVIRONMENT/bin/activate
-
-$ deactivate
 ```
 # 4. other
 
