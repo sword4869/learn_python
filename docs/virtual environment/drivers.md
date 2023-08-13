@@ -10,7 +10,10 @@
   - [3.2. windows装驱动](#32-windows装驱动)
   - [3.3. conda装CUDA](#33-conda装cuda)
   - [3.4. wsl的安装](#34-wsl的安装)
-  - [3.5. 测试和卸载cuda](#35-测试和卸载cuda)
+  - [3.5. 测试](#35-测试)
+  - [3.6. 卸载cuda](#36-卸载cuda)
+    - [3.6.1. 基本情况](#361-基本情况)
+    - [3.6.2. windows之特殊情况](#362-windows之特殊情况)
 - [4. cudnn](#4-cudnn)
 ---
 
@@ -18,7 +21,8 @@
 
 1. 硬件配置，
     windows: 直接下CUDA Toolkit（driver and cuda一步到位）
-    直接下最新的：<https://developer.nvidia.com/cuda-toolkit-archive>
+    CUDA ToolKit 还是不能下最新的：<https://developer.nvidia.com/cuda-toolkit-archive>, pytorch3d只能编译安装成功，编译又需要的nvcc不能被pip的cuda覆盖。所以会出现`CUDA_MISMATCH_MESSAGE`.
+    
     linux 只用装驱动就行: 
     ```bash
     $ ubuntu-drivers devices
@@ -263,9 +267,74 @@ cudatoolkit 内自己蕴含驱动。所以如果用 linux 包管理工具 deb �
 
 而我发现，直接用conda环境的 `conda install cudatoolkit=11.7 -c nvidia -c conda-forge -y` 就行。
 
-### 3.5. 测试和卸载cuda
+### 3.5. 测试
 
-理解：
+看你到底是那个CUDA版本，是python程序看的。不是外面的命令行`nvidia-smi`,`nvcc -V`显示的版本。
+
+```bash
+# 这个是显示系统的CUDA版本
+$ nvidia-smi
+Mon Sep 26 20:43:11 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 515.65.01    Driver Version: 515.65.01    CUDA Version: 11.7     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA GeForce ...  Off  | 00000000:01:00.0 Off |                  N/A |
+|  0%   38C    P8     5W / 250W |      5MiB / 11264MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA GeForce ...  Off  | 00000000:03:00.0 Off |                  N/A |
+|  0%   36C    P8     3W / 250W |      5MiB / 11264MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                              
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|    0   N/A  N/A      1513      G   /usr/lib/xorg/Xorg                  4MiB |
+|    1   N/A  N/A      1513      G   /usr/lib/xorg/Xorg                  4MiB |
++-----------------------------------------------------------------------------+
+
+# nvcc 没有就没有，因为 /home/xxx/miniconda3/pkgs下是cudatoolkit的位置, 但其内bin里空空如也, 没有nvcc程序. 
+# 但不影响使用!
+# 不要乱安给出的建议apt install nvidia-cuda-toolkit7
+$ nvcc -V
+Command 'nvcc' not found, but can be installed with:
+apt install nvidia-cuda-toolkit7
+
+# 或者这里显示有, 但这是系统CUDA的, 对应 /usr/local/cuda
+$ nvcc -V
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2022 NVIDIA Corporation
+Built on Tue_Mar__8_18:18:20_PST_2022
+Cuda compilation tools, release 11.6, V11.6.124
+Build cuda_11.6.r11.6/compiler.31057947_0
+
+$ which nvcc
+/usr/local/cuda-11.6/bin/nvcc
+```
+
+![nvidia-smi](../../images/nvidia-smi.jpg)
+
+
+
+```python
+# 这个才是真正看的版本
+import torch
+print(torch.version.cuda)
+# '11.6'
+print(torch.cuda.is_available())
+# True
+```
+
+### 3.6. 卸载cuda
+
+#### 3.6.1. 基本情况
 
 - 一台机器只能有一个版本的Driver(nvidia-smi中显示的Driver Version)，然而CUDA是可以多版本共存的（可以有或没有系统的CUDA，可以有多个系统的CUDA，可以直接装conda的CUDA）
 
@@ -273,76 +342,30 @@ cudatoolkit 内自己蕴含驱动。所以如果用 linux 包管理工具 deb �
 
 - 像是不同的项目安装时，遇到不同版本要求的CUDA，不用重安硬件的（没有系统CUDA都行），而是去创个conda环境，然后自己去conda安装cudatoolkit。
 
-- 看你到底是那个CUDA版本，是python程序看的。不是外面的命令行`nvidia-smi`,`nvcc -V`显示的版本。
+卸载：
+- conda的直接删除环境或者重装cuda包；
 
-  ```bash
-  # 这个是显示系统的CUDA版本
-  $ nvidia-smi
-  Mon Sep 26 20:43:11 2022       
-  +-----------------------------------------------------------------------------+
-  | NVIDIA-SMI 515.65.01    Driver Version: 515.65.01    CUDA Version: 11.7     |
-  |-------------------------------+----------------------+----------------------+
-  | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-  | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-  |                               |                      |               MIG M. |
-  |===============================+======================+======================|
-  |   0  NVIDIA GeForce ...  Off  | 00000000:01:00.0 Off |                  N/A |
-  |  0%   38C    P8     5W / 250W |      5MiB / 11264MiB |      0%      Default |
-  |                               |                      |                  N/A |
-  +-------------------------------+----------------------+----------------------+
-  |   1  NVIDIA GeForce ...  Off  | 00000000:03:00.0 Off |                  N/A |
-  |  0%   36C    P8     3W / 250W |      5MiB / 11264MiB |      0%      Default |
-  |                               |                      |                  N/A |
-  +-------------------------------+----------------------+----------------------+
-                                                                                
-  +-----------------------------------------------------------------------------+
-  | Processes:                                                                  |
-  |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
-  |        ID   ID                                                   Usage      |
-  |=============================================================================|
-  |    0   N/A  N/A      1513      G   /usr/lib/xorg/Xorg                  4MiB |
-  |    1   N/A  N/A      1513      G   /usr/lib/xorg/Xorg                  4MiB |
-  +-----------------------------------------------------------------------------+
-
-  # nvcc 没有就没有，因为 /home/xxx/miniconda3/pkgs下是cudatoolkit的位置, 但其内bin里空空如也, 没有nvcc程序. 
-  # 但不影响使用!
-  # 不要乱安给出的建议apt install nvidia-cuda-toolkit7
-  $ nvcc -V
-  Command 'nvcc' not found, but can be installed with:
-  apt install nvidia-cuda-toolkit7
-
-  # 或者这里显示有, 但这是系统CUDA的, 对应 /usr/local/cuda
-  $ nvcc -V
-  nvcc: NVIDIA (R) Cuda compiler driver
-  Copyright (c) 2005-2022 NVIDIA Corporation
-  Built on Tue_Mar__8_18:18:20_PST_2022
-  Cuda compilation tools, release 11.6, V11.6.124
-  Build cuda_11.6.r11.6/compiler.31057947_0
-
-  $ which nvcc
-  /usr/local/cuda-11.6/bin/nvcc
-  ```
-
-  ![nvidia-smi](../../images/nvidia-smi.jpg)
-
-  
-
-  ```python
-  # 这个才是真正看的版本
-  import torch
-  print(torch.version.cuda)
-  # '11.6'
-  print(torch.cuda.is_available())
-  # True
-  ```
-
-conda的直接删除环境；卸载系统的如下：
+- 卸载系统的如下：
 ```bash
 $ cd /usr/local/cuda/bin/
 $ sudo ./cuda-uninstaller
 # cuda是cuda-11.7的软链接
 $ sudo rm -rf /usr/local/cuda-11.7
 ```
+#### 3.6.2. windows之特殊情况
+
+比如, 安装pytorch3d包时，要求 **系统cuda版本**、python的cuda、pytorch的版本三者一致。
+
+所以，如果cuda不符合，就得重装 cuda ，或者换 pytorch的版本。
+
+> 如何重装cuda
+
+全卸载干净了，包括别人说的可以留的驱动。
+
+![图 1](../../images/cf5b7486a01b2c04aa3a85ad51de70bcd79a69b774bc7d2a3490f337855399d6.png)  
+
+重启后再安装cuda包。<https://developer.nvidia.com/cuda-toolkit-archive>
+
 ## 4. cudnn
 
 装cudnn, 可以装tar(对应系统cudnn), 可以pip/conda(对应conda环境). 但这玩意装不装随意, 一般pytorch程序都用不上它, 也就玩paddle的时候用了次.
