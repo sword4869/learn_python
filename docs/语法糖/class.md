@@ -1,5 +1,6 @@
 - [1. super()初始化](#1-super初始化)
-- [2. 抽象类](#2-抽象类)
+- [2. 静态方法](#2-静态方法)
+- [3. 抽象类](#3-抽象类)
 
 
 ---
@@ -34,7 +35,7 @@ class Person:
 
 class Student(Person):
     def __init__(self, student_name, student_age, student_id):
-        super().__init__(self, student_name, student_age)
+        super().__init__(student_name, student_age)
         self.studentId = student_id
 ```
 
@@ -43,8 +44,10 @@ python 3 的 syntax 更简洁的等同替换：
   - `class Person:`
   - `class Person():`
 - 子类：
-  - `super().__init__(student_name, student_age)`，在Python 3中，你可以省略父类的名字和self参数，因为Python会自动推断它们
-  - `Person.__init__(self, student_name, student_age)`
+  - `super().__init__(student_name, student_age)`：
+        `super()`中的可以省略`父类的名字`和`self`参数，因为Python会自动推断它们
+  - `Person.__init__(self, student_name, student_age)`: 这个`self`不能省略。
+  - 注意：前者`__init__()`中本来就没有`self`，后者`__init__()`本来就有。
 
 python 2 的 syntax 等同替换（python3兼容python2的，反之不行）：
 - 父类：
@@ -52,7 +55,19 @@ python 2 的 syntax 等同替换（python3兼容python2的，反之不行）：
 - 子类：
     `super(Student, self).__init__(student_name, student_age)`，必须指明父类。
 
-## 2. 抽象类
+## 2. 静态方法
+
+```python
+class Animal():
+    @staticmethod
+    def hello():        # 没有 self
+        print('hello')
+
+Animal.hello()      # Class
+Animal().hello()    # Object
+```
+
+## 3. 抽象类
 
 > 可以使用抽象类，可以不实现抽象类的方法
 
