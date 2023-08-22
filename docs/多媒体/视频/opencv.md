@@ -1,16 +1,9 @@
-```python
-import cv2
+- [1. video2squence](#1-video2squence)
+- [2. squence2video](#2-squence2video)
 
-# cv2.VideoWriter(filename, FourCC code, fps, (W, H))
-fourcc = cv2.VideoWriter_fourcc(*'MP4V')
-h, w = imgs.shape[1:3]  # imgs: [N, H, W, C]
-fps = 25
-out = cv2.VideoWriter(savename + ".mp4", fourcc, fps, (w, h))
 
-for img in imgs:
-    out.write(cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
-out.release()
-```
+---
+## 1. video2squence
 ```python
 import os 
 import cv2
@@ -34,4 +27,21 @@ def video2sequence(video_path):
         imagepath_list.append(imagepath)
         print(f"{count} video frames are stored in {videofolder}")
     return imagepath_list
+```
+
+## 2. squence2video
+
+```python
+import cv2
+
+def squence2video(imgs, savename):
+    # imgs: [N, H, W, C]
+    fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+    h, w = imgs.shape[1:3]  
+    fps = 25
+    # cv2.VideoWriter(filename, FourCC code, fps, (W, H))
+    out = cv2.VideoWriter(savename + ".mp4", fourcc, fps, (w, h))
+    for img in imgs:
+        out.write(cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
+    out.release()
 ```
