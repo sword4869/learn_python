@@ -3,6 +3,7 @@
 - [3. rgb归一化](#3-rgb归一化)
   - [3.1. 255到1.0](#31-255到10)
   - [3.2. 对比](#32-对比)
+- [多图](#多图)
 
 ---
 ## 1. 颜色通道和size
@@ -75,4 +76,35 @@ image = (image * 255).astype(np.uint8)
 
 im = Image.fromarray(ndarr)
 im.save(fp, format=format)
+```
+
+## 多图
+
+```python
+import torchvision
+from PIL import Image
+
+def make_Tensor2PIL_grid(x):
+    """
+    Given a batch of images x, make a grid and convert to PIL
+    x: Tensor(B,C,H,W) or a list of Tensors(C,H,W)
+    return: a PIL image
+    """
+    x = x * 0.5 + 0.5  # Map from (-1, 1) back to (0, 1)
+    grid = torchvision.utils.make_grid(x)
+    grid_im = grid.detach().cpu().permute(1, 2, 0).clip(0, 1) * 255
+    grid_im = Image.fromarray(np.array(grid_im).astype(np.uint8))
+    return grid_im
+
+
+def make_PIL2PIL_grid(images, size=64):
+    """
+    Given a list of PIL images, stack them together into a line for easy viewing
+    images: a list of PIL images
+    return: a PIL image
+    """
+    output_im = Image.new("RGB", (size * len(images), size))
+    for i, im in enumerate(images):
+        output_im.paste(im.resize((size, size)), (i * size, 0))
+    return output_im
 ```

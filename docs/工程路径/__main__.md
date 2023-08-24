@@ -125,6 +125,7 @@ ModuleNotFoundError: No module named 'tree'
 
 ```bash
 # pip install . 不行,找不到
+# 因为development安装，下面进入到mytree文件夹下才行。
 $ pip install -e .
 
 # import mytree

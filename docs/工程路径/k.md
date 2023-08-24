@@ -148,7 +148,8 @@ print(dir())    # 打印当前module的内容
 
 在python3.3后，包内就不用创建个`__init__.py`文件来标识此为包了，标识为包的作用不用了。
 
-但是还有别的用处：package下多个module的导入（**仅限于导入module，对于sub-package无效**）。
+但是还有别的用处：
+- package下多个module的导入（**仅限于导入module，对于sub-package无效**）。
 ```python
 ├── main.py
 └── modules
@@ -156,6 +157,9 @@ print(dir())    # 打印当前module的内容
     ├── module_1.py
     └── module_2.py
 ```
+- pip打包时需要: [pip打包.md](../../docs/virtual%20environment/pip打包.md)
+
+综合来说，还是创建`__init__.py`文件为好。
 
 ### 4.1. `__all__`
 

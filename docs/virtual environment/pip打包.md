@@ -1,3 +1,5 @@
+- [Architecture](#architecture)
+  - [必须有 `__init__.py` 文件](#必须有-__init__py-文件)
 - [1. Commands](#1-commands)
   - [1.1. install in “development mode”](#11-install-in-development-mode)
   - [1.2. build](#12-build)
@@ -14,6 +16,51 @@
 
 
 ---
+
+## Architecture
+
+```bash
+project_root_directory
+├── setup.py        # and/or setup.cfg, pyproject.toml
+└── module_name
+    ├── m.py        # 简单的hello()函数
+    └── __init__.py
+```
+
+### 必须有 `__init__.py` 文件
+
+当没有`__init__.py` 文件是，会出现一个奇特的现象：
+- `pip install git+https://github.com/sword4869/mytree.git` 会出现 *ModuleNotFoundError*，
+- 而 `pip install -e git+https://github.com/sword4869/mytree.git#egg=mytree` 则不会。
+
+```
+>>> import mytree
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'mytree'
+```
+
+其实是因为前者安装到`\envs\nerf\Lib\site-packages`中少了东西。
+
+```
+\envs\nerf\Lib\site-packages`
+├── mytree                      # 这个文件夹因为没有 __init__.py 而没有
+│   ├── __init__.py
+│   ├── tree.py
+│   └── __pycache__
+├── mytree-0.0.1.dist-info
+│   ├── INSTALLER
+│   ├── LICENSE
+│   ├── METADATA
+│   ├── RECORD
+│   ├── REQUESTED
+│   ├── WHEEL
+│   ├── direct_url.json
+│   ├── entry_points.txt
+│   └── top_level.txt
+```
+
+
 ## 1. Commands
 
 > `python setup.py install` 将被 `pip install` 取代
@@ -130,20 +177,11 @@ Default files can even be removed from the sdist with `MANIFEST.in`.
 `graft example*` will include a directory named `examples` in the project root but will not include `docs/examples/`.
 
 ## 2. Attributes
-
-```bash
-project_root_directory
-├── setup.py        # and/or setup.cfg, pyproject.toml
-└── module_name
-    └── m.py
-```
-
 ```python
 from setuptools import setup, find_packages
 
 setup()
 ```
-
 [Attributes](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#entry-points)
 
 ### 2.1. 包名

@@ -52,6 +52,7 @@ im = img.convert('L')       # 灰度图
 
 # （W， H）
 im = img.resize((300, 600))
+im = img.resize((300, 600), resample=Image.NEAREST)
 
 ##################################### 通道分离合并
 
