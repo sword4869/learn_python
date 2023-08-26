@@ -78,7 +78,7 @@ $ source .vv/bin/activate
 $ cd ~/PROJECT
 
 # create a python virtual environment, named hello
-$ python3 -m venv venv
+$ python -m venv venv
 
 # activate it
 # linux
@@ -87,7 +87,7 @@ $ source venv/bin/activate
 $ .\venv\Scripts\activate
 
 # please upgrade before the installation of any package.
-$ pip install --upgrade pip
+$ python -m pip install --upgrade pip
 
 $ deactivate
 ```
