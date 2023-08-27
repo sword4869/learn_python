@@ -54,16 +54,27 @@ print(type(de))
 ```
 
 ### 1.1.2. dict()
-引号
-```python
-# 需要引号
-a = {
-    'type': 'SetValPipelineHook', 
-    'training': True
-}
-# 不需要引号
-b = dict(type='SetValPipelineHook', training=True)
-```
+
+好处：方便直接从config文件或者命令行参数中copy
+- 引号 + 冒号
+  ```python
+  a = {
+      'epochs' : 5,
+      'lr' : 1e-4,
+      'batch_size' : 1024,
+      'ckpt_path' : "checkpoint.pt"
+  }
+  ```
+- 不需要引号 + 等号
+  ```python
+  b = dict(
+      epochs = 5,
+      lr = 1e-4,
+      batch_size = 1024,
+      ckpt_path = "checkpoint.pt"
+  )
+  ```
+
 数字作为键的问题
 ```python
 a = {
