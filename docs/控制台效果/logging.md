@@ -20,11 +20,14 @@ To make them noticeable we need to set the configuration manually: `logging.basi
 format : `'%(asctime)s - %(name)s - %(levelname)s - %(message)s'`
 ```python
 import logging
-format_log = '%(name)s - %(levelname)s - %(message)s'
-logging.basicConfig(level=logging.DEBUG, format=format_log)
+logging.basicConfig(
+    level=logging.DEBUG, 
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    datefmt="%m/%d/%Y %H:%M:%S",
+)
 logging.debug('a debug message')
 
-# root - DEBUG - a debug message
+# 08/28/2023 19:19:16 - root - DEBUG - a debug message
 ```
 ```python
 import logging
@@ -34,7 +37,7 @@ logging.warning('This gets logged to a file')
 
 # root - WARNING - This gets logged to a file
 ```
-## another
+PS : 没人这么写
 ```python
 import logging
 format_log = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
