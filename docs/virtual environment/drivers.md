@@ -6,7 +6,7 @@
   - [3.1. Linux install](#31-linux-install)
     - [3.1.1. 命令行安装Driver](#311-命令行安装driver)
     - [3.1.2. 图形化安装Driver](#312-图形化安装driver)
-    - [3.1.3. CUDA Toolkit装Driver和CUDA](#313-cuda-toolkit装driver和cuda)
+    - [3.1.3. 系统 cuda Toolkit](#313-系统-cuda-toolkit)
   - [3.2. windows装驱动](#32-windows装驱动)
   - [3.3. conda装CUDA](#33-conda装cuda)
   - [3.4. wsl的安装](#34-wsl的安装)
@@ -126,6 +126,19 @@
 
 
 ### 3.1. Linux install
+
+命令行安装Driver 和  图形化安装Driver 都需要设置环境变量，因为cuda就默认安装到 `/usr/local/cuda` 下，而conda安装不需要。
+
+设置cuda的环境变量
+```bash
+$ vim ~/.bashrc
+export CUDA_HOME=/usr/local/cuda
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+
+$ source ~/.bashrc
+```
+
 #### 3.1.1. 命令行安装Driver
 
 `ubuntu-drivers devices` tell you some versions of nvidia driver. 
@@ -155,14 +168,18 @@ $ sudo apt install nvidia-driver-515
 #### 3.1.2. 图形化安装Driver
 
 图形化安装
+
 ![图 1](../../images/9d30e5bc45eeb7d369c9919966a535df21fcdb25450fa677b3303e9b885e4fae.png)  
 
 
-#### 3.1.3. CUDA Toolkit装Driver和CUDA
+#### 3.1.3. 系统 cuda Toolkit
 
 CUDA Toolkit = Driver + CUDA, 所以不用自己去下Driver。 <https://developer.nvidia.com/cuda-toolkit-archive>
 
 选择 runfile(local)
+
+<details>
+<summary markdown="span">如果不成功，加这些步骤在前面</summary>
 
 ```bash
 ######## 先调整一波grub，以便更好进入recovery模式
@@ -210,36 +227,34 @@ $ sudo apt install lightdm
 # The NVIDIA driver requires that the kernel headers and development packages for the running version of the kernel be installed at the time of the driver installation, as well whenever the driver is rebuilt. 
 $ sudo apt-get install linux-headers-$(uname -r)
 $ reboot
+```
+
+</details>
 
 
-######## Download CUDA(included Drivers)
-
+```bash
 # [各版本CUDA下载, 点进去后，会给wget下载命令。](https://developer.nvidia.com/cuda-toolkit-archive)
 # - c表示采用断点续传模式
 # 没用用 -c 时，下到99%，出现wget 段错误 (核心已转储)
-$ wget -c XXXXXXXXXXX.run
-$ sudo chmod +x ./XXXXXXXXXXX.run
+$ wget -c cuda_11.7.0_515.43.04_linux.run
+# 需要root权限
+$ sudo chmod +x ./cuda_11.7.0_515.43.04_linux.run
 
+# 图形化界面需要， wsl不需要
 $ ctrl+alt+F1 to tty1
 # when lightdm is running. Installation will fail: error message is `xorg is running`, xorg is supporting lightdm. 
 $ sudo systemctl stop lightdm
 
 $ sudo ./XXXXXXXXXXX.run
-$ accept/install
+输入accept
+然后install
 
+# 图形化界面需要， wsl不需要
 $ sudo systemctl start lightdm
 $ ctrl+alt+F7
 ```
 
-设置cuda的环境变量
-```bash
-$ vim ~/.bashrc
-export CUDA_HOME=/usr/local/cuda
-export PATH=$CUDA_HOME/bin:$PATH
-export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 
-$ source ~/.bashrc
-```
 
 ### 3.2. windows装驱动
 
@@ -249,9 +264,11 @@ $ source ~/.bashrc
 
 ### 3.3. conda装CUDA
 
-下载后文件在`/home/xxx/miniconda3/pkgs`的cudatoolkit中和`/home/xxx/miniconda3/envs/sediment/lib/python3.8/site-packages/nvidia/`
+下载后文件在`/home/xxx/miniconda3/pkgs`的cudatoolkit中（和`/home/xxx/miniconda3/envs/sediment/lib/python3.8/site-packages/nvidia/`）
 
-激活conda环境, 会覆盖掉系统CUDA.
+不需要设置 bashrc ，因为pkgs下conda cuda 和 系统 cuda 的格式不一样。
+
+激活conda环境, 会覆盖掉系统CUDA
 
 ```bash
 conda install cudatoolkit=11.7 -c nvidia -c conda-forge
@@ -259,14 +276,14 @@ conda install cudatoolkit=11.7 -c nvidia -c conda-forge
 
 ### 3.4. wsl的安装
 
-**当你安装好windows的驱动后，wsl已经有了windows驱动的映射，所以不要在wsl上再安装驱动了**。否则，可能重写驱动。
+1. **当你安装好windows的驱动后，wsl已经有了windows驱动的映射，所以不要在wsl上再安装驱动了**。否则，可能重写驱动。
 
-也就是说，wsl内已经安装好驱动了，下一步是cuda的安装（cuda还是要装的，这个不映射。所以会出现`Could not load library libcudnn_cnn_infer.so.8. Error: libcuda.so: cannot open shared object file: No such file or directory`的问题）。
+2. 也就是说，wsl内已经安装好驱动了，下一步是cuda的安装（cuda还是要装的，这个不映射）。
 
-cudatoolkit 内自己蕴含驱动。所以如果用 linux 包管理工具 deb 来安装的话，记得不要选择安装驱动。
+    直接用conda环境的 `conda install cudatoolkit=11.7 -c nvidia -c conda-forge -y`，在大多数情况就行。
 
-而我发现，直接用conda环境的 `conda install cudatoolkit=11.7 -c nvidia -c conda-forge -y` 就行。
-
+    **如果需要cudnn，那么就得装系统cuda了**
+   
 ### 3.5. 测试
 
 看你到底是那个CUDA版本，是python程序看的。不是外面的命令行`nvidia-smi`,`nvcc -V`显示的版本。
@@ -379,28 +396,75 @@ $ sudo rm -rf /usr/local/cuda-11.7
 下载tar的，不要deb（安了怎么在/usr中各处都找不到相关文件）
 
 ```bash
-$ tar -xvf cudnn-linux-x86_64-8.8.0.121_cuda11-archive.tar.xz
+$ tar -xvf cudnn-linux-x86_64-8.9.4.25_cuda11-archive.tar.xz
 $ cd cudnn-*-archive
 $ sudo cp include/cudnn*.h /usr/local/cuda/include 
 $ sudo cp -P lib/libcudnn* /usr/local/cuda/lib64 
 $ sudo chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*
 ```
-
+验证：
 
 ```bash
+$ sudo find /usr/local/cuda-11.7/ -iname "libcudnn_cnn_infer.so*"
+/usr/local/cuda-11.7/targets/x86_64-linux/lib/libcudnn_cnn_infer.so
+/usr/local/cuda-11.7/targets/x86_64-linux/lib/libcudnn_cnn_infer.so.8
+/usr/local/cuda-11.7/targets/x86_64-linux/lib/libcudnn_cnn_infer.so.8.9.4
+
 # 老版本
 $ cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2
 
 # 新版本
 $ cat /usr/local/cuda/include/cudnn_version.h | grep CUDNN_MAJOR -A 2
 #define CUDNN_MAJOR 8
+#define CUDNN_MINOR 9
+#define CUDNN_PATCHLEVEL 4
+--
 #define CUDNN_VERSION (CUDNN_MAJOR * 1000 + CUDNN_MINOR * 100 + CUDNN_PATCHLEVEL)
+
+/* cannot use constexpr here since this is a C-only file */
 ```
 ```bash
 import torch
 print(torch.backends.cudnn.version())
 # 8700
 ```
+> apt安装
+
+`sudo apt show nvidia-cudnn`
+- 太老了
+- 根据最后一段，其实就是tar安装
+
+```bash
+$ sudo apt show nvidia-cudnn
+Package: nvidia-cudnn
+Version: 8.2.4.15~cuda11.4
+Priority: optional
+Section: multiverse/libs
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Debian NVIDIA Maintainers <pkg-nvidia-devel@lists.alioth.debian.org>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 45.1 kB
+Provides: libcudnn.so
+Pre-Depends: nvidia-cuda-toolkit, dpkg-dev, wget
+Depends: debconf (>= 0.5) | debconf-2.0
+Homepage: https://developer.nvidia.com/cudnn
+Download-Size: 13.2 kB
+APT-Sources: http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages
+Description: NVIDIA CUDA Deep Neural Network library (install script)
+ The NVIDIA CUDA Deep Neural Network library (cuDNN) is a GPU-accelerated
+ library of primitives for deep neural networks. cuDNN provides highly
+ tuned implementations for standard routines such as forward and backward
+ convolution, pooling, normalization, and activation layers. cuDNN is part
+ of the NVIDIA Deep Learning SDK.
+ .
+ This package only contains the script "/usr/sbin/update-nvidia-cudnn" to
+ download and install Nvidia cuDNN locally. It will be automatically
+ invoked during installation.
+```
+
+而且要真安也是根据[installation guide](https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html#installlinux-tar) 去安`
+sudo apt-get install libcudnn8=${cudnn_version}-1+${cuda_version}`
 
 > 如果是conda / pip
 
