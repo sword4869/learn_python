@@ -50,20 +50,29 @@ parser = argparse.ArgumentParser(description='一个最简单的argsparse库的�
 
 # help是参数的提示信息
 parser.add_argument('--integer', type=int, help='一个输入的整数\n不能换行')
-
+# 在py文件中换行
+parser.add_argument(
+    "--mixed_precision",
+    help=(
+        "Whether to use mixed precision. Choose between fp16 and bf16 (bfloat16). Bf16 requires PyTorch >="
+        " 1.10.and an Nvidia Ampere GPU.  Default to the value of accelerate config of the current system or the"
+        " flag passed with the `accelerate.launch` command. Use this argument to override the accelerate config."
+    ),
+)
 args = parser.parse_args()
 print('hello', args.integer)
 
 '''
-(fff) PS E:\CodeProject\Git\rubbish> python a.py -h
-usage: a.py [-h] [--integer INTEGER]
+usage: t.py [-h] [--integer INTEGER] [--mixed_precision MIXED_PRECISION]
 
 一个最简单的argsparse库的使用的例子
 
-optional arguments:
-  -h, --help         show this help message and exit
-  --integer INTEGER  一个输入的整数 不能换行
-'''
+options:
+  -h, --help            show this help message and exit
+  --integer INTEGER     一个输入的整数 不能换行
+  --mixed_precision MIXED_PRECISION
+                        Whether to use mixed precision. Choose between fp16 and bf16 (bfloat16). Bf16 requires PyTorch >= 1.10.and an Nvidia Ampere GPU. Default to the value of accelerate
+                        config of the current system or the flag passed with the `accelerate.launch` command. Use this argument to override the accelerate config.
 ```
 
 ## 2.3. 自动匹配前缀
@@ -306,6 +315,8 @@ args = parser.parse_args()
 print('hello', args)
 
 '''
+(fff) PS E:\CodeProject\Git\rubbish> python a.py 
+hello Namespace(level=None)
 (fff) PS E:\CodeProject\Git\rubbish> python a.py --level 0
 hello Namespace(level=0)
 (fff) PS E:\CodeProject\Git\rubbish> python a.py --level 1
