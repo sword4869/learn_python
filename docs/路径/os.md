@@ -3,7 +3,6 @@
   - [1.2. function](#12-function)
     - [1.2.1. 进入目录 \& 当前工作目录](#121-进入目录--当前工作目录)
     - [1.2.2. 列出文件和目录](#122-列出文件和目录)
-    - [1.2.3. create directory](#123-create-directory)
       - [1.2.3.1. 替换~](#1231-替换)
     - [1.2.4. remove](#124-remove)
     - [1.2.5. path](#125-path)
@@ -57,17 +56,7 @@ for root, dirs, files in os.walk("..", topdown=False):
     for name in dirs:
         print(os.path.join(root, name))
 ```
-### 1.2.3. create directory
-```python
-# 单级目录
-# 如果目录有多级，则创建最后一级，如果最后一级目录的上级目录有不存在的，则会抛出一个 OSError
-os.mkdir(path)
 
-# 多级目录
-os.makedirs(path)
-# exist_ok：是否在目录已存在时触发异常。如果exist_ok为False（默认值），则在目标目录已存在的情况下触发FileExistsError异常；如果exist_ok为True，则不会触发异常。
-os.makedirs(path, exist_ok=True)
-```
 
 
 #### 1.2.3.1. 替换~
