@@ -1,5 +1,22 @@
 
 ---
+## long str
+
+```python
+a = """ 
+三个连续的引号
+"""
+
+a = '''
+单引号也可以
+'''
+```
+```python
+c = (
+    "sdf"
+    "不是tuple，没有逗号，只是括号"
+)
+```
 ## split
 `my_str.split(str, maxsplit)`: 将 my_str 这个字符串按照 str 进行切割, maxsplit 割几次
 
