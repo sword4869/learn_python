@@ -45,20 +45,24 @@ directoryName = shutil.copytree('./f/g', './aaa', dirs_exist_ok=True)   # './aaa
 
 将这个文件夹及其内容删除
 ```python
-shutil.rmtree(directory)
+shutil.rmtree(directory)    # 如果没有，则FileNotFoundError
 
-shutil.rmtree('./aaa')
+shutil.rmtree(file)    # 不能删除文件， `NotADirectoryError`
+
+shutil.rmtree(directory, ignore_errors=True)
 ```
-但是不能删除文件，`directory`要是一个文件名，报错。
 
 
 ## 4. move file or directory
 
-文件自然不用说。
+`src`是文件自然不用说。
 
 如果 `dst` 文件夹存在，将 `src`文件夹及其内容搬进`dst`中。
+
 如果 `dst` 文件夹不存在，将 `src`文件夹及其内容搬进`dst`所在父目录处，并重命名为`dst`。
 ```python
+# src -> dst
+
 shutil.move(src, dst)
 
 shutil.move('./f/g', './aaa')

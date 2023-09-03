@@ -1,22 +1,6 @@
 # time
 
-## 休眠暂停 和 统计用时
-|函数|参数|作用|
-|-|-|-|
-|sleep(t:float)|t：暂停的秒数，单位秒|暂停程序一段时间|
-|time()||返回一个浮点数，单位秒，表示从1970年1月1日午夜（历元）经过了多长时间
 
-```python
-# 获取运行时间，秒
-from time import *
-
-start_time = time()				# 开始时间
-# 睡眠5秒
-sleep(5)
-end_time = time()				# 结束时间
-print(end_time - start_time)	# 经过秒数
-# 5.000269889831543
-```
 
 ## 某天的昨天
 ```python

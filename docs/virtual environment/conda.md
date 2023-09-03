@@ -397,14 +397,17 @@ conda clean --all
 
 1. install
 ```bash
-conda install conda-pack
-pip install conda-pack
+conda install conda-pack -y
+# pip install conda-pack
 ```
 
 2. pack on computer-A
 ```bash
 # output `myenv.tar.gz`
 conda pack -n myenv
+
+# output `othername.tar.gz`
+conda pack -n myenv -o othername.tar.gz
 ```
 > This is usually due to `pip` uninstalling or clobbering conda managed files,
 resulting in an inconsistent environment. Please check your environment for
@@ -416,17 +419,31 @@ conda pack -n myenv --ignore-missing-files
 ```
 
 3. unpack on computer-B
-```bash
-# uncompress
-mkdir -p myenv
-tar -xvf myenv.tar.gz -C myenv
+  - source
+    ```bash
+    # uncompress
+    mkdir -p myenv
+    tar -xvf myenv.tar.gz -C myenv
 
-# activate
-source myenv/bin/activate
+    # activate
+    source myenv/bin/activate
 
-# deactivate
-source deactivate
-```
+    # deactivate
+    source deactivate
+    ```
+  - [conda](https://www.zhihu.com/question/60431332/answer/2176114645)
+    ```bash
+    # uncompress
+    mkdir -p $Anaconda/envs/myenv
+    tar -xvf myenv.tar.gz -C $Anaconda/envs/myenv
+
+    # 可以看到该环境了
+    conda env list
+
+    # conda-unpack
+    Anaconda/envs/wrfpy/Scripts/conda-unpack
+    ```
+
 ### 1.4.7. conda env / yaml
 
 What command should I execute to install packages from my YAML file？

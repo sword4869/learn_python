@@ -15,6 +15,13 @@ ImportError: libGL.so.1: cannot open shared object file: No such file or directo
     ```bash
     pip install opencv-python-headless
     ```
+    按照requirements.txt安装可能会因为顺序出错而还报错。重新安装就行,
+    ```bash
+    pip uninstall opencv-python
+    pip uninstall opencv-python-headless
+    pip install opencv-python
+    pip install opencv-python-headless
+    ```
 - [ ] 未测试
     ```bash
     sudo apt update

@@ -10,8 +10,6 @@
       - [1.2.5.2. 相对路径与绝对路径](#1252-相对路径与绝对路径)
       - [1.2.5.3. 路径拼接](#1253-路径拼接)
       - [1.2.5.4. 划分路径](#1254-划分路径)
-  - [1.3. example](#13-example)
-    - [1.3.1. 图片路径](#131-图片路径)
 ---
 
 # 1. os
@@ -138,16 +136,22 @@ abs = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(a)))) # 'E
 
 ```python
 # 每个子路径的结尾可以有或没有`/`
-# './root/test/runoob.txt'
-os.path.join('./root/','test/','runoob.txt')
+>>> os.path.join('./root/','test','runoob.txt')
+'./root/test/runoob.txt'
+# 最后的/则是自定义
+>>> os.path.join('./root/','test','runoob.txt/') 
+'./root/test/runoob.txt/
 ```
 
 路径中的分隔符
 ```python
-print(os.sep, os.path.sep)
-# 文件的路径分隔符是'\'，在Linux上是'/'
+# windows
+>>> print(os.sep, os.path.sep)
+\ \
+# linux
+>>> print(os.sep, os.path.sep)
+/ /
 ```
-
 #### 1.2.5.4. 划分路径
 
 - `split`: dirpath与filename。其实是根据最后一个`/`分开的。
@@ -178,18 +182,4 @@ os.path.splitext('log/1/2')
 
 os.path.splitext('log/1/2/')
 # ('log/1/2/', '')
-```
-
-
-## 1.3. example
-
-### 1.3.1. 图片路径
-```python
-# 根目录+图片目录
-imgdir = os.path.join(basedir, 'images')
-# 既listdir又join
-imgs = [os.path.join(imgdir, f) for f in sorted(os.listdir(imgdir))]
-# 后缀判断
-imgs = [f for f in imgs if any([f.endswith(ex) for ex in ['JPG', 'jpg', 'jpeg', 'png', 'PNG']])]
-# imgs = [f for f in imgs if any([ex in f for ex in ['JPG', 'jpg', 'jpeg', 'png', 'PNG']])]
 ```
