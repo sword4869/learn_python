@@ -77,6 +77,7 @@ numpy
 
 # 3. other source
 ```
+git+https://github.com/mattloper/chumpy.git
 pip @ https://github.com/pypa/pip/archive/22.0.2.zip
 ./downloads/numpy-1.9.2-cp34-none-win32.whl
 http://wxpython.org/Phoenix/snapshot-builds/wxPython_Phoenix-3.0.3.dev1820+49a8884-cp34-none-win_amd64.whl
