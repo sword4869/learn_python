@@ -19,6 +19,7 @@
     - [1.4.4. Store conda and pip requirements in text files](#144-store-conda-and-pip-requirements-in-text-files)
     - [1.4.5. ClobberError](#145-clobbererror)
     - [1.4.6. 离线打包](#146-离线打包)
+      - [conda pack](#conda-pack)
     - [1.4.7. conda env / yaml](#147-conda-env--yaml)
 
 # 1. conda
@@ -44,6 +45,8 @@ PS: When you choose use conda, the conda itself contains a python interpreter. S
 
 - [miniconda download](https://docs.conda.io/en/latest/miniconda.html)
 - [anaconda download](https://www.anaconda.com/products/distribution)
+
+安装不需要sudo权限。
 
 下载完毕后，记得更新下conda。
 
@@ -393,7 +396,7 @@ conda clean --all
 ```
 
 ### 1.4.6. 离线打包
-
+#### conda pack
 
 1. install
 ```bash
@@ -419,7 +422,7 @@ conda pack -n myenv --ignore-missing-files
 ```
 
 3. unpack on computer-B
-  - source
+  - source(不用安装conda)
     ```bash
     # uncompress
     mkdir -p myenv
@@ -431,7 +434,7 @@ conda pack -n myenv --ignore-missing-files
     # deactivate
     source deactivate
     ```
-  - [conda](https://www.zhihu.com/question/60431332/answer/2176114645)
+  - [安装conda](https://www.zhihu.com/question/60431332/answer/2176114645)
     ```bash
     # uncompress
     mkdir -p $Anaconda/envs/myenv
@@ -442,6 +445,13 @@ conda pack -n myenv --ignore-missing-files
 
     # conda-unpack
     Anaconda/envs/wrfpy/Scripts/conda-unpack
+    ```
+    实际上，可以直接本地的环境压缩传上去，完全不用conda pack
+    ```bash
+    local$ tar -cvf $Anaconda/envs/myenv/*
+    remote$ mkdir -p $Anaconda/envs/myenv
+    remote$ tar -xvf myenv.tar.gz -C $Anaconda/envs/myenv
+    remote$ conda env list
     ```
 
 ### 1.4.7. conda env / yaml
