@@ -17,7 +17,7 @@ from skimage import io
 
 ###### 读入图片
 # as_gray=True，变为灰度图
-# 读取进来就是float64, [0, 1.0]
+# 读取进来就是 unit8
 image = io.imread(image_path)
 
 ###### 显示图片
