@@ -1,22 +1,26 @@
 - [1. 视频](#1-视频)
   - [1.1. 转换视频格式](#11-转换视频格式)
-  - [1.2. 提取声音](#12-提取声音)
-    - [Extract Audio from Video](#extract-audio-from-video)
-    - [Extract Audio from Video](#extract-audio-from-video-1)
-  - [1.3. 提取图片](#13-提取图片)
-- [2. 由图片生成gif](#2-由图片生成gif)
+  - [1.2. 限定视频fps](#12-限定视频fps)
+  - [1.3. 重复写入不报错](#13-重复写入不报错)
+- [2. 提取声音](#2-提取声音)
+  - [2.1. Extract Audio from Audio](#21-extract-audio-from-audio)
+  - [2.2. Extract Audio from Video](#22-extract-audio-from-video)
+  - [2.3. 音量增强](#23-音量增强)
+- [3. 从视频中提取图片](#3-从视频中提取图片)
+- [4. 由图片生成gif](#4-由图片生成gif)
 
 
 ---
 
 <http://ffmpeg.org/download.html>
+
 <https://itsfoss.com/ffmpeg/>
 
 ## 1. 视频
 
 ```bash
 # 显示信息，同时也是输入文件
-# ffmpeg -i file_name
+# -i file_name
 # -hide_banner不显示ffmpeg配置信息
 
 $ ffmpeg -i 001.mp3 -hide_banner
@@ -37,31 +41,34 @@ ffmpeg -i audio_input.mp3 audio_output.ogg
 # specify more output files:
 ffmpeg -i audio_input.wav audio_output_1.mp3 audio_output_2.ogg
 ```
+### 1.2. 限定视频fps
+```bash
+# -r          fps
+ffmpeg -i video_input.mp4 -r 20 video_output.mp4
+```
 
-### 1.2. 提取声音
+
+### 1.3. 重复写入不报错
+```bash
+# -y          override
+ffmpeg -i video_input.mp4 -r 20 video_output.mp4
+```
+
+## 2. 提取声音
 
 
-#### Extract Audio from Video
+### 2.1. Extract Audio from Audio
 
 ```bash
 # 采样频率
--ar 44100 
+-ar 44100
 # 通道数
 -ac 2
 
 ffmpeg -i 001.mp3 -ar 16000 -ac 1 001.wav 
 ```
 
--stats
-
-```bash
-# Audio Volume Multiplying
-# The first command amplifies the volume 1.5 times. The second command makes the audio 1/4 (0.25) times quieter.
-
-ffmpeg -i input.wav -af "volume=1.5" output.wav 
-ffmpeg -i input.ogg -af "volume=0.75" output.ogg
-```
-#### Extract Audio from Video
+### 2.2. Extract Audio from Video
 ```bash
 # -vn                 disable video
 ffmpeg -i video.mp4 -vn audio.mp3
@@ -70,14 +77,27 @@ ffmpeg -i video.mp4 -vn audio.mp3
 ```bash
 ffmpeg -i video.mp4 -vn -ar 16000 -ac 1 audio.mp3
 ```
-### 1.3. 提取图片
+
+### 2.3. 音量增强
+
+
+```bash
+# Audio Volume Multiplying
+# The first command amplifies the volume 1.5 times. The second command makes the audio 1/4 (0.25) times quieter.
+
+ffmpeg -i input.wav -af "volume=1.5" output.wav
+ffmpeg -i input.ogg -af "volume=0.75" output.ogg
+```
+
+## 3. 从视频中提取图片
 
 ```bash
 ffmpeg -i "video.mov" -f image2 "%05d.png"
 ```
-## 2. 由图片生成gif
+
+## 4. 由图片生成gif
 ```bash
-# fps 20
-# -i 图片格式, 01.png,02.png
+# -r                  fps
+# -i                  图片格式, 01.png,02.png
 ffmpeg -r 20 -i "%01d.png" "name.gif"
 ```
