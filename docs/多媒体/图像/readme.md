@@ -23,14 +23,17 @@
     RGB and BGR use the same color space, except the order of colors is reversed. 
     
     - 不论 float or uint8
+  
         `image = image[:, :, ::-1]` 
+
     - 需要是uint8格式
+        
         ```python
         img = (img * 255).astype(np.uint8)
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         ```
 
-||读入|保存|显示|
+|库|读入|保存|显示|
 |:-:|:-:|:-:|:-:|
 |skimage|uint8|uint8|float,uint8都行|
 |imageio|uint8|uint8|float,uint8都行|

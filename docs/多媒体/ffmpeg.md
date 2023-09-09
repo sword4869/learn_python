@@ -16,6 +16,11 @@
 
 <https://itsfoss.com/ffmpeg/>
 
+```bash
+conda install ffmpeg
+# 而不是 pip install ffmpeg, 这个下的是假库
+```
+
 ## 1. 视频
 
 ```bash

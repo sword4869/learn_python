@@ -1,15 +1,7 @@
 ![picture 1](../../../images/275bcc66bee23b340f87f7a42182610d63d858aacc6123748d4d8449f46540e7.png)  
+
 以上的正则表达式可以匹配 `runoob`、`runoob1`、`run-oob`、`run_oob`， 但不匹配 `ru`，因为它包含的字母太短了，小于 3 个无法匹配。也不匹配 `runoob$`, 因为它包含特殊字符。
 
-在js程序中，regex用`//`包裹
-```js
-var str = "123abc";
-var patt1 = /^[0-9]+abc$/;
-document.write(str.match(patt1));
-
-
-const fileNameWithout_dot_md_Profix = fileName.replace(/\.md$/, '')
-```
 正则表达式后面的全局标记 `g` 指定将该表达式应用到输入字符串中能够查找到的尽可能多的匹配。
 
 表达式的结尾处的不区分大小写 `i` 标记指定不区分大小写。
@@ -70,3 +62,27 @@ const fileNameWithout_dot_md_Profix = fileName.replace(/\.md$/, '')
 
 常见例子：
 - 全字符：`[\s\S]`
+
+
+## python
+
+- `re.match`：尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，返回None。
+- `re.search`：扫描整个字符串并返回第一个成功的匹配。
+- `re.findall`：返回一个包含所有匹配结果的列表。
+- `re.sub`：替换字符串中的匹配项。
+- `re.split`：根据匹配项分割字符串。
+
+```python
+re.match('^\\s+$','\t\x0b\x0c\r\n \x20\xa0\u3000')
+```
+## js
+
+在js程序中，regex用`//`包裹
+```js
+var str = "123abc";
+var patt1 = /^[0-9]+abc$/;
+document.write(str.match(patt1));
+
+
+const fileNameWithout_dot_md_Profix = fileName.replace(/\.md$/, '')
+```
