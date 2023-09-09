@@ -37,7 +37,7 @@
 |:-:|:-:|:-:|:-:|
 |skimage|uint8|uint8|float,uint8都行|
 |imageio|uint8|uint8|float,uint8都行|
-|PIL|PIL转为ndarry后是uint8， </br> ndarry转为PIL需uint8|PIL格式|PIL格式|
+|PIL|PIL转为ndarry后是uint8， <br> ndarry转为PIL需uint8|PIL格式|PIL格式|
 |opencv|uint8, 但BGR|float或者uint8的range`[0,255]`都行，但BGR||
 |torchvision||内部自动转化为PIL。但是通道有变, `[C, H, W]`||
 
