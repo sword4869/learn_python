@@ -41,11 +41,11 @@ tree.main()
 
 ### 1.1. `python mytree`
 
-不能使用相对导入:
-- [ ] `__name__`是`__main__` 失效
+- [ ] `__name__`是`__main__` 失效: 
 - [ ] 不知道 `__package__`
 - [x] 将包含`__main__.py`的目录`mytree`加入到 search path `sys.path` 中
 
+特性1和2都不满足，所以不能使用相对导入:
 ```python
 # from .tree import main
 # ImportError: attempted relative import with no known parent package
@@ -53,9 +53,8 @@ tree.main()
 # import mytree.tree as tree
 # ModuleNotFoundError: No module named 'mytree'
 
-import tree   # 无关working directory
+import tree   # 因为特性3
 ```
-
 ```bash
 # from .tree import main
 qqq $ python mytree
@@ -72,7 +71,7 @@ Traceback (most recent call last):
     from .tree import main
 ImportError: attempted relative import with no known parent package
 ```
-执行路径哪都行：
+特性3满足，所以执行路径哪都行：
 ```bash
 # import tree   # 在mytree之外的路径也可以。
 linux_scripts $ python qqq/mytree
@@ -84,12 +83,11 @@ linux_scripts $ python qqq/mytree
 
 ### 1.2. `python -m mytree`
 
-能使用相对导入:
 - [ ] `__name__`是`__main__` 失效
 - [x]  知道 `__package__`
 - [ ] 不会将包含`__main__.py`的目录`mytree`加入到 search path `sys.path` 中
 
-
+特性1和2中其一满足，所以能使用相对导入:
 ```python
 from .tree import main
 
@@ -98,7 +96,7 @@ import mytree.tree as tree
 # import tree
 # ModuleNotFoundError: No module named 'mytree'
 ```
-只能在 `mytree` 的父目录下执行：
+特性3不满足，所以只能在 `mytree` 的父目录下执行：
 ```bash
 # import tree 
 qqq $ python -m mytree

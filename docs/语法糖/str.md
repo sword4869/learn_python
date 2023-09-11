@@ -1,6 +1,10 @@
+- [1. long str](#1-long-str)
+- [2. split](#2-split)
+  - [2.1. split 从左边开始分割](#21-split-从左边开始分割)
+  - [2.2. rsplit 从右边开始分割](#22-rsplit-从右边开始分割)
 
 ---
-## long str
+## 1. long str
 
 ```python
 a = """ 
@@ -17,7 +21,9 @@ c = (
     "不是tuple，没有逗号，只是括号"
 )
 ```
-## split
+## 2. split
+
+### 2.1. split 从左边开始分割
 `my_str.split(str, maxsplit)`: 将 my_str 这个字符串按照 str 进行切割, maxsplit 割几次
 
 ```python
@@ -41,4 +47,14 @@ print(my_str4)
 ['hello', 'world itcast and itcastcpp']
 ['hello', 'world', 'itcast', 'and', 'itcastcpp']
 ['hello world ', ' and ', 'cpp']
+```
+
+### 2.2. rsplit 从右边开始分割
+
+```python
+>>> my_str = "hello world itcast and itcastcpp"
+>>> my_str.rsplit(" ") 
+['hello', 'world', 'itcast', 'and', 'itcastcpp']
+>>> my_str.rsplit(" ", 1) 
+['hello world itcast and', 'itcastcpp']
 ```

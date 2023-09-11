@@ -1,23 +1,23 @@
-- [Architecture](#architecture)
-  - [必须有 `__init__.py` 文件](#必须有-__init__py-文件)
-- [1. Commands](#1-commands)
-  - [1.1. install in “development mode”](#11-install-in-development-mode)
-  - [1.2. build](#12-build)
-    - [1.2.1. build a wheel](#121-build-a-wheel)
-    - [1.2.2. build source distribution (sdist)](#122-build-source-distribution-sdist)
-- [2. Attributes](#2-attributes)
-  - [2.1. 包名](#21-包名)
-  - [2.2. 包位置](#22-包位置)
-  - [2.3. 包信息](#23-包信息)
-  - [2.4. python版本](#24-python版本)
-  - [2.5. 依赖](#25-依赖)
-  - [2.6. 可执行脚本](#26-可执行脚本)
-- [data](#data)
+- [1. Architecture](#1-architecture)
+  - [1.1. `__init__.py` 决定是否必须 `-e`](#11-__init__py-决定是否必须--e)
+- [2. Commands](#2-commands)
+  - [2.1. install in “development mode”](#21-install-in-development-mode)
+  - [2.2. build](#22-build)
+    - [2.2.1. build a wheel](#221-build-a-wheel)
+    - [2.2.2. build source distribution (sdist)](#222-build-source-distribution-sdist)
+- [3. Attributes](#3-attributes)
+  - [3.1. 包名](#31-包名)
+  - [3.2. 包位置](#32-包位置)
+  - [3.3. 包信息](#33-包信息)
+  - [3.4. python版本](#34-python版本)
+  - [3.5. 依赖](#35-依赖)
+  - [3.6. 可执行脚本](#36-可执行脚本)
+- [4. data](#4-data)
 
 
 ---
 
-## Architecture
+## 1. Architecture
 
 ```bash
 project_root_directory
@@ -27,7 +27,7 @@ project_root_directory
     └── __init__.py
 ```
 
-### 必须有 `__init__.py` 文件
+### 1.1. `__init__.py` 决定是否必须 `-e`
 
 当没有`__init__.py` 文件是，会出现一个奇特的现象：
 - `pip install git+https://github.com/sword4869/mytree.git` 会出现 *ModuleNotFoundError*，
@@ -60,8 +60,10 @@ ModuleNotFoundError: No module named 'mytree'
 │   └── top_level.txt
 ```
 
+这下不用 `-e` 和 用 `-e` 都行。
 
-## 1. Commands
+
+## 2. Commands
 
 > `python setup.py install` 将被 `pip install` 取代
 ```bash
@@ -80,7 +82,7 @@ pip install .
 | `python setup.py check` | `twine check` (this doesn't do all the same checks but it's a start) |
 | Custom commands | tox and nox environments |
 
-### 1.1. install in “development mode”
+### 2.1. install in “development mode”
 
 `pip install` 将包复制一份安装到`envs\test\Lib\site-packages`中。
 ```bash
@@ -102,11 +104,11 @@ mytree         0.0.1   d:\git\localtoolkit\linux_scripts\mytree
 区别就是，当安装为可编辑`pip install -e`时，可以在不重新安装的情况下就地编辑项目，对Python源文件的更改将在下次启动解释器过程时反映出来。而`pip install`编辑后需要重新安装。
 
 
-### 1.2. build
+### 2.2. build
 
 If you run `build` without `--wheel` or `--sdist`, it will build both files for you.
 
-#### 1.2.1. build a wheel
+#### 2.2.1. build a wheel
 二进制文件
 
 ```bash
@@ -120,7 +122,7 @@ python -m build --wheel .
 ```
 
 
-#### 1.2.2. build source distribution (sdist)
+#### 2.2.2. build source distribution (sdist)
 
 - 包含源码
 - 是一个压缩包`*.tar.gz`
@@ -176,7 +178,7 @@ Default files can even be removed from the sdist with `MANIFEST.in`.
 
 `graft example*` will include a directory named `examples` in the project root but will not include `docs/examples/`.
 
-## 2. Attributes
+## 3. Attributes
 ```python
 from setuptools import setup, find_packages
 
@@ -184,11 +186,11 @@ setup()
 ```
 [Attributes](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#entry-points)
 
-### 2.1. 包名
+### 3.1. 包名
 -  `name`(可以包含`_`,`-`) 是在`pip list`中显示的包名
 -  `module_name`(不可以包含`-`)是在`python -m module_name`和`import module_name`的包名
 
-### 2.2. 包位置
+### 3.2. 包位置
 -   `packages`是应包含在分发包的列表。我们可以使用 `find_packages()` 自动发现所有包和子包，而不是手动列出每个包。在这种情况下，包列表将是`module_name`，因为它是唯一存在的包。
 
 ```python
@@ -199,7 +201,7 @@ setup(
 )
 ```
 
-### 2.3. 包信息
+### 3.3. 包信息
 
 -   `version` 是包版本
 -   `author`并`author_email`用于识别包的作者。
@@ -220,12 +222,12 @@ setup(
     ...
 )
 ```
-### 2.4. python版本
+### 3.4. python版本
 ```python
     python_requires=">=3.8",
 ```
 
-### 2.5. 依赖
+### 3.5. 依赖
 -   `install_requires`：打包时自动下载这些依赖包。
 
 
@@ -237,7 +239,7 @@ setup(
     ],
 ```
 
-### 2.6. 可执行脚本
+### 3.6. 可执行脚本
 
 比`python -m module_name`（写了`__main__.py`）还要简洁：直接输入`your_exe_name`。
 
@@ -284,7 +286,7 @@ setup(
 )
 ```
 
-## data
+## 4. data
 
 https://docs.python.org/3/distutils/setupscript.html#distutils-installing-scripts
 
