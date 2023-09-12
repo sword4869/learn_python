@@ -9,8 +9,8 @@
 [Python之可变参数，*参数，**参数，以及传入*参数，**参数解包，*args，**kwargs的理解](https://blog.csdn.net/cadi2011/article/details/84871401)
 
 
-- `*`的是args, `(), tuple`类型
-- `**`的是kwargs, `{}, dict`类型、
+- `*`的是args, 主要是`tuple, list`类型
+- `**`的是kwargs, `dict`类型、
 ## 1. 定义函数
 
 定义函数时，`*args`表示不定量的`"北京", "海淀"`这种形式，`**kwargs`(keyword args)表示不定量的`style="开心", price=0.1`这种形式。

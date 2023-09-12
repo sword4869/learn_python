@@ -1,18 +1,7 @@
-![picture 1](../../../images/275bcc66bee23b340f87f7a42182610d63d858aacc6123748d4d8449f46540e7.png)  
-
-以上的正则表达式可以匹配 `runoob`、`runoob1`、`run-oob`、`run_oob`， 但不匹配 `ru`，因为它包含的字母太短了，小于 3 个无法匹配。也不匹配 `runoob$`, 因为它包含特殊字符。
-
-正则表达式后面的全局标记 `g` 指定将该表达式应用到输入字符串中能够查找到的尽可能多的匹配。
-
-表达式的结尾处的不区分大小写 `i` 标记指定不区分大小写。
-
-多行标记 `m` 指定换行符的两边可能出现潜在的匹配。
-
 
 位置
-- `^`：开始
-- `$`：结尾
-
+- `^`：匹配字符串开头
+- `$`：匹配字符串末尾
 
 次数：
 - `?`：0次或1次。
@@ -77,14 +66,26 @@ Enclose a group of RegEx: `()`
 
 <https://docs.python.org/3/howto/regex.html>
 
-- `re.match`：尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，返回None。
-- `re.search`：扫描整个字符串并返回第一个成功的匹配。
+- `re.search`：扫描**整个字符串**并返回第一个成功的匹配。
+- `re.match`：尝试从字符串的**起始位置**匹配一个模式，如果不是起始位置匹配成功的话，返回None。
 - `re.findall`：返回一个包含所有匹配结果的列表。
 - `re.sub`：替换字符串中的匹配项。
 - `re.split`：根据匹配项分割字符串。
 
 ```python
-re.match('^\\s+$','\t\x0b\x0c\r\n \x20\xa0\u3000')
+>>> import re
+>>> string = 'Tue Sep 12 15:50:08 2023   \r\n Volatile Unc    18%   GPU  Name    21% TCC/WDDM'
+
+>>> re.search('\d{,2}%', string)
+<re.Match object; span=(46, 49), match='18%'>
+
+>>> re.match('\d{,2}%', string)
+
+>>> re.findall('\d{,2}%', string)
+['18%', '21%']
+
+>>> re.split('\d{,2}%', string)
+['Tue Sep 12 15:50:08 2023   \r\n Volatile Unc    ', '   GPU  Name    ', ' TCC/WDDM']
 ```
 ## js
 
