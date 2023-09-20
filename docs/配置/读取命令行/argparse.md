@@ -5,14 +5,18 @@
   - [2.3. 自动匹配前缀](#23-自动匹配前缀)
   - [2.4. 长短参数](#24-长短参数)
   - [2.5. type](#25-type)
-  - [2.6. 必选参数\&可选参数](#26-必选参数可选参数)
+  - [2.6. 默认值](#26-默认值)
+  - [2.7. 必选参数\&可选参数](#27-必选参数可选参数)
+  - [2.8. nargs](#28-nargs)
 - [3. action](#3-action)
   - [3.1. 计数count](#31-计数count)
   - [3.2. 限定选项](#32-限定选项)
-- [how to specify a list arg (eg. arg which has action="append")](#how-to-specify-a-list-arg-eg-arg-which-has-actionappend)
 
 # 1. Install
 内置于python，不需要安装
+
+<https://docs.python.org/3/library/argparse.html>
+
 # 2. Base
 ## 2.1. hello example
 ```python
@@ -38,6 +42,15 @@ optional arguments:
 Namespace(integer=1)
 1
 '''
+```
+
+```python
+>>> import argparse
+>>> parser = argparse.ArgumentParser()
+>>> parser.add_argument('--integer', type=int)
+_StoreAction(option_strings=['--integer'], dest='integer', nargs=None, const=None, default=None, type=<class 'int'>, choices=None, required=False, help=None, metavar=None)
+>>> parser.parse_args('--integer=1'.split())
+Namespace(integer=1)
 ```
 ## 2.2. 帮助提示
 
@@ -78,41 +91,27 @@ options:
 ## 2.3. 自动匹配前缀
 唯一前缀，怎么缩短都行。注意缩到最短，是`--i`，不要记混成`-i`。
 ```python
-import argparse
+>>> parser.add_argument('--integer', type=int)
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--integer', type=int)
-args = parser.parse_args()
-print('hello', args)
-
-'''
-(fff) PS E:\CodeProject\Git\rubbish> python a.py --integer 1
-hello Namespace(integer=1)
-(fff) PS E:\CodeProject\Git\rubbish> python a.py --integ 1  
-hello Namespace(integer=1)
-(fff) PS E:\CodeProject\Git\rubbish> python a.py --in 1   
-hello Namespace(integer=1)
-(fff) PS E:\CodeProject\Git\rubbish> python a.py --i 1 
-hello Namespace(integer=1)
-'''
+>>> parser.parse_args('--integer 1'.split())
+Namespace(integer=1)
+>>> parser.parse_args('--integ 1'.split())
+Namespace(integer=1)
+>>> parser.parse_args('--in 1'.split())
+Namespace(integer=1)
+>>> parser.parse_args('--i 1'.split())
+Namespace(integer=1)
 ```
 前缀冲突
 ```python
-import argparse
+>>> parser.add_argument('--integer1', type=int)
+>>> parser.add_argument('--integer2', type=int)
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--integer1', type=int)
-parser.add_argument('--integer2', type=int)
-args = parser.parse_args()
-print('hello', args)
-
-'''
-(fff) PS E:\CodeProject\Git\rubbish> python a.py --i 1      
-usage: a.py [-h] [--integer1 INTEGER1] [--integer2 INTEGER2]
-a.py: error: ambiguous option: --i could match --integer1, --integer2
-(fff) PS E:\CodeProject\Git\rubbish> python a.py --integer1 1
-hello Namespace(integer1=1, integer2=None)
-'''
+>>> parser.parse_args('--in 1'.split())
+usage: [-h] [--integer1 INTEGER1] [--integer2 INTEGER2]
+: error: ambiguous option: --in could match --integer1, --integer2
+>>> parser.parse_args('--integer1 1'.split())
+Namespace(integer=None, integer1=1, integer2=None)
 ```
 
 ## 2.4. 长短参数
@@ -144,17 +143,29 @@ hello Namespace(integer=1)
 
 ## 2.5. type
 
-> int, float, str
+
+
+> `int`, `float`, `str`
 
 ```python
 parser.add_argument('a', type=int)
 ```
 
-加上默认值属性，用于配置默认路径。
+虽然默认 `type=None`， 但其实都解析为 `str` ，传啥都是 str 类型
+
 ```python
-parser.add_argument("--datadir", type=str, default='./data/llff/fern', 
-                        help='input data directory')
+>>> parser.add_argument('--k')
+>>> parser.parse_args('--k None'.split())
+Namespace(k='None')
+>>> parser.parse_args('--k 1'.split())
+Namespace(k='1')
+>>> parser.parse_args('--k 1.1'.split())
+Namespace(k='1.1')
+>>> parser.parse_args('--k [2312]'.split())
+Namespace(k='[2312]')
 ```
+
+
 > bool 
 
 还用上面的写法会在False上出问题，得用action
@@ -167,107 +178,101 @@ parser.add_argument('--online', action='store_true', default=False)
 
 # 出问题了，用不上和用上都是True
 # parser.add_argument('--online', action='store_true', default=True)
-'''
-# 必须不赋值
-$ python a.py
-hello Namespace(online=False)
 
-$ python a.py --online  
-hello Namespace(online=True)
-'''
-'''
-# 赋值不可以 error: unrecognized arguments: True
-$ python a.py --online True
-usage: a.py [-h] [--online]
-a.py: error: unrecognized arguments: True
 
-$ python a.py --online False
+### 必须不赋值
+>>> parser.parse_args(''.split())
+Namespace(online=False)
+>>> parser.parse_args('--online'.split())
+Namespace(online=True)
+
+### 赋值不可以 error: unrecognized arguments: True
+>>> parser.parse_args('--online True'.split())
 usage: a.py [-h] [--online]
-a.py: error: unrecognized arguments: False
-'''
+: error: unrecognized arguments: True
+>>> parser.parse_args('--online False'.split())
+usage: [-h] [--online]
+: error: unrecognized arguments: False
+```
+## 2.6. 默认值
+
+默认 `default=None`, 是None的话就没必要再写了
+
+```python
+>>> parser.add_argument('--a')
+>>> parser.add_argument('--b', default=12)
+>>> parser.parse_args(''.split())
+Namespace(a=None, b=12)
 ```
 
-## 2.6. 必选参数&可选参数
+## 2.7. 必选参数&可选参数
 
 > Method1: 有没有`--`
-```python
-# 必选
-parser.add_argument('a', type=int)
-
-# 可选
-parser.add_argument('--b', type=int)
-```
-`python a.py 1`
 
 ```python
-import argparse
-
-parser = argparse.ArgumentParser()
-
 # 必选
-parser.add_argument('a', type=int)
-
+>>> parser.add_argument('a', type=int)
 # 可选
-parser.add_argument('--b', type=int)
+>>> parser.add_argument('--b', type=int)
 
-# 集成为args
-args = parser.parse_args()
 
-# 获得传入的参数
-print('hello', args)
+>>> parser.parse_args('1'.split())
+Namespace(a=1, b=None)
+>>> parser.parse_args('1 --b=2'.split())
+Namespace(b=2, a=1)
 
-'''
-$ python a.py  
+# 必须不可缺
+>>> parser.parse_args(''.split())
 usage: a.py [-h] [--b B] a
-a.py: error: the following arguments are required: a
-
-$ python a.py a=1
-usage: a.py [-h] [--b B] a
-a.py: error: argument a: invalid int value: 'a=1'
-
-$ python a.py 1
-hello Namespace(a=1, b=None)
-'''
+: error: the following arguments are required: a
+# 这种方式不能加 `--`
+>>> parser.parse_args('--a=1'.split())
+usage: [-h] [--b B] a
+: error: the following arguments are required: a
 ```
 
 > Method2：`--`并且`required=True`
 ```python
 # 必选
-parser.add_argument('--c', type=int, required=True)
-
+>>> parser.add_argument('--c', type=int, required=True)
 # 可选
-parser.add_argument('--d', type=int)
+>>> parser.add_argument('--d', type=int)
+>>> parser.parse_args('--c=1'.split())
+Namespace(c=1, d=None)
+
+# 同样不可或缺
+>>> parser.parse_args(''.split())
+usage: [-h] --c C [--d D]
+: error: the following arguments are required: --c
+# 这种方式必须加 --
+>>> parser.parse_args('1'.split())
+usage: [-h] --c C [--d D]
+: error: the following arguments are required: --c
 ```
-`python a.py --c=1`
+
+## 2.8. nargs
+
+- `N`(具体是1,2,3)
+- 通配符 `'?'`, `'+'`, `'*'`
+
 ```python
-import argparse
+# 列表形式
+>>> parser.add_argument('--a', nargs=2) 
+>>> parser.add_argument('--b', nargs=1) 
+>>> parser.parse_args('--a 1 2 --b 3'.split())
+Namespace(a=['1', '2'], b=['3'])
+```
 
-parser = argparse.ArgumentParser()
-
-# 必选
-parser.add_argument('--c', type=int, required=True)
-
-# 可选
-parser.add_argument('--d', type=int)
-
-# 集成为args
-args = parser.parse_args()
-
-# 获得传入的参数
-print('hello', args)
-
-'''
-$ python a.py  
-usage: a.py [-h] --c C [--d D]
-a.py: error: the following arguments are required: --c
-
-$ python a.py 1    
-usage: a.py [-h] --c C [--d D]
-a.py: error: the following arguments are required: --c
-
-$ python a.py --c=1
-hello Namespace(c=1, d=None)
-'''
+```python
+# 可选参数的通配符，如果可选参数写了不跟参数，那么用const，而不是default
+>>> parser.add_argument('--c', required=True, nargs='+') 
+>>> parser.add_argument('--d', nargs='?', const='d_const', default='d_default')
+>>> parser.parse_args('--c 1 --d 3'.split())
+Namespace(c=['1'], d='3')
+>>> parser.parse_args('--c 1 --d'.split())
+Namespace(c=['1'], d='d_const')
+>>> parser.parse_args('--c 1'.split())
+Namespace(c=['1'], d='d_default')
 ```
 
 # 3. action
@@ -333,7 +338,8 @@ a.py: error: argument --level: invalid choice: 12 (choose from 0, 1)
 
 
 
-
+```
 # how to specify a list arg (eg. arg which has action="append")
 fruit = [apple, orange, lemon]
 indexes = [1, 12, 35 , 40]
+```
