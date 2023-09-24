@@ -5,9 +5,8 @@
   - [2.3. 自动匹配前缀](#23-自动匹配前缀)
   - [2.4. 长短参数](#24-长短参数)
   - [2.5. type](#25-type)
-  - [2.6. 默认值](#26-默认值)
-  - [2.7. 必选参数\&可选参数](#27-必选参数可选参数)
-  - [2.8. nargs](#28-nargs)
+  - [2.6. 必选参数\&可选参数](#26-必选参数可选参数)
+  - [2.7. nargs](#27-nargs)
 - [3. action](#3-action)
   - [3.1. 计数count](#31-计数count)
   - [3.2. 限定选项](#32-限定选项)
@@ -151,10 +150,12 @@ hello Namespace(integer=1)
 parser.add_argument('a', type=int)
 ```
 
+
 虽然默认 `type=None`， 但其实都解析为 `str` ，传啥都是 str 类型
 
 ```python
 >>> parser.add_argument('--k')
+_StoreAction(option_strings=['--k'], dest='k', nargs=None, const=None, default=None, type=None, choices=None, required=False, help=None, metavar=None)
 >>> parser.parse_args('--k None'.split())
 Namespace(k='None')
 >>> parser.parse_args('--k 1'.split())
@@ -165,20 +166,29 @@ Namespace(k='1.1')
 Namespace(k='[2312]')
 ```
 
+默认值 `default=None`, 是None的话就没必要再写了
+
+```python
+>>> parser.add_argument('--a')
+>>> parser.add_argument('--b', default=12)
+>>> parser.parse_args(''.split())
+Namespace(a=None, b=12)
+```
 
 > bool 
 
 还用上面的写法会在False上出问题，得用action
 
+- `store_true`: 用上时值为`True`，不用时取默认值`False`
 ```python
 # 用上表示True，不用False
-parser.add_argument('--online', action='store_true')
+>>> parser.add_argument('--online', action='store_true')
+_StoreTrueAction(option_strings=['--online'], dest='online', nargs=0, const=True, default=False, type=None, choices=None, required=False, help=None, metavar=None)
 # 可以赋值默认False，效果同上
-parser.add_argument('--online', action='store_true', default=False)
+>>> parser.add_argument('--online', action='store_true', default=False)
 
 # 出问题了，用不上和用上都是True
 # parser.add_argument('--online', action='store_true', default=True)
-
 
 ### 必须不赋值
 >>> parser.parse_args(''.split())
@@ -194,18 +204,20 @@ usage: a.py [-h] [--online]
 usage: [-h] [--online]
 : error: unrecognized arguments: False
 ```
-## 2.6. 默认值
 
-默认 `default=None`, 是None的话就没必要再写了
+- `store_false`: 反向，不用是默认值`True`，用了`False`
 
 ```python
->>> parser.add_argument('--a')
->>> parser.add_argument('--b', default=12)
+# 正确的是
+>>> parser.add_argument('--online', action='store_false')
+_StoreFalseAction(option_strings=['--online'], dest='online', nargs=0, const=False, default=True, type=None, choices=None, required=False, help=None, metavar=None)
 >>> parser.parse_args(''.split())
-Namespace(a=None, b=12)
+Namespace(online=True)
+>>> parser.parse_args('--online'.split())
+Namespace(online=False)
 ```
 
-## 2.7. 必选参数&可选参数
+## 2.6. 必选参数&可选参数
 
 > Method1: 有没有`--`
 
@@ -250,17 +262,30 @@ usage: [-h] --c C [--d D]
 : error: the following arguments are required: --c
 ```
 
-## 2.8. nargs
+## 2.7. nargs
 
-- `N`(具体是1,2,3)
-- 通配符 `'?'`, `'+'`, `'*'`
+- 不是列表：通配符 `'?'`
+- 列表：`N`(具体是正整数 1,2,3), 通配符 `'+'`, `'*'`
 
 ```python
-# 列表形式
+################################ 非列表形式
+>>> parser.add_argument('--h', nargs='?')
+>>> parser.parse_args('--h 1'.split())
+Namespace(h='1')
+
+################################ 列表形式
 >>> parser.add_argument('--a', nargs=2) 
 >>> parser.add_argument('--b', nargs=1) 
 >>> parser.parse_args('--a 1 2 --b 3'.split())
 Namespace(a=['1', '2'], b=['3'])
+
+>>> parser.add_argument('--j', nargs='+')
+>>> parser.parse_args('--j 1'.split())
+Namespace(j=['1'])
+
+>>> parser.add_argument('--k', nargs='*')
+>>> parser.parse_args('--k 1'.split())
+Namespace(j=None, k=['1'])
 ```
 
 ```python
