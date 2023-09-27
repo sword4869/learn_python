@@ -6,7 +6,7 @@
 pip install pillow
 ```
 
-## open,save,show
+## 0.1. open,save,show
 ```python
 from PIL import Image
 
@@ -147,4 +147,18 @@ print(array.shape)  # (28, 58, 3)
 # Image.fromarray 需要 ndarry 数组的格式 是[0, 255], uint8, [H, W, C]
 # image = (image * 255).astype(np.uint8)
 out = Image.fromarray(image)
+```
+
+单通道，不能有通道
+
+```python
+import numpy as np
+from PIL import Image
+
+# image = np.random.rand(100, 100, 1) 不行
+image = np.random.rand(100, 100)
+image = (image * 255).astype(np.uint8)
+
+out = Image.fromarray(image)
+out.save('test.png')
 ```
