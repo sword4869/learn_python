@@ -26,6 +26,7 @@ def my_first_blood(name, age=0, *args, **kwargs):
     print(age)
     print(args)
     print(kwargs)
+    print(kwargs['style'])      # 取出
 
 # "王" | 32 | "北京", "海淀" | style="开心"
 my_first_blood("王", 32, "北京", "海淀", style="开心")
@@ -33,6 +34,7 @@ my_first_blood("王", 32, "北京", "海淀", style="开心")
 # 32
 # ('北京', '海淀')
 # {'style': '开心'}
+# 开心
 
 # "王" | 32 | "北京", "海淀" | style="开心"
 my_first_blood("王", 32, "北京", "海淀", style="开心", price=0.1)
@@ -40,6 +42,7 @@ my_first_blood("王", 32, "北京", "海淀", style="开心", price=0.1)
 # 32
 # ('北京', '海淀')
 # {'style': '开心', 'price': 0.1}
+# 开心
 ```
 
 ## 2. 传入函数
