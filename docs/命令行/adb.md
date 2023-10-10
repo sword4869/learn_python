@@ -1,45 +1,62 @@
-- [1. 链接问题](#1-链接问题)
-  - [1.1. kill-server与start-server](#11-kill-server与start-server)
-  - [1.2. 显示](#12-显示)
-  - [1.3. 有线链接](#13-有线链接)
-  - [1.4. 无线链接](#14-无线链接)
-- [2. 常用](#2-常用)
-  - [2.1. 权限root](#21-权限root)
-  - [2.2. 文件传送 adb push与adb pull](#22-文件传送-adb-push与adb-pull)
-  - [2.3. 安装软件 install](#23-安装软件-install)
-  - [2.4. 卸载软件 uninstall](#24-卸载软件-uninstall)
-- [3. adb shell终端](#3-adb-shell终端)
-  - [3.1. 进入和退出](#31-进入和退出)
-  - [3.2. 同linux文件系统](#32-同linux文件系统)
-  - [3.3. input keyevent](#33-input-keyevent)
-  - [3.4. input tap](#34-input-tap)
-  - [3.5. input swipe](#35-input-swipe)
-  - [3.6. screencap命令](#36-screencap命令)
-  - [3.7. 截图并传输到电脑上](#37-截图并传输到电脑上)
-  - [3.8. 获取手机屏幕分辨率](#38-获取手机屏幕分辨率)
-  - [3.9. 修改手机时间](#39-修改手机时间)
-  - [3.10. TroubleShoot](#310-troubleshoot)
+- [1. install](#1-install)
+- [2. 链接问题](#2-链接问题)
+  - [2.1. kill-server与start-server](#21-kill-server与start-server)
+  - [2.2. 显示](#22-显示)
+  - [2.3. 有线链接](#23-有线链接)
+  - [2.4. 无线链接](#24-无线链接)
+- [3. 常用](#3-常用)
+  - [3.1. 权限root](#31-权限root)
+  - [3.2. 文件传送 adb push与adb pull](#32-文件传送-adb-push与adb-pull)
+  - [3.3. 安装软件 install](#33-安装软件-install)
+  - [3.4. 卸载软件 uninstall](#34-卸载软件-uninstall)
+- [4. adb shell终端](#4-adb-shell终端)
+  - [4.1. 进入和退出](#41-进入和退出)
+  - [4.2. 同linux文件系统](#42-同linux文件系统)
+  - [4.3. input keyevent](#43-input-keyevent)
+  - [4.4. input tap](#44-input-tap)
+  - [4.5. input swipe](#45-input-swipe)
+  - [4.6. screencap命令](#46-screencap命令)
+  - [4.7. 截图并传输到电脑上](#47-截图并传输到电脑上)
+  - [4.8. 获取手机屏幕分辨率](#48-获取手机屏幕分辨率)
+  - [4.9. 修改手机时间](#49-修改手机时间)
+  - [4.10. TroubleShoot](#410-troubleshoot)
 
 ---
-# 1. 链接问题
-## 1.1. kill-server与start-server
+# 1. install
+
+adb 可以通过python安装
+
+```bash
+# https://github.com/google/python-adb
+pip install adb
+```
+```bash
+# 然后就可以用 pyadb, 相当于 adb
+pyadb devices
+
+# 然后就可以用 pyfastboot, 相当于 fastboot 
+pyfastboot devices
+```
+
+# 2. 链接问题
+## 2.1. kill-server与start-server
 ```bash
 adb kill-server			# 杀死连接的设备
 adb start-server		# 启动连接搜寻设备
 ```
 
-## 1.2. 显示
+## 2.2. 显示
 ```bash
 adb devices
 ```
-## 1.3. 有线链接
+## 2.3. 有线链接
 插上手机线后，开发者也打开后，usb调试也打开，然后在终端输入
 ```bash
 $ adb devices
 List of devices attached      
 61BANF99HYNRAAMN        device
 ```
-## 1.4. 无线链接
+## 2.4. 无线链接
 1. 将手机和电脑连在同一个局域网WIFI下
 2. 查看手机的IP address (in Settings → About phone → Status).
 3. **链接手机和电脑的数据线**
@@ -58,13 +75,13 @@ List of devices attached
     connected to 192.168.1.101:5555
     ```
 PS：感觉有点神奇的是，我把手机的开发者模式关闭后，按理来说已经不能操作手机了，但居然还可以。
-# 2. 常用
+# 3. 常用
 
-## 2.1. 权限root
+## 3.1. 权限root
 ```bash
 adb root
 ```
-## 2.2. 文件传送 adb push与adb pull
+## 3.2. 文件传送 adb push与adb pull
 
 【命令格式 A->B】
 
@@ -80,20 +97,20 @@ adb root
 `adb pull sdcard/myworldstring/02.png ./Mystring`
 
 
-## 2.3. 安装软件 install
+## 3.3. 安装软件 install
 
 - 新的应用（该应用未安装）：`adb install apk路径`
  
 - 应用已安装，重安装覆盖： `adb install -r apk路径`
 
-## 2.4. 卸载软件 uninstall
+## 3.4. 卸载软件 uninstall
 - 完全卸载：`adb uninstall 应用包(xxxx.xxx.com)`
 
 - 卸载后保存软件配置和缓存文件(keep)：`abd uninstall -k 应用包(xxxx.xcom)`
 
 
-# 3. adb shell终端
-## 3.1. 进入和退出
+# 4. adb shell终端
+## 4.1. 进入和退出
 > 进入
 
 ```
@@ -113,7 +130,7 @@ PD1616:/ $ input tap 455 838
 exit
 ```
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190929202311208.png)
-## 3.2. 同linux文件系统
+## 4.2. 同linux文件系统
 > ls
 
 `ls sdcard/MyWorldString`	显示xxx路径下的所有文件
@@ -167,7 +184,7 @@ exit
 重命名：
 `adb shell mv /sdcard/Download/Demo/test1.log  /sdcard/Download/Demo/test.lg`
 
-## 3.3. input keyevent
+## 4.3. input keyevent
 input keyevent值
 ```bash
 input keyevent 3		// Home主界面
@@ -190,7 +207,7 @@ input keyevent 22		// Right
 input keyevent 23		// Select(Ok)
 ```
 
-## 3.4. input tap
+## 4.4. input tap
 ```
 input tap x y
 ```
@@ -206,19 +223,19 @@ for i in range(50):
 ```
 
 
-## 3.5. input swipe
+## 4.5. input swipe
 ```bash
 input swipe <x1> <y1> <x2> <y2>[<duration(ms)>]
 ```
 模拟滑屏，从(x1,y1)到(x2,y2)，持续duration(ms)按压时间
 
-## 3.6. screencap命令
+## 4.6. screencap命令
 【格式】
 `screencap -p [FILENAME]`
 在当下屏幕上截图，后面的路径是图片在设备中的文件路径（这个FILENAME在这里是绝对路径/sdcard/1.png）
 - `-p`: save the file as a png.
 
-## 3.7. 截图并传输到电脑上
+## 4.7. 截图并传输到电脑上
 ```bash
 # 截屏保存在手机中，是/sdcard/1.png
 # 上传到电脑上
@@ -246,7 +263,7 @@ def get_screen():
 ```
 
 
-## 3.8. 获取手机屏幕分辨率
+## 4.8. 获取手机屏幕分辨率
 ```bash
 # 宽x高 WH
 $ adb shell wm size
@@ -265,7 +282,7 @@ def get_size():
     size = re.findall('[0-9]+', size)
     return (int(size[0]), int(size[1]))
 ```
-## 3.9. 修改手机时间
+## 4.9. 修改手机时间
 
 `adb shell date xxx`，但如果root了但不彻底，就得用su的方式
 ```bash
@@ -296,7 +313,7 @@ def big_clip(self, str_time):
 ```
 
 
-## 3.10. TroubleShoot
+## 4.10. TroubleShoot
 
 ```
 $ adb devices
