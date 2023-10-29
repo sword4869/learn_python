@@ -3,17 +3,18 @@
   - [2.1. check whether you have installed a nvidia driver](#21-check-whether-you-have-installed-a-nvidia-driver)
   - [2.2. Version Limitation](#22-version-limitation)
 - [3. installation](#3-installation)
-  - [3.1. Linux install](#31-linux-install)
-    - [3.1.1. 命令行安装Driver](#311-命令行安装driver)
-    - [3.1.2. 图形化安装Driver](#312-图形化安装driver)
-    - [3.1.3. 系统 cuda Toolkit](#313-系统-cuda-toolkit)
-  - [3.2. windows装驱动](#32-windows装驱动)
-  - [3.3. conda装CUDA](#33-conda装cuda)
-  - [3.4. wsl的安装](#34-wsl的安装)
-  - [3.5. 测试](#35-测试)
-  - [3.6. 卸载cuda](#36-卸载cuda)
-    - [3.6.1. 基本情况](#361-基本情况)
-    - [3.6.2. windows之特殊情况](#362-windows之特殊情况)
+  - [3.1. 驱动](#31-驱动)
+  - [3.2. Linux install](#32-linux-install)
+    - [3.2.1. 命令行安装Driver](#321-命令行安装driver)
+    - [3.2.2. 图形化安装Driver](#322-图形化安装driver)
+    - [3.2.3. 系统 cuda Toolkit](#323-系统-cuda-toolkit)
+  - [3.3. windows装驱动](#33-windows装驱动)
+  - [3.4. conda装CUDA](#34-conda装cuda)
+  - [3.5. wsl的安装](#35-wsl的安装)
+  - [3.6. 测试](#36-测试)
+  - [3.7. 卸载cuda](#37-卸载cuda)
+    - [3.7.1. 基本情况](#371-基本情况)
+    - [3.7.2. windows之特殊情况](#372-windows之特殊情况)
 - [4. cudnn](#4-cudnn)
 ---
 
@@ -125,7 +126,15 @@
 命令行安装和图形化安装只是装 Driver，还得自己装CUDA。
 
 
-### 3.1. Linux install
+### 3.1. 驱动
+
+> windowns 使用 [GeForce Experience 软件](https://www.nvidia.cn/geforce/geforce-experience/)更新驱动
+
+“GeForce Game Ready 驱动程序” 即是驱动。
+
+![Alt text](../../images/image.png)
+
+### 3.2. Linux install
 
 命令行安装Driver 和  图形化安装Driver 都需要设置环境变量，因为cuda就默认安装到 `/usr/local/cuda` 下，而conda安装不需要。
 
@@ -139,7 +148,7 @@ export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 $ source ~/.bashrc
 ```
 
-#### 3.1.1. 命令行安装Driver
+#### 3.2.1. 命令行安装Driver
 
 `ubuntu-drivers devices` tell you some versions of nvidia driver. 
 - `recommended` is that version you shoull install, here is `nvidia-driver-515`.
@@ -165,14 +174,14 @@ driver   : xserver-xorg-video-nouveau - distro free builtin
 $ sudo apt install nvidia-driver-515
 ```
 
-#### 3.1.2. 图形化安装Driver
+#### 3.2.2. 图形化安装Driver
 
 图形化安装
 
 ![图 1](../../images/9d30e5bc45eeb7d369c9919966a535df21fcdb25450fa677b3303e9b885e4fae.png)  
 
 
-#### 3.1.3. 系统 cuda Toolkit
+#### 3.2.3. 系统 cuda Toolkit
 
 CUDA Toolkit = Driver + CUDA, 所以不用自己去下Driver。 <https://developer.nvidia.com/cuda-toolkit-archive>
 
@@ -256,13 +265,13 @@ $ ctrl+alt+F7
 
 
 
-### 3.2. windows装驱动
+### 3.3. windows装驱动
 
 直接装 CUDA Toolkit 的 exe，没有linux多设置，点几下就完了。
 
 或者单装驱动：<https://www.nvidia.com/drivers>
 
-### 3.3. conda装CUDA
+### 3.4. conda装CUDA
 
 下载后文件在`/home/xxx/miniconda3/pkgs`的cudatoolkit中（和`/home/xxx/miniconda3/envs/sediment/lib/python3.8/site-packages/nvidia/`）
 
@@ -274,7 +283,7 @@ $ ctrl+alt+F7
 conda install cudatoolkit=11.7 -c nvidia -c conda-forge
 ```
 
-### 3.4. wsl的安装
+### 3.5. wsl的安装
 
 1. **当你安装好windows的驱动后，wsl已经有了windows驱动的映射，所以不要在wsl上再安装驱动了**。否则，可能重写驱动。
 
@@ -284,7 +293,7 @@ conda install cudatoolkit=11.7 -c nvidia -c conda-forge
 
     **如果需要cudnn，那么就得装系统cuda了**
    
-### 3.5. 测试
+### 3.6. 测试
 
 看你到底是那个CUDA版本，是python程序看的。不是外面的命令行`nvidia-smi`,`nvcc -V`显示的版本。
 
@@ -349,9 +358,9 @@ print(torch.cuda.is_available())
 # True
 ```
 
-### 3.6. 卸载cuda
+### 3.7. 卸载cuda
 
-#### 3.6.1. 基本情况
+#### 3.7.1. 基本情况
 
 - 一台机器只能有一个版本的Driver(nvidia-smi中显示的Driver Version)，然而CUDA是可以多版本共存的（可以有或没有系统的CUDA，可以有多个系统的CUDA，可以直接装conda的CUDA）
 
@@ -369,7 +378,7 @@ $ sudo ./cuda-uninstaller
 # cuda是cuda-11.7的软链接
 $ sudo rm -rf /usr/local/cuda-11.7
 ```
-#### 3.6.2. windows之特殊情况
+#### 3.7.2. windows之特殊情况
 
 比如, 安装pytorch3d包时，要求 **系统cuda版本**、python的cuda、pytorch的版本三者一致。
 

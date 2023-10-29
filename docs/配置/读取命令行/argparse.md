@@ -265,29 +265,53 @@ usage: [-h] --c C [--d D]
 ## 2.7. nargs
 
 - 不是列表：通配符 `'?'`
+
+    ```python
+    >>> parser.add_argument('--h', nargs='?')
+    >>> parser.parse_args(''.split())
+    Namespace(h=None)
+    >>> parser.parse_args('--h 1'.split())
+    Namespace(h='1')
+    ```
 - 列表：`N`(具体是正整数 1,2,3), 通配符 `'+'`, `'*'`
 
-```python
-################################ 非列表形式
->>> parser.add_argument('--h', nargs='?')
->>> parser.parse_args('--h 1'.split())
-Namespace(h='1')
+    nargs=`*`，和`N`类似，但是没有规定列表长度。
 
-################################ 列表形式
->>> parser.add_argument('--a', nargs=2) 
->>> parser.add_argument('--b', nargs=1) 
->>> parser.parse_args('--a 1 2 --b 3'.split())
-Namespace(a=['1', '2'], b=['3'])
+    nargs=`+`，和`*`类似，但是给对应的项当没有传入参数时，会报错error: too few arguments。
+    ```python
+    ######### N
+    >>> parser.add_argument('--a', nargs=2) 
+    >>> parser.add_argument('--b', nargs=1) 
+    >>> parser.parse_args('--a 1 2 --b 3'.split())
+    Namespace(a=['1', '2'], b=['3'])
 
->>> parser.add_argument('--j', nargs='+')
->>> parser.parse_args('--j 1'.split())
-Namespace(j=['1'])
+    ######### +
+    >>> parser.add_argument('--j', nargs='+')
+    >>> parser.parse_args('--j 1'.split())
+    Namespace(j=['1'])
+    >>> parser.parse_args('--j'.split())
+    : error: argument --a: expected at least one argument
 
->>> parser.add_argument('--k', nargs='*')
->>> parser.parse_args('--k 1'.split())
-Namespace(j=None, k=['1'])
-```
+    ######### *
+    >>> parser.add_argument('--k', nargs='*')
+    >>> parser.parse_args('--k 1'.split())
+    Namespace(k=['1'])
+    >>> parser.parse_args('--k'.split())
+    Namespace(k=[])
+    ```
 
+    空列表`[]`还是`None`, 修改`default`值
+    ```python
+    # N + * 都可以
+    >>> parser.add_argument('--a', nargs='+')
+    >>> parser.add_argument('--b', nargs='+', default=[])
+    >>> parser.parse_args(''.split())
+    Namespace(a=None, b=[])
+    ```
+
+如果没有在命令行中出现对应的项 `parser.parse_args(''.split())`，则给对应的项赋值为default。特殊的是，对于可选项，如果命令行中出现了此可选项，但是之后没有跟随赋值参数 `parser.parse_args('--a'.split())`，则此时给此可选项并不是赋值default的值，而是赋值const的值。
+
+`const`值
 ```python
 # 可选参数的通配符，如果可选参数写了不跟参数，那么用const，而不是default
 >>> parser.add_argument('--c', required=True, nargs='+') 
