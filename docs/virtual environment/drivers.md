@@ -11,6 +11,7 @@
   - [3.3. windows装驱动](#33-windows装驱动)
   - [3.4. conda装CUDA](#34-conda装cuda)
   - [3.5. wsl的安装](#35-wsl的安装)
+    - [libcuda.so.1](#libcudaso1)
   - [3.6. 测试](#36-测试)
   - [3.7. 卸载cuda](#37-卸载cuda)
     - [3.7.1. 基本情况](#371-基本情况)
@@ -292,7 +293,21 @@ conda install cudatoolkit=11.7 -c nvidia -c conda-forge
     直接用conda环境的 `conda install cudatoolkit=11.7 -c nvidia -c conda-forge -y`，在大多数情况就行。
 
     **如果需要cudnn，那么就得装系统cuda了**
-   
+
+#### libcuda.so.1
+
+`/usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link`
+其实原因就是libcuda.so.1的文件软链接出了问题。
+```bash
+# 进入报错的这个文件夹
+cd /usr/lib/wsl/lib
+# 删除这2个软链接的文件, 只留下 libcuda.so.1.1
+sudo rm -rf libcuda.so.1 libcuda.so
+# 重新建立软链接
+sudo ln -s libcuda.so.1.1 libcuda.so.1
+sudo ln -s libcuda.so.1.1 libcuda.so
+```
+
 ### 3.6. 测试
 
 看你到底是那个CUDA版本，是python程序看的。不是外面的命令行`nvidia-smi`,`nvcc -V`显示的版本。
