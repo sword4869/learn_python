@@ -1,15 +1,6 @@
 - [1. os](#1-os)
   - [1.1. Intro](#11-intro)
-  - [1.2. function](#12-function)
-    - [1.2.1. 进入目录 \& 当前工作目录](#121-进入目录--当前工作目录)
-    - [1.2.2. 列出文件和目录](#122-列出文件和目录)
-      - [1.2.3.1. 替换~](#1231-替换)
-    - [1.2.4. remove](#124-remove)
-    - [1.2.5. path](#125-path)
-      - [1.2.5.1. exist](#1251-exist)
-      - [1.2.5.2. 相对路径与绝对路径](#1252-相对路径与绝对路径)
-      - [1.2.5.3. 路径拼接](#1253-路径拼接)
-      - [1.2.5.4. 划分路径](#1254-划分路径)
+  - [1.2. 列出文件和目录](#12-列出文件和目录)
 ---
 
 # 1. os
@@ -20,25 +11,9 @@
 import os
 ```
 
-## 1.2. function
-### 1.2.1. 进入目录 & 当前工作目录 
 
-```python
-# 当前工作目录
-wd = os.getcwd()
+## 1.2. 列出文件和目录
 
-# 进入目录
-os.chdir(newPath)
-```
-### 1.2.2. 列出文件和目录
-一级目录
-```python
-# 当前工作目录
-os.listdir()
-
-# 指定目录下
-os.listdir(newPath)
-```
 
 `walk`可以深入到子目录中， 展示所有的文件
 ```python
@@ -53,133 +28,4 @@ for root, dirs, files in os.walk("..", topdown=False):
     # 用途二：遍历所有的文件夹
     for name in dirs:
         print(os.path.join(root, name))
-```
-
-
-
-#### 1.2.3.1. 替换~
-
-expanduser函数，它可以将参数中开头部分的 `~` 替换为当前用户的home目录并返回
-
-```python
-import os
-
-new_path = "~/test_dir"
-os.makedirs(new_path)
-# 不能将 ~/test_dir 识别为/home/USER/test_dir
-# 反而是理解为是一个相对路径, 在当前路径下创建了一个`~/test_dir`目录.
-# 也就是说, 把`~`当作了一个普通字符, 而不是代表`/home/USER`的根目录位置.
-
-new_path_2 = os.path.expanduser(new_path)
-print(new_path_2)
-# /home/USER/test_dir
-os.makedirs(new_path_2)
-```
-常用 `makedirs`
-### 1.2.4. remove
-
-```python
-
-# remove file, 不能删除目录
-os.remove(filePath) 
-
-os.rmdir(emptyDirectory) 
-
-# 递归删除一系列空文件夹
-# 当下目录下有`world/hh`，world下只有hh，hh里空，os.removedirs('world/hh')，hh是空文件夹被删，world是空文件被删除，到当前目录为止
-os.removedirs(bottomEmptyDirectory)
-```
-### 1.2.5. path 
-
-#### 1.2.5.1. exist
-
-```python
-# file and directory are ok
-if os.path.exists(newPath):
-    pass
-```
-
-#### 1.2.5.2. 相对路径与绝对路径
-
-```python
-a = 'images/166.png'
-
-# 绝对路径
-abspath = os.path.abspath(a)    # E:\\learn_python\\images\\1663935316.png
-
-# 父目录
-dirname = os.path.dirname(abspath)  # E:\\learn_python\\images
-
-# basename返回路径最后一个子路径
-basename = os.path.basename(a)  # 'images/166.png' -> '166.png'
-basename2 = os.path.basename(dirname) # 'E:\\learn_python\\images' -> 'images'
-```
-
-dirname对相对路径可能失效
-```python
-a = 'images/166.png'
-
-dir1 = os.path.dirname(a)     # 'images'
-abs1 = os.path.abspath(dir1)  # 'E:\\learn_python\\images'
-
-dir2 = os.path.dirname(dir1)  # ''
-abs2 = os.path.abspath(dir2)  # 'E:\\learn_python'
-
-# 到''在dirname就不变了
-dir3 = os.path.dirname(dir2)  # ''
-abs3 = os.path.abspath(dir3)  # 'E:\\learn_python'
-
-# 所以 dirname 要绝对路径
-abs = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(a)))) # 'E:\\'
-```
-#### 1.2.5.3. 路径拼接
-
-```python
-# 每个子路径的结尾可以有或没有`/`
->>> os.path.join('./root/','test','runoob.txt')
-'./root/test/runoob.txt'
-# 最后的/则是自定义
->>> os.path.join('./root/','test','runoob.txt/') 
-'./root/test/runoob.txt/
-```
-
-路径中的分隔符
-```python
-# windows
->>> print(os.sep, os.path.sep)
-\ \
-# linux
->>> print(os.sep, os.path.sep)
-/ /
-```
-#### 1.2.5.4. 划分路径
-
-- `split`: dirpath与filename。其实是根据最后一个`/`分开的。
-```python
-os.path.split('some.pdf')
-# ('', 'some.pdf')
-
-os.path.split('log/1/2/some.pdf')
-# ('log/1/2', 'some.pdf')
-
-os.path.split('log/1/2')
-# ('log/1', '2')
-
-os.path.split('log/1/2/')
-# ('log/1/2', '')
-```
-
-- `splitext`: 前缀和后缀。根据`.`划分, `.`包含在后缀里。
-```python
-os.path.splitext('some.pdf')
-# ('some', '.pdf')
-
-os.path.splitext('log/1/2/some.pdf')
-# ('log/1/2/some', '.pdf')
-
-os.path.splitext('log/1/2')
-# ('log/1/2', '')
-
-os.path.splitext('log/1/2/')
-# ('log/1/2/', '')
 ```
