@@ -65,12 +65,27 @@
 
 !!! note 与字符串划分的区别
     因为不同平台的分隔符不同，字符串划分只是写死的`/`，`os`库则是自适应的。
+    ```python
+    # 路径中的分隔符
+    # windows
+    >>> print(os.sep, os.path.sep)
+    \ \
+    # linux
+    >>> print(os.sep, os.path.sep)
+    / /
+    ```
 
 - 手动split
 
     ```python
     >>> 'images/166.png'.split('/')[-1]   
     '166.png'
+
+    # 智能
+    >>> 'images/166.png'.split(os.sep)[-1]   
+    >>> 'images\\166.png'.split(os.sep)[-1]   
+    # >>> 'images\166.png'.split(os.sep)[-1]     
+    # 'imagesv.png'
     ```
 - `basename`: 返回最后一个分隔符(`/` 或者 `\`)后面的
    
@@ -150,15 +165,7 @@ imgs = [f for f in imgs if any([f.endswith(ex) for ex in ['JPG', 'jpg', 'jpeg', 
 './root/test/runoob.txt/
 ```
 
-路径中的分隔符
-```python
-# windows
->>> print(os.sep, os.path.sep)
-\ \
-# linux
->>> print(os.sep, os.path.sep)
-/ /
-```
+
 ## 2. 列出文件路径
 ```python
 # 当前工作目录
