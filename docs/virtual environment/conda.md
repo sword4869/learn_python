@@ -129,21 +129,14 @@ In your terminal,  you find `conda acvtivate env1` is not working because the la
 
 ```bash
 # get into the conda's Scripts installation location，where contains a executable file of conda. such conda.sh, conda.exe
-$ cd ~/anaconda/bin/
+$ cd D:\Applications\miniconda\Scripts
 
-# linux's bash shell
-$ ./conda init bash
 # powershell
-$ ./conda init powershell
+$ ./conda.exe init powershell
 # Win's cmd
 $ ./conda.exe init cmd.exe
 
 
-
-# close shell and restart, you should see `(base)`
-(base) $
-```
-```bash
 # using all kinds of shell
 # - bash
 # - cmd.exe
@@ -152,12 +145,26 @@ $ ./conda.exe init cmd.exe
 # - tcsh
 # - xonsh
 # - zsh
-$ ~/anaconda/bin/conda init --all
-```
-```bash
+$ ./conda.exe init --all
+
+# close shell and restart, you should see `(base)`
+(base) $
+
 # undo the all shells' effect
 $ conda init --reverse
 ```
+> 报错：
+```
+. : 无法加载文件
+C:\Users\Admin\Documents\WindowsPowerShell\profile.ps1，因为在此系统上禁止运行脚本。有关详细信息，请参阅
+https:/go.microsoft.com/fwlink/?LinkID=135170 中的 about_Execution_Policies。
+所在位置 行:1 字符: 3
++ . 'C:\Users\Admin\Documents\WindowsPowerShell\profile.ps1'
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : SecurityError: (:) []，PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+```
+powershell的权限问题，`learn_linux\docs\advance\shell美化\oh-my-posh\readme.md`
 
 > win10, git-bash
 
