@@ -30,6 +30,8 @@ linux和win都通用。
 
 新版ubuntu要求使用https源，要注意。
 ```bash
+# linux 直接复制，windows在前面加$, `$url1='https://mirrors.bfsu.edu.cn/pypi/web/simple'`
+
 # 北外（最快）
 url1='https://mirrors.bfsu.edu.cn/pypi/web/simple'
 url2='https://mirrors.bfsu.edu.cn'
@@ -45,8 +47,7 @@ url2='https://pypi.tuna.tsinghua.edu.cn'
 # 阿里云(十分限速)	
 url1='https://mirrors.aliyun.com/pypi/simple'
 url2='mirrors.aliyun.com'
-```
-```bash
+
 pip config set global.index-url $url1
 pip config set install.trusted-host $url2
 ```
