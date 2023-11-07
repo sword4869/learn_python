@@ -455,7 +455,7 @@ conda pack -n myenv --ignore-missing-files
     ```
     实际上，可以直接本地的环境压缩传上去，完全不用conda pack
     ```bash
-    local$ tar -cvf $Anaconda/envs/myenv/*
+    local$ tar -cvf myenv.tar.gz $Anaconda/envs/myenv
     remote$ mkdir -p $Anaconda/envs/myenv
     remote$ tar -xvf myenv.tar.gz -C $Anaconda/envs/myenv
     remote$ conda env list
