@@ -4,14 +4,14 @@
   - [2.2. Version Limitation](#22-version-limitation)
 - [3. installation](#3-installation)
   - [3.1. 驱动](#31-驱动)
-  - [3.2. Linux install](#32-linux-install)
+  - [3.2. Linux install 驱动](#32-linux-install-驱动)
     - [3.2.1. 命令行安装Driver](#321-命令行安装driver)
     - [3.2.2. 图形化安装Driver](#322-图形化安装driver)
     - [3.2.3. 系统 cuda Toolkit](#323-系统-cuda-toolkit)
-  - [3.3. windows装驱动](#33-windows装驱动)
+  - [3.3. windows装cuda](#33-windows装cuda)
   - [3.4. conda装CUDA](#34-conda装cuda)
   - [3.5. wsl的安装](#35-wsl的安装)
-    - [libcuda.so.1](#libcudaso1)
+    - [3.5.1. libcuda.so.1](#351-libcudaso1)
   - [3.6. 测试](#36-测试)
   - [3.7. 卸载cuda](#37-卸载cuda)
     - [3.7.1. 基本情况](#371-基本情况)
@@ -129,13 +129,18 @@
 
 ### 3.1. 驱动
 
+
 > windowns 使用 [GeForce Experience 软件](https://www.nvidia.cn/geforce/geforce-experience/)更新驱动
 
 “GeForce Game Ready 驱动程序” 即是驱动。
 
 ![Alt text](../../images/image.png)
 
-### 3.2. Linux install
+`nvcc -V`失败，还真不装cuda！
+
+
+PS: 或者 <https://www.nvidia.com/drivers>
+### 3.2. Linux install 驱动
 
 命令行安装Driver 和  图形化安装Driver 都需要设置环境变量，因为cuda就默认安装到 `/usr/local/cuda` 下，而conda安装不需要。
 
@@ -266,11 +271,10 @@ $ ctrl+alt+F7
 
 
 
-### 3.3. windows装驱动
+### 3.3. windows装cuda
 
 直接装 CUDA Toolkit 的 exe，没有linux多设置，点几下就完了。
 
-或者单装驱动：<https://www.nvidia.com/drivers>
 
 ### 3.4. conda装CUDA
 
@@ -290,11 +294,14 @@ conda install cudatoolkit=11.7 -c nvidia -c conda-forge
 
 2. 也就是说，wsl内已经安装好驱动了，下一步是cuda的安装（cuda还是要装的，这个不映射）。
 
-    直接用conda环境的 `conda install cudatoolkit=11.7 -c nvidia -c conda-forge -y`，在大多数情况就行。
+  选择 linux-wsl-ubuntu: <https://developer.nvidia.com/cuda-11-8-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=runfile_local>
 
-    **如果需要cudnn，那么就得装系统cuda了**
+  ```bash
+  wget https://developer.download.nvidia.com/compute/cuda/11.8.0/local_installers/cuda_11.8.0_520.61.05_linux.run
+  sudo sh cuda_11.8.0_520.61.05_linux.run
+  ```
 
-#### libcuda.so.1
+#### 3.5.1. libcuda.so.1
 
 `/usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link`
 其实原因就是libcuda.so.1的文件软链接出了问题。
