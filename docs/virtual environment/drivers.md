@@ -294,12 +294,48 @@ conda install cudatoolkit=11.7 -c nvidia -c conda-forge
 
 2. 也就是说，wsl内已经安装好驱动了，下一步是cuda的安装（cuda还是要装的，这个不映射）。
 
-  选择 linux-wsl-ubuntu: <https://developer.nvidia.com/cuda-11-8-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=runfile_local>
+    选择 linux-wsl-ubuntu: <https://developer.nvidia.com/cuda-11-8-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=runfile_local>
 
-  ```bash
-  wget https://developer.download.nvidia.com/compute/cuda/11.8.0/local_installers/cuda_11.8.0_520.61.05_linux.run
-  sudo sh cuda_11.8.0_520.61.05_linux.run
-  ```
+    ```bash
+    wget https://developer.download.nvidia.com/compute/cuda/11.8.0/local_installers/cuda_11.8.0_520.61.05_linux.run
+    $ sudo sh cuda_11.8.0_520.61.05_linux.run
+    ===========
+    = Summary =
+    ===========
+
+    Driver:   Not Selected
+    Toolkit:  Installed in /usr/local/cuda-11.8/
+
+    Please make sure that
+    -   PATH includes /usr/local/cuda-11.8/bin
+    -   LD_LIBRARY_PATH includes /usr/local/cuda-11.8/lib64, or, add /usr/local/cuda-11.8/lib64 to /etc/ld.so.conf and run ldconfig as root
+
+    To uninstall the CUDA Toolkit, run cuda-uninstaller in /usr/local/cuda-11.8/bin
+    ***WARNING: Incomplete installation! This installation did not install the CUDA Driver. A driver of version at least 520.00 is required for CUDA 11.8 functionality to work.
+    To install the driver using this installer, run the following command, replacing <CudaInstaller> with the name of this run file:
+        sudo <CudaInstaller>.run --silent --driver
+
+    Logfile is /var/log/cuda-installer.log
+    ```
+
+    直接accept后install，这个wsl版本的cuda自身就不带 driver.
+
+    环境变量同linux
+
+    ```bash
+    # 软链接已经自动配置好了，直接bashrc
+    $ ls /usr/local -l
+    total 36
+    lrwxrwxrwx  1 root root   21 Nov  7 16:15 cuda -> /usr/local/cuda-11.8/
+    drwxr-xr-x 17 root root 4096 Nov  7 16:16 cuda-11.8
+
+
+    export CUDA_HOME=/usr/local/cuda
+    export PATH=$CUDA_HOME/bin:$PATH
+    export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+    ```
+
+
 
 #### 3.5.1. libcuda.so.1
 
