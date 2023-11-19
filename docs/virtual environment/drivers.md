@@ -9,6 +9,7 @@
     - [3.2.2. 图形化安装Driver](#322-图形化安装driver)
     - [3.2.3. linux装系统cuda](#323-linux装系统cuda)
   - [3.3. windows装系统cuda](#33-windows装系统cuda)
+    - [3.3.1. 多个cuda](#331-多个cuda)
   - [3.4. conda装CUDA](#34-conda装cuda)
   - [3.5. wsl的安装](#35-wsl的安装)
     - [3.5.1. libcuda.so.1](#351-libcudaso1)
@@ -276,6 +277,24 @@ $ ctrl+alt+F7
 直接装 CUDA Toolkit 的 exe，没有linux多设置，点几下就完了。
 
 https://developer.nvidia.com
+
+环境变量会自动设置：
+- `CUDA_PATH`: `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7`
+- `CUDA_PATH_V11_7`: `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7`
+- `PATH`: `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7\libnvvp`, `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7\bin`
+
+#### 3.3.1. 多个cuda
+
+再装11.8，会自动设置 `CUDA_PATH` 为刚安装的cuda。我猜，切换也是修改这个。
+
+新增：
+
+- `CUDA_PATH_V11_8`: `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8`
+- `PATH`: `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8\libnvvp`, `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8\bin`
+
+修改：
+
+- `CUDA_PATH`: `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8`
 
 ### 3.4. conda装CUDA
 
