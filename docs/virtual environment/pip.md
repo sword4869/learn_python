@@ -6,8 +6,7 @@
     - [1.1.2. 临时换源](#112-临时换源)
   - [1.2. 命令](#12-命令)
     - [1.2.1. 常用](#121-常用)
-    - [1.2.2. 离线包](#122-离线包)
-    - [1.2.4. git包](#124-git包)
+    - [1.2.2. git包](#122-git包)
 
 ---
 
@@ -111,18 +110,24 @@ $ pip install pyspider -i $url1 --trusted-host $url2
 $ pip list
 ```
 ```bash
-# 更新包
-# -U, --upgrade
-pip install -U MODULE
+pip install SomePackage            # latest version
+pip install SomePackage==1.0.4     # specific version
+pip install SomePackage>=1.0.4     # minimum version
+```
+```bash
+# 离线包
+pip install xxx.whl
+```
+```bash
+# 超时
+--default-timeout=10
 
+# 更新包
+-U, --upgrade
 # 更新pip
 pip install -U pip
 ```
-```bash
-pip install SomePackage            # latest version
-pip install SomePackage==1.0.4     # specific version
-pip install 'SomePackage>=1.0.4'   # minimum version
-```
+
 ```bash
 # 输出到文件中
 $ pip freeze > requirements.txt
@@ -132,13 +137,7 @@ $ pip freeze > requirements.txt
 $ pip install -r requirement.txt
 ```
 
-### 1.2.2. 离线包
-
-```bash
-pip install xxx.whl
-```
-
-### 1.2.4. git包
+### 1.2.2. git包
 
 ```bash  
 pip install -e git+https://github.com/openai/CLIP.git@main#egg=clip

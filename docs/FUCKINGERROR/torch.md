@@ -9,7 +9,7 @@ Traceback (most recent call last):
 subprocess.CalledProcessError: Command '['ninja', '-v']' returned non-zero exit status 1.
 ```
 
-修改文件 `"D:\Applications\miniconda\envs\gaussian_splatting\lib\site-packages\torch\utils\cpp_extension.py"` line 1773
+修改文件 `"D:\Applications\miniconda\envs\gaussian_splatting\lib\site-packages\torch\utils\cpp_extension.py"`
 ```python
   def _run_ninja_build(build_directory: str, verbose: bool, error_prefix: str) -> None:
 -     command = ['ninja', '-v']
