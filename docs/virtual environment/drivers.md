@@ -7,8 +7,8 @@
   - [3.2. Linux install 驱动](#32-linux-install-驱动)
     - [3.2.1. 命令行安装Driver](#321-命令行安装driver)
     - [3.2.2. 图形化安装Driver](#322-图形化安装driver)
-    - [3.2.3. 系统 cuda Toolkit](#323-系统-cuda-toolkit)
-  - [3.3. windows装cuda](#33-windows装cuda)
+    - [3.2.3. linux装系统cuda](#323-linux装系统cuda)
+  - [3.3. windows装系统cuda](#33-windows装系统cuda)
   - [3.4. conda装CUDA](#34-conda装cuda)
   - [3.5. wsl的安装](#35-wsl的安装)
     - [3.5.1. libcuda.so.1](#351-libcudaso1)
@@ -187,7 +187,7 @@ $ sudo apt install nvidia-driver-515
 ![图 1](../../images/9d30e5bc45eeb7d369c9919966a535df21fcdb25450fa677b3303e9b885e4fae.png)  
 
 
-#### 3.2.3. 系统 cuda Toolkit
+#### 3.2.3. linux装系统cuda
 
 CUDA Toolkit = Driver + CUDA, 所以不用自己去下Driver。 <https://developer.nvidia.com/cuda-toolkit-archive>
 
@@ -271,10 +271,11 @@ $ ctrl+alt+F7
 
 
 
-### 3.3. windows装cuda
+### 3.3. windows装系统cuda
 
 直接装 CUDA Toolkit 的 exe，没有linux多设置，点几下就完了。
 
+https://developer.nvidia.com
 
 ### 3.4. conda装CUDA
 
