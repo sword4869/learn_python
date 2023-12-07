@@ -7,6 +7,7 @@
   - [2.5. type](#25-type)
   - [2.6. 必选参数\&可选参数](#26-必选参数可选参数)
   - [2.7. nargs](#27-nargs)
+  - [2.8. 矛盾参数](#28-矛盾参数)
 - [3. action](#3-action)
   - [3.1. 计数count](#31-计数count)
   - [3.2. 限定选项](#32-限定选项)
@@ -324,6 +325,15 @@ Namespace(c=['1'], d='d_const')
 Namespace(c=['1'], d='d_default')
 ```
 
+## 2.8. 矛盾参数
+
+```python
+group = parser.add_mutually_exclusive_group()
+# group = parser.add_mutually_exclusive_group(required=True)
+group.add_argument("-v", "--verbose", action="store_true")
+group.add_argument("-q", "--quiet", action="store_true")
+```
+
 # 3. action
 
 ## 3.1. 计数count
@@ -381,13 +391,7 @@ a.py: error: argument --level: invalid choice: 12 (choose from 0, 1)
 '''
 ```
 
-
-
-
-
-
-
-```
+```python
 # how to specify a list arg (eg. arg which has action="append")
 fruit = [apple, orange, lemon]
 indexes = [1, 12, 35 , 40]

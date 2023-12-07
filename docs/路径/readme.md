@@ -27,7 +27,8 @@
     # 把`~`当作了一个普通字符，理解为是一个相对路径
     # 在当前路径下创建了一个 名为`~/test_dir`目录.
     ```
-- `abspath`: 绝对路径。返回的值不会带 `~`，就是 `/home/admin/`
+
+- `abspath`: 绝对路径。
     
     ```python
     # 绝对路径
@@ -39,6 +40,13 @@
     print(os.path.abspath(os.path.join(args.out_root, args.out_article, '..')))
     # `D:\git\dd\docs/a/aaa.md\..`, os.makedirs创建了名为 `aaa.md` 文件夹
     # `D:\git\dd\docs\a`
+    ```
+    绝对路径返回的值不会带 `~`，但是会错误理解输入的路径。
+    ```python
+    >>> os.path.expanduser('~/aa')
+    '/home/lab/aa'
+    >>> os.path.abspath('~/aa')
+    '/home/lab/git/GAVA/~/aa'
     ```
 
 其他：
@@ -194,6 +202,21 @@ if os.path.exists(newPath):
     pass
 ```
 
+注意：`newPath` 不能是 `None`，所以会看到有先替换`None`为`""`再判断的操作
+```python
+>>> os.path.exists(None) 
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "D:\Applications\miniconda\envs\nerf\lib\genericpath.py", line 19, in exists
+    os.stat(path)
+TypeError: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+```
+```python
+if newPath is None:
+    newPath = ""
+if os.path.exists(newPath):
+    pass
+```
 ## 4. 当前工作目录 & 进入目录
 
 ```python

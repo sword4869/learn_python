@@ -92,19 +92,7 @@ https://zhuanlan.zhihu.com/p/55682016
 ## 3. Errors
 
 
-- `FileNotFoundError`
-    **working directory**：当前执行这条import语句的脚本所在的路径。影响fopen的文件`open("./1.txt", "r")`。
-    [【1】](./1/src/mod2/mod2_main.py)
-    - `img_path = '../deepwater.jpg'`。working directory必须是在`1`下
-        ```bash
-        learn_python\docs\工程路径\1$ python main.py
-        ```
-    - `img_path = '工程路径/deepwater.jpg'`，working directory必须是在`docs`下
-        ```bash
-        learn_python\docs$ python 工程路径/1/main.py
-        ```
-    - `img_path = os.path.join(sys.argv[0], '../..', r'deepwater.jpg')`根据`main.py`定位, 所以随便working directory.
-    - `img_path = os.path.join(__file__, '../../../..', r'deepwater.jpg')`根据`mod2_main.py`自身定位, 所以随便working directory.
+
 - `ModuleNotFoundError`
   
     **search path**：`sys.path`。影响模块导入。
