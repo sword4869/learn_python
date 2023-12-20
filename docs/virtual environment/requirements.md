@@ -6,12 +6,12 @@
 
 # 1. basic
 
-```
-numpy
-docopt == 0.6.1
-SomeProject >= 1.2, < 2.0
-requests >= 2.8.1
-requests == 2.8.*
+```bash
+numpy           # 只包含包名.方便，但不利于控制风险。
+docopt==0.6.1   # 指定版本
+requests>= 2.8.1  # 自动保持版本为最新
+requests==2.8.* # 大版本内最新
+SomeProject>= 1.2, !=1.3, <2.0    # 保证了大版本在1.2和2之间；并且，排除了已知有问题的版本1.3
 ```
 
 # 2. Global options

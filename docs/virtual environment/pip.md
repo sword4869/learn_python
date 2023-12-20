@@ -117,6 +117,15 @@ pip install SomePackage>=1.0.4     # minimum version
 ```bash
 # 离线包
 pip install xxx.whl
+
+# 当下载老网络中断，就可以直接去下whl，https://download.pytorch.org/whl/cu121/torch-2.1.2%2Bcu121-cp38-cp38-win_amd64.whl
+(py3d) PS D:\git\pytorch3d> pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+Looking in indexes: https://download.pytorch.org/whl/cu121
+Collecting torch
+  Downloading https://download.pytorch.org/whl/cu121/torch-2.1.2%2Bcu121-cp38-cp38-win_amd64.whl (2474.0 MB)
+     ━━━━━━━╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0.5/2.5 GB 4.5 MB/s eta 0:07:29
+ERROR: Exception:
+Traceback (most recent call last):
 ```
 ```bash
 # 超时
