@@ -2,7 +2,6 @@
   - [1.1. 包信息](#11-包信息)
     - [1.1.1. 包名](#111-包名)
     - [1.1.2. 主要信息](#112-主要信息)
-    - [1.1.3. pypi信息](#113-pypi信息)
   - [1.2. 包位置](#12-包位置)
     - [1.2.1. packages](#121-packages)
       - [1.2.1.1. 一级包](#1211-一级包)
@@ -19,6 +18,7 @@
     - [1.6.1. 手动指定 package\_data](#161-手动指定-package_data)
     - [1.6.2. 最简单 include\_package\_data](#162-最简单-include_package_data)
     - [1.6.3. 已废弃 data\_files](#163-已废弃-data_files)
+  - [1.7. pypi发布](#17-pypi发布)
 - [2. pip Commands](#2-pip-commands)
   - [2.1. install](#21-install)
     - [2.1.1. install in “development mode”](#211-install-in-development-mode)
@@ -73,25 +73,94 @@ PS: 在`python -m module_name`和`import module_name`的包名`module_name`不�
 -   `description` 是一个简短的，一句话的包的总结。
 -   `author` 和 `author_email`用于识别包的作者。
 -   `maintainer` 维护者 `maintainer_email` 维护者的电子邮件地址
--   `url`是项目主页的URL。对于许多项目，这只是一个指向GitHub，GitLab，Bitbucket或类似代码托管服务的链接。
--   `download_url` 指向下载链接
--   `license` 许可证信息
--   `platforms` 指定包所适用操作系统
--   `classifiers` 指定包所属分类
-   
--   `cmdclass` 扩展命令
-
--   `ext_modules` 扩展模块列表
--   `scripts` 脚本列表，会被安装到操作系统相关路径 PATH 路径下
--   `package_dir` 定义源代码目录别名
--   `requires` 定义运行时依赖关系
--   `install_requires` 定义安装时依赖关系
-
-#### 1.1.3. pypi信息
 -   `long_description`是包的详细说明。这显示在Python Package Index的包详细信息包中。
     `long_description_content_type`告诉索引什么类型的标记用于长描述。
 -   `keywords` 指定包关键字，用于Pypi网站检索。
 -   `classifiers`告诉pypi的信息（发布包用的）
+
+    ```python
+    # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
+    classifiers=[
+        # 发展时期,常见的如下
+        #   3 - Alpha
+        #   4 - Beta
+        #   5 - Production/Stable
+        'Development Status :: 3 - Alpha',
+
+        # 开发的目标用户
+        'Intended Audience :: Developers',
+
+        # 属于什么类型
+        'Topic :: Software Development :: Build Tools',
+
+        # 许可证信息
+        'License :: OSI Approved :: MIT License',
+
+        # 目标 Python 版本
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: Implementation :: CPython',
+        'Programming Language :: Python :: Implementation :: PyPy'
+    ],
+    ```
+-   `license` 许可证信息
+-   `classifiers` 指定包所属分类
+-   `url`是项目主页的URL。对于许多项目，这只是一个指向GitHub，GitLab，Bitbucket或类似代码托管服务的链接。
+-   `download_url` 指向下载链接
+-   `platforms` 指定包所适用操作系统
+
+其他
+-   `cmdclass` 扩展命令
+
+```python
+from setuptools import Command
+
+class UploadCommand(Command):
+    """Support setup.py upload."""
+
+    description = 'Build and publish the package.'
+    user_options = []
+
+    @staticmethod
+    def status(s):
+        """Prints things in bold."""
+        print('\033[1m{0}\033[0m'.format(s))
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        try:
+            self.status('Removing previous builds…')
+            rmtree(os.path.join(here, 'dist'))
+        except OSError:
+            pass
+
+        self.status('Building Source and Wheel (universal) distribution…')
+        os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
+
+        self.status('Uploading the package to PyPI via Twine…')
+        os.system('twine upload dist/*')
+
+        self.status('Pushing git tags…')
+        os.system('git tag v{0}'.format(about['__version__']))
+        os.system('git push --tags')
+
+        sys.exit()
+
+setup(
+    cmdclass={
+        'upload': UploadCommand,
+    },
+)
+```
+-   `ext_modules` 扩展模块列表，用于构建 C 和 C++ 扩展扩展包
+-   `scripts` 脚本列表，会被安装到操作系统相关路径 PATH 路径下
 
 ### 1.2. 包位置
 
@@ -284,6 +353,12 @@ setup(
     
 If your project contains any single-file Python modules that aren’t part of a package, set `py_modules` to a list of the names of the modules (minus the `.py` extension) in order to make Setuptools aware of them.
 
+```python
+setup(
+    packages=find_packages(exclude=["tests*"]),
+    py_modules=["clip"],
+)
+```
 #### 1.2.3. Automatic discovery
 
 Automatic discovery will only be enabled if you don’t provide any configuration for `packages` and `py_modules`. If at least one of them is explicitly set, automatic discovery will not take place. Note: specifying `ext_modules` might also prevent auto-discover from taking place
@@ -396,7 +471,12 @@ Processing d:\git\mytree
             'numpy==1.25.1',    
             ...,
             'requests[security, socks] >= 2.18.4',
-            'sys_platform == "win32"'
+            # 指定python版本
+            "enum34;python_version<'3.4'",
+            # 指定平台
+            'pywin32 >= 1.0;platform_system=='Windows'',
+            # git
+            "Package-A @ git+https://example.net/package-a.git"
         ],
     ```
 
@@ -407,7 +487,6 @@ Processing d:\git\mytree
       - 正常安装requests会自动安装它的`install_requires`中指定的依赖，而不会安装security和socks这两组依赖。 
       - 这两组依赖是定义在它的`extras_require`中。 这种形式，用在深度使用某些库时。
 
-    - `sys_platform == "win32"`: 指定平台
 
 -   `setup_requires` setup.py 本身要依赖的包，这通常是为一些setuptools的插件准备的配置，这里列出的包，不会自动安装。
 -   `tests_require` 仅在测试时需要使用的依赖，在正常发布的代码中是没有用的。在执行`python setup.py test`时，自动安装
@@ -424,6 +503,21 @@ Processing d:\git\mytree
             'reST': ["docutils>=0.3"],
         }
     ```
+
+
+自动提取 requirements.txt的内容
+```python
+from setuptools import setup
+import os
+import pkg_resources
+
+setup(
+    install_requires=[
+        str(r) for r in pkg_resources.parse_requirements(open(os.path.join(os.path.dirname(__file__), "requirements.txt")))
+    ],
+    extras_require={'dev': ['pytest']},
+)
+```
 ### 1.5. 可执行脚本
 
 比`python -m module_name`（写了`__main__.py`）还要简洁：直接输入`cli-name`。
@@ -483,29 +577,22 @@ setup(
 
 手动指定要包含在安装套装里面数据文件
 
+### 1.7. pypi发布
 
-```python
-import pkg_resources
-setup(
-    packages=find_packages(exclude=["tests*"]),
-    py_modules=["clip"],
-    # <<<
-    install_requires=[
-        str(r)
-        for r in pkg_resources.parse_requirements(
-            open(os.path.join(os.path.dirname(__file__), "requirements.txt"))
-        )
-    ],
-    # <<<
-    extras_require={'dev': ['pytest']},
-)
+<https://pypi.org/account/register> 注册账号。
+
+```bash
+pip install build
+python -m build --wheel .
+pip install twine
+twine upload dist/*
 ```
 
 ## 2. pip Commands
 
 > `python setup.py install` 将被 `pip install` 取代
 ```bash
-python setup.py install
+# python setup.py install
 pip install .
 ```
 
@@ -513,8 +600,8 @@ pip install .
 | --- | --- |
 | `python setup.py install` | `pip install` |
 | `python setup.py develop` | `pip install -e` |
-| `python setup.py sdist` | `python -m build` (with build) |
-| `python setup.py bdist_wheel` | `python -m build` (with build) |
+| `python setup.py sdist` 源码 | `python -m build --sdist`|
+| `python setup.py bdist_wheel` 轮子| `python -m build --wheel` |
 | `python setup.py test` | `pytest` (usually via tox or nox) |
 | `python setup.py upload` | `twine upload` (with twine) |
 | `python setup.py check` | `twine check` (this doesn't do all the same checks but it's a start) |
@@ -587,15 +674,21 @@ ModuleNotFoundError: No module named 'mytree'
 
 ### 2.2. build
 
-If you run `build` without `--wheel` or `--sdist`, it will build both files for you.
-
-#### 2.2.1. build a wheel
-二进制文件
 
 ```bash
 # 安装build包
 pip install build
 ```
+
+
+If you run `build` without `--wheel` or `--sdist`, it will build both files for you.
+
+```bash
+python -m build .
+```
+
+#### 2.2.1. build a wheel
+二进制文件
 
 ```bash
 # 使用build包打包
