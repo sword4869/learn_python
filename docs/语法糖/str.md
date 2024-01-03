@@ -2,6 +2,7 @@
 - [2. split](#2-split)
   - [2.1. split 从左边开始分割](#21-split-从左边开始分割)
   - [2.2. rsplit 从右边开始分割](#22-rsplit-从右边开始分割)
+- [encode, decode](#encode-decode)
 
 ---
 ## 1. long str
@@ -57,4 +58,37 @@ print(my_str4)
 ['hello', 'world', 'itcast', 'and', 'itcastcpp']
 >>> my_str.rsplit(" ", 1) 
 ['hello world itcast and', 'itcastcpp']
+```
+
+## encode, decode
+
+```python
+##### 中文 utf-8 -> raw_unicode_escape
+>>> a = "你好" 
+>>> a.encode('utf-8')
+b'\xe4\xbd\xa0\xe5\xa5\xbd'
+>>> b = a.encode('utf-8').decode('raw_unicode_escape','strict')
+>>> b
+'ä½\xa0å¥½'
+
+##### raw_unicode_escape -> utf-8 中文
+>>> b.encode('raw_unicode_escape','strict')          
+b'\xe4\xbd\xa0\xe5\xa5\xbd'
+# a = b.encode('raw_unicode_escape','strict').decode('utf-8')  
+>> a = b.encode('raw_unicode_escape','strict').decode()  
+>>> a
+'你好'
+```
+
+```python
+# 中文 raw_unicode_escape -> gb18030 
+>>> c = "你好"
+>>> c.encode('raw_unicode_escape','strict')
+b'\\u4f60\\u597d'
+>>> d = c.encode('raw_unicode_escape','strict').decode('gb18030') 
+>>> print(d)
+\u4f60\u597d
+>>> e = c.encode('raw_unicode_escape','strict').decode('utf-8') 
+>>> print(e)
+\u4f60\u597d
 ```

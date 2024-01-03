@@ -16,7 +16,7 @@
   - [1.5. 可执行脚本](#15-可执行脚本)
   - [1.6. 文件资源](#16-文件资源)
     - [1.6.1. 手动指定 package\_data](#161-手动指定-package_data)
-    - [1.6.2. 最简单 include\_package\_data](#162-最简单-include_package_data)
+    - [1.6.2. 最没用 include\_package\_data](#162-最没用-include_package_data)
     - [1.6.3. 已废弃 data\_files](#163-已废弃-data_files)
   - [1.7. pypi发布](#17-pypi发布)
 - [2. pip Commands](#2-pip-commands)
@@ -548,7 +548,7 @@ PS: 除了命令行脚本 `console_scripts`，还有GUI脚本 [gui_scripts](http
 #### 1.6.1. 手动指定 package_data
 - `package_data={'sample': ['package_data.dat'],}` 包含**在包里面的**数据文件，会被复制到包文件夹中。
 
-`sample`是包名，`'package_data.dat'`是文件相对于包文件夹的相对位置。
+    `sample`是包名，`'package_data.dat'`是文件相对于包文件夹的相对位置。
 
 - `exclude_package_data={"mypkg": [".gitattributes"]}`
 
@@ -557,8 +557,13 @@ PS: 除了命令行脚本 `console_scripts`，还有GUI脚本 [gui_scripts](http
     And, just as with that option, you can use the empty string key `""` in `setup.py` to match all top-level packages.
 
     Any files that match these patterns will be _excluded_ from installation, even if they were listed in `package_data` or were included as a result of using `include_package_data`.
-#### 1.6.2. 最简单 include_package_data
+
+![Alt text](../../images/image-2.png)
+#### 1.6.2. 最没用 include_package_data
 自动扫描和加入在 `packages` 中的包里的文件资源。
+
+前提是：
+![Alt text](../../images/image-1.png)
 
 ```python
 from setuptools import setup, find_namespace_packages

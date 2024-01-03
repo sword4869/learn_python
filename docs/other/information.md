@@ -22,7 +22,7 @@ print(platform.system())
 ```python
 import os
 print(os.name)
+# - `posix`: Portable Operating System Interface of UNIX（可移植操作系统接口）的缩写。Linux 和 Mac OS 均会返回该值；
+# - `nt`: 全称应为“Microsoft Windows NT”，大体可以等同于 Windows 操作系统，因此 Windows 环境下会返回该值；
+# - `java`: 则是 Java 虚拟机环境下的返回值。
 ```
-- `posix`是 Portable Operating System Interface of UNIX（可移植操作系统接口）的缩写。Linux 和 Mac OS 均会返回该值；
-- `nt`全称应为“Microsoft Windows NT”，大体可以等同于 Windows 操作系统，因此 Windows 环境下会返回该值；
-- `java`则是 Java 虚拟机环境下的返回值。
