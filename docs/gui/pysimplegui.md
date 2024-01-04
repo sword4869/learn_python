@@ -92,7 +92,7 @@ while True:
 | Bool | auto\_close | 如果为True，窗口将自动关闭 |
 | Int | auto\_close\_duration | 在自动关闭窗口之前保持窗口打开的时间（以秒为单位） |
 | Bool | non\_blocking | 如果为 True 则将立即从函数返回，而无需等待用户输入。 |
-| Tuple\[font\_name, size, modifiers\] | font | 指定字体系列、大小等。元组或单个字符串格式"名称大小样式"。 |
+| `Tuple [font_name, size, modifiers]` | font | 指定字体系列、大小等。元组或单个字符串格式"名称大小样式"。 |
 | Bool | grab\_anywhere | 如果为 True 则可以抓取任意位置移动窗口。 |
 | (int, int) | Location | 在屏幕上显示窗口左上角的位置。 默认为屏幕居中的窗口 |
 | Bool | keep\_on\_top | 如果为 True，窗口将保持在所有当前窗口之上 |
@@ -100,6 +100,11 @@ while True:
 
 ```python
 import PySimpleGUI as psg
+
+### 通知
+print(psg.popup_notify("popup_notify")) # __TIMEOUT__
+print(psg.popup_timed("popup_notify")) # __TIMEOUT__
+
 
 ### 返回值可以确定点击了
 print(psg.popup("Hello World")) # OK
