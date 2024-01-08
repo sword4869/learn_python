@@ -4,7 +4,9 @@
   - [2.1. popup](#21-popup)
   - [2.2. progressbar, debug](#22-progressbar-debug)
 - [3. 元素类](#3-元素类)
+  - [INPUT](#input)
   - [3.1. Table](#31-table)
+  - [复选框](#复选框)
 
 
 ---
@@ -161,6 +163,14 @@ for i in range(100):
 
 ## 3. 元素类
 
+### INPUT
+
+```python
+psg.Input(10, key='-SCAN_TIME-')
+window['-SCAN_TIME-'].update(20)
+window['-SCAN_TIME-'].get()
+```
+
 ### 3.1. Table
 
 ```python
@@ -199,5 +209,51 @@ while True:
     if "add" in event:
         rows.append(["John", 22, 22])
         tbl1.update(values=rows)
+window.close()
+```
+
+### 复选框
+```
+import PySimpleGUI as psg
+
+rb = []
+rb.append(psg.Radio("Arts", "faculty", key="arts", enable_events=True, default=True))
+rb.append(psg.Radio("Commerce", "faculty", key="comm", enable_events=True))
+rb.append(psg.Radio("Science", "faculty", key="sci", enable_events=True))
+cb = []
+cb.append(psg.Checkbox("History", key="s1"))
+cb.append(psg.Checkbox("Sociology", key="s2"))
+cb.append(psg.Checkbox("Economics", key="s3"))
+layout = [
+    [rb],
+    [cb],
+    [
+        psg.Button("OK"),
+        psg.Multiline(" ", expand_x=True, key="-OUT-", expand_y=True),
+    ],
+]
+window = psg.Window("Checkbox Example", layout, size=(715, 250))
+while True:
+    event, values = window.read()
+    print(event, values)
+    if event in (psg.WIN_CLOSED, "Exit"):
+        break
+    if values["arts"] == True:
+        window["s1"].update(text="History")
+        window["s2"].update(text="Sociology")
+        window["s3"].update(text="Economics")
+    if values["comm"] == True:
+        window["s1"].update(text="Accounting")
+        window["s2"].update(text="Business Studies")
+        window["s3"].update(text="Statistics")
+    if values["sci"] == True:
+        window["s1"].update(text="Physics")
+        window["s2"].update(text="Mathematics")
+        window["s3"].update(text="Biology")
+    if event == "OK":
+        subs = [x.Text for x in cb if x.get() == True]
+        fac = [x.Text for x in rb if x.get() == True]
+        out = f"Faculty: {fac[0]}\nSubjects: {' '.join(subs)}\n"
+        window["-OUT-"].update(out)
 window.close()
 ```
