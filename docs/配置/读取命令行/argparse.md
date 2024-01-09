@@ -218,6 +218,28 @@ Namespace(online=True)
 Namespace(online=False)
 ```
 
+- 带空格
+
+```bash
+# 用引号即可
+$ python main.py --in_article "docs/virtual environment/drivers.md"
+Namespace(in_article='docs/virtual environment/drivers.md')
+```
+```python
+>>> parser.add_argument('--in_article', type=str, required=True, help='Input article, relativate path')
+# 问题不是引号，而是出在 split()
+>>> parser.parse_args('--in_article docs/virtual environment/drivers.md'.split())
+usage: [-h] --in_article IN_ARTICLE
+: error: unrecognized arguments: environment/drivers.md
+>>> parser.parse_args('--in_article "docs/virtual environment/drivers.md"'.split())
+usage: [-h] --in_article IN_ARTICLE
+: error: unrecognized arguments: environment/drivers.md"
+
+# 所以只能手动分割
+>>> parser.parse_args(['--in_article', 'docs/virtual environment/drivers.md'])
+Namespace(in_article='docs/virtual environment/drivers.md')
+```
+
 ## 2.6. 必选参数&可选参数
 
 > Method1: 有没有`--`
