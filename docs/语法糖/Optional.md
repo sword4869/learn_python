@@ -1,4 +1,12 @@
 ```python
+from typing import Dict, Union, List, Optional, Literal
+
+Optional[int] = None
+Dict[str, NVSEvaluationMetricsBundle]
+List[int]
+Literal['viewer', 'wandb'] = 'wandb'
+```
+```python
 ###
 # Optional和默认值的效果一样，顶多有个编译器能识别默认值会提示给你的好处
 ###
