@@ -62,9 +62,13 @@ List of devices attached
 3. **链接手机和电脑的数据线**
     ```bash
     $ adb devices
+    * daemon not running; starting now at tcp:5037
+    * daemon started successfully
+    List of devices attached
     List of devices attached      
     61BANF99HYNRAAMN        device
 
+    # 可以直接用5037
     $ adb tcpip 5555
     restarting in TCP mode port: 5555
     ```
