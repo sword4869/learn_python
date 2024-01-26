@@ -24,6 +24,8 @@
 ---
 # 1. install
 
+直接scrcpy项目：https://github.com/Genymobile/scrcpy/releases
+
 adb 可以通过python安装
 
 ```bash
