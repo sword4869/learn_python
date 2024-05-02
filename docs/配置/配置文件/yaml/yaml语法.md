@@ -24,7 +24,7 @@ YAML 的配置文件后缀为`.yml`，如：`hello.yml`
 ```yaml
 key: value
 ```
-notice: If there is not a space after colon Name:Value, it is wrong.
+`Name:Value`, it is wrong，中间必须要有空格.
 
 ```yaml
 key: {child-key: value1, child-key2: value2}
@@ -78,6 +78,13 @@ key:
  - value2
 ```
 
+```yml
+# list + key-value
+- name: John Doe
+  occupation: gardener
+- name: Lucy Black
+  occupation: teacher
+```
 # 5. 引用
 
 `&` 用来建立锚点，`<<` 表示合并到当前数据，`*` 用来引用锚点。
