@@ -19,7 +19,9 @@
   - [4.7. 截图并传输到电脑上](#47-截图并传输到电脑上)
   - [4.8. 获取手机屏幕分辨率](#48-获取手机屏幕分辨率)
   - [4.9. 修改手机时间](#49-修改手机时间)
-  - [4.10. TroubleShoot](#410-troubleshoot)
+- [TroubleShoot](#troubleshoot)
+  - [无法识别设备](#无法识别设备)
+  - [no permissions](#no-permissions)
 
 ---
 # 1. install
@@ -319,8 +321,12 @@ def big_clip(self, str_time):
 ```
 
 
-## 4.10. TroubleShoot
+# TroubleShoot
+## 无法识别设备
+（1）90%的情况，数据线有问题。
 
+（2）一般win10、11都已经自带驱动了。如果出错，试试 MiFlash 安装驱动。
+## no permissions
 ```
 $ adb devices
 List of devices attached
