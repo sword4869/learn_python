@@ -3,6 +3,7 @@
 - [3. 比较](#3-比较)
 - [4. zip](#4-zip)
 - [对应](#对应)
+- [list转str](#list转str)
 
 ---
 ## 1. 迭代器
@@ -88,4 +89,23 @@ def fun():
     return ['relu', 10e-3, True]
 
 activation, lrate, is_training = fun()
+```
+
+## list转str
+
+（1）list [ ] 中包含的元素是str类型。
+```python
+nums=['ww','22','2s']
+s = "".join(nums)
+```
+（2）如果列表 [ ] 里面含有的元素是整形int ，需要将整形int 转换成str类型
+```python
+nums=[1,2,3,4,5]
+strNums=[str(x) for x in nums]
+s = "".join(strNums)
+```
+（3）如果只是想转化str，不拘泥于list，那么可以转化tuple直接str()
+```python
+nums=[1,2,3,4,5]
+s = str(tuple(nums))
 ```
