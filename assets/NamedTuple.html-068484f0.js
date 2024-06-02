@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-7b2cd97a","path":"/%E8%AF%AD%E6%B3%95%E7%B3%96/NamedTuple.html","title":"","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":0.18,"words":53},"filePathRelative":"语法糖/NamedTuple.md"}');export{e as data};

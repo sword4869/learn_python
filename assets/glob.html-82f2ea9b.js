@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-73864651","path":"/%E8%B7%AF%E5%BE%84/glob.html","title":"","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":0.54,"words":161},"filePathRelative":"路径/glob.md"}');export{e as data};

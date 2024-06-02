@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-2aafc071","path":"/%E8%AF%AD%E6%B3%95%E7%B3%96/%E5%8E%9F%E5%9C%B0%E6%93%8D%E4%BD%9C.html","title":"","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":0.03,"words":9},"filePathRelative":"语法糖/原地操作.md"}');export{e as data};
