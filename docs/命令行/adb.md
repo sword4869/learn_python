@@ -258,16 +258,17 @@ adb shell rm /sdcard/1.png
 import subprocess
 import PIL
 
-def get_screen():
+def get_screen(save_path):
     '''screen shot and upload'''
+    file_path = f'{save_path}/{1.png}'
     cmds = [
         'adb shell screencap -p /sdcard/1.png',
-        'adb pull /sdcard/1.png',
+        f'adb pull /sdcard/1.png {file_path}',
         'adb shell rm /sdcard/1.png'
     ]
     for cmd in cmds:
         subprocess.check_output(cmd, shell=True)
-    return Image.open('1.png').convert("RGB")
+    return Image.open(file_path).convert("RGB")
 ```
 
 
