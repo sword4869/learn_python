@@ -153,6 +153,13 @@ $ ./conda.exe init --all
 # undo the all shells' effect
 $ conda init --reverse
 ```
+
+powershell 步骤:（注意，此命令需要在管理员权限的 powershell 下运行）
+```powershell
+Set-ExecutionPolicy unrestricted
+```
+否则，PowerShell中conda activate指令无效，conda env list还是base环境。
+
 > 报错：
 ```
 . : 无法加载文件
