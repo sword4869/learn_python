@@ -276,7 +276,7 @@ $ ctrl+alt+F7
 
 直接装 CUDA Toolkit 的 exe，没有linux多设置，点几下就完了。
 
-https://developer.nvidia.com
+https://developer.nvidia.com/cuda-toolkit-archive
 
 环境变量会自动设置：
 - `CUDA_PATH`: `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7`
