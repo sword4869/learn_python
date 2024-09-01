@@ -307,14 +307,14 @@ usage: [-h] --c C [--d D]
     >>> parser.add_argument('--b', nargs=1) 
     >>> parser.parse_args('--a 1 2 --b 3'.split())
     Namespace(a=['1', '2'], b=['3'])
-
+    
     ######### +
     >>> parser.add_argument('--j', nargs='+')
     >>> parser.parse_args('--j 1'.split())
     Namespace(j=['1'])
     >>> parser.parse_args('--j'.split())
     : error: argument --a: expected at least one argument
-
+    
     ######### *
     >>> parser.add_argument('--k', nargs='*')
     >>> parser.parse_args('--k 1'.split())
@@ -418,3 +418,6 @@ a.py: error: argument --level: invalid choice: 12 (choose from 0, 1)
 fruit = [apple, orange, lemon]
 indexes = [1, 12, 35 , 40]
 ```
+
+
+
