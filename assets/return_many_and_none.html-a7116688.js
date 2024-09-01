@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-63e7a766","path":"/code%20style/return_many_and_none.html","title":"","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":0.36,"words":108},"filePathRelative":"code style/return_many_and_none.md"}');export{e as data};

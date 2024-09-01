@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-34fe68c9","path":"/%E8%AF%AD%E6%B3%95%E7%B3%96/Optional.html","title":"","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":0.39,"words":116},"filePathRelative":"语法糖/Optional.md"}');export{t as data};
