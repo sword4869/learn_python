@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-1187d018","path":"/%E6%8E%A7%E5%88%B6%E5%8F%B0%E6%95%88%E6%9E%9C/f-format.html","title":"f-format","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":0.94,"words":282},"filePathRelative":"控制台效果/f-format.md"}');export{t as data};

@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-c4e86932","path":"/%E8%AF%AD%E6%B3%95%E7%B3%96/isinstance%E5%92%8Ctype.html","title":"","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":0.1,"words":30},"filePathRelative":"语法糖/isinstance和type.md"}');export{e as data};

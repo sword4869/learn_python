@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-14f38530","path":"/%E9%85%8D%E7%BD%AE/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/yaml/yaml%E8%AF%AD%E6%B3%95.html","title":"1. introduction","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":1.53,"words":460},"filePathRelative":"配置/配置文件/yaml/yaml语法.md"}');export{t as data};

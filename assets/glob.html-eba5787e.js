@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-73864651","path":"/%E8%B7%AF%E5%BE%84/glob.html","title":"快速获取文件的路径列表，而且是绝对路径","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":0.6,"words":180},"filePathRelative":"路径/glob.md"}');export{e as data};

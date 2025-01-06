@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-5ff50aba","path":"/%E9%85%8D%E7%BD%AE/%E8%AF%BB%E5%8F%96%E5%91%BD%E4%BB%A4%E8%A1%8C/","title":"","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":0.24,"words":71},"filePathRelative":"配置/读取命令行/readme.md"}');export{e as data};

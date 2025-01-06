@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-5d3458bf","path":"/%E8%AF%AD%E6%B3%95%E7%B3%96/%E5%A4%A7%E9%87%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96.html","title":"","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":0.39,"words":117},"filePathRelative":"语法糖/大量类型转化.md"}');export{e as data};

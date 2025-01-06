@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-14d918a5","path":"/%E9%80%9A%E7%9F%A5/winsound.html","title":"winsound","lang":"en-US","frontmatter":{},"headers":[],"git":{},"readingTime":{"minutes":0.5,"words":151},"filePathRelative":"通知/winsound.md"}');export{e as data};
